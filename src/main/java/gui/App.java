@@ -23,16 +23,16 @@ public class App extends Application {
 
         StackPane layout = new StackPane();
 
-        var label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
+        Label label = new Label("HELLO, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
         label.setFont(new Font("Arial", 24));
 
-        var button = new Button("Click");
+        Button button = new Button("Click");
         button.setOnAction(e -> label.setText("Have you ever had upsexy for dinner?"));
 
         layout.getChildren().addAll(label, button);
         layout.setAlignment(button, Pos.BOTTOM_CENTER);
 
-        var scene = new Scene(layout, 640, 480);
+        Scene scene = new Scene(layout, 640, 480);
         stage.setScene(scene);
         stage.show();
     }
