@@ -1,14 +1,8 @@
 package logic;
 
-import java.io.UnsupportedEncodingException;
-
-import GUI.App;
-import com.corundumstudio.socketio.AckRequest;
+import gui.App;
 import com.corundumstudio.socketio.Configuration;
-import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.Transport;
-import com.corundumstudio.socketio.listener.DataListener;
 import org.apache.log4j.BasicConfigurator;
 
 public class SeeMathServer {
