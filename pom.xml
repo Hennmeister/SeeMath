@@ -48,7 +48,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.1</version>
                 <configuration>
-                    <mainClass>logic.SeeMathServer</mainClass>
+                    <mainClass>GUI.App</mainClass>
                 </configuration>
             </plugin>
         </plugins>

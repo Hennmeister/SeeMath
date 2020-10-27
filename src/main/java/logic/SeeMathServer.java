@@ -16,7 +16,7 @@ public class SeeMathServer {
     public static void main(String[] args) throws InterruptedException {
         BasicConfigurator.configure();
         Configuration config = new Configuration();
-        config.setHostname("localhost");
+        config.setHostname("127.0.0.1");
         config.setPort(3333);
         config.setMaxFramePayloadLength(1024 * 1024);
         config.setMaxHttpContentLength(1024 * 1024);
