@@ -1,7 +1,15 @@
 package logic.equations;
 
 public abstract class Equation {
-    public Equation (int id, int problemId, ExpressionTree tree, boolean isCorrect)  {
+    private int id;
+    private int problemId;
+    private ExpressionTree tree;
+    boolean isCorrect;
 
+    public Equation (int id, int problemId, ExpressionTree tree, boolean isCorrect)  {
+        this.id = id;
+        this.problemId = problemId;
+        this.tree = tree;
+        this.isCorrect = isCorrect;
     }
 }
