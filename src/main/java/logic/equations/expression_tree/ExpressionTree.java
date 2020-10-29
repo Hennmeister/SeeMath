@@ -7,32 +7,34 @@ package logic.equations.expression_tree;
 
 public class ExpressionTree {
 
-    Node root;
-    ExpressionTree left;
-    ExpressionTree right;
+    Expression root;
+    ExpressionTree left, right;
 
-    public ExpressionTree(Node root){
+    /**
+     * Creates an ExpressionTree from the root node
+     * @param root: the expression on this node
+     */
+    public ExpressionTree(Expression root){
         this.root = root;
     }
 
-    public ExpressionTree(ExpressionTree left, Node root, ExpressionTree right){
+    public ExpressionTree(ExpressionTree left, Expression root, ExpressionTree right){
         this(root);
         this.left = left;
         this.right = right;
     }
 
-}
-
-class Node {
-    Expression value;
-    Node left;
-    Node right;
-
-    Node(Expression value) {
-        this.value = value;
-        right = null;
-        left = null;
+    /**
+     * Checks validity of expression tree
+     * @return whether tree is valid (recursively)
+     */
+    public boolean isValid(){
+        if(right == null && left == null){
+            return true;
+        } else if(right != null && left != null) {
+            return right.isValid() && left.isValid();
+        }
+        // else expression tree is unbalanced i.e x + _
+        return false;
     }
 }
-
-
