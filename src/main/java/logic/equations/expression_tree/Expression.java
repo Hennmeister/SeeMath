@@ -5,12 +5,13 @@ public abstract class Expression<T> {
 
     T value;
 
-//    TODO: figure out how to work with generic subclasses
-//    public Expression(T value){
-//        this.value = value;
-//    }
+    public Expression(T value){
+        this.value = value;
+    }
 
-    //protected abstract T evaluate();
+    protected T evaluate(){
+        return value;
+    }
 
     public String toString(){
         return String.valueOf(value);
