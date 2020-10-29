@@ -61,5 +61,5 @@ public class ExpressionTree {
     public void setRight(ExpressionTree right) {
         this.right = right;
     }
-
+  
 }
