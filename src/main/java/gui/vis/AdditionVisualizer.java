@@ -40,7 +40,7 @@ public class AdditionVisualizer extends Visualizer {
             pane.getChildren().add(discreteShape);
         }
         return pane;
-    };
+    }
 
     /**
      * Given an ExpressionTree, create a nested FlowPane structure visualizing every node within the ExpressionTree.
