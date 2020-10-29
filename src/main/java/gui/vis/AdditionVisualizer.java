@@ -56,7 +56,7 @@ public class AdditionVisualizer extends Visualizer {
         }
 
         else if (Objects.isNull(tree.getLeft()) && Objects.isNull(tree.getRight())){
-            return drawInt(tree.getRoot().evaluate());
+            return drawInt((Integer) tree.getRoot().evaluate());
         }
 
         else {
@@ -72,7 +72,7 @@ public class AdditionVisualizer extends Visualizer {
             }
 
             // Add the visualization of the root value
-            masterPane.getChildren().add(drawString(tree.getRoot().evaluate()));
+            masterPane.getChildren().add(drawString((String) tree.getRoot().evaluate()));
 
             // Add the visualization of the right ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getRight())){

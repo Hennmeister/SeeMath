@@ -13,7 +13,7 @@ public class Expression<T> {
         this.value = value;
     }
 
-    protected T evaluate(){
+    public T evaluate(){
         return value;
     }
 
