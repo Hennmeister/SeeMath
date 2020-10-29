@@ -50,10 +50,13 @@ public class AdditionVisualizer extends Visualizer {
      */
     @Override
     public Pane drawExpression(ExpressionTree tree){
-        return null;
-        /**
-        if (Objects.isNull(tree.root)) {
+
+        if (Objects.isNull(tree.getRoot())) {
             return null;
+        }
+
+        else if (Objects.isNull(tree.getLeft()) && Objects.isNull(tree.getRight())){
+            return drawInt(tree.getRoot().evaluate());
         }
 
         else {
@@ -63,24 +66,22 @@ public class AdditionVisualizer extends Visualizer {
             masterPane.setVgap(10);
 
             // Add the visualization of the left ExpressionTree to the masterPane
-            if (!Objects.isNull(tree.left)){
-                FlowPane leftPane = drawExpression(tree.left);
+            if (!Objects.isNull(tree.getLeft())){
+                Pane leftPane = drawExpression(tree.getLeft());
                 masterPane.getChildren().add(leftPane);
             }
 
-            // Add the visualization of the root value, will be
-            // masterPane.getChildren().add(drawString(tree.root.value));
-            // OR
-            // masterPane.getChildren().add(drawInt(tree.root.value));
+            // Add the visualization of the root value
+            masterPane.getChildren().add(drawString(tree.getRoot().evaluate()));
 
             // Add the visualization of the right ExpressionTree to the masterPane
-            if (!Objects.isNull(tree.right)){
-                FlowPane rightPane = drawExpression(tree.right);
+            if (!Objects.isNull(tree.getRight())){
+                Pane rightPane = drawExpression(tree.getRight());
                 masterPane.getChildren().add(rightPane);
             }
 
-
-        }*/
+            return masterPane;
+        }
 
     }
 
