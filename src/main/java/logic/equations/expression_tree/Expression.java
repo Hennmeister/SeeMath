@@ -1,10 +1,14 @@
 package logic.equations.expression_tree;
 
 
-public abstract class Expression<T> {
+public class Expression<T> {
 
     T value;
 
+    /**
+     * Creates an expression with the value inputted
+     * @param value: value of expression
+     */
     public Expression(T value){
         this.value = value;
     }
