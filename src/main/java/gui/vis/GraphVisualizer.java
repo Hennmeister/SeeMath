@@ -1,6 +1,7 @@
 package gui.vis;
 
 import javafx.scene.layout.Pane;
+
 import logic.equations.expression_tree.ExpressionTree;
 
 public class GraphVisualizer extends Visualizer{

@@ -37,4 +37,29 @@ public class ExpressionTree {
         // else expression tree is unbalanced i.e x + _
         return false;
     }
+
+    public ExpressionTree getLeft() {
+        return left;
+    }
+
+    public Expression getRoot() {
+        return root;
+    }
+
+    public ExpressionTree getRight() {
+        return right;
+    }
+
+    public void setLeft(ExpressionTree left) {
+        this.left = left;
+    }
+
+    public void setRoot(Expression root) {
+        this.root = root;
+    }
+
+    public void setRight(ExpressionTree right) {
+        this.right = right;
+    }
+  
 }
