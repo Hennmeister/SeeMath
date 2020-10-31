@@ -1,5 +1,6 @@
 package gui.vis;
 
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
@@ -61,9 +62,11 @@ public class AdditionVisualizer extends Visualizer {
 
         else {
             // Set up a Pane to hold the visualization
-            FlowPane masterPane = new FlowPane();
+            FlowPane masterPane = new FlowPane(Orientation.VERTICAL);
             masterPane.setHgap(10);
             masterPane.setVgap(10);
+            masterPane.setAlignment(Pos.BASELINE_CENTER);
+            masterPane.setPrefWrapLength(nodeSize);
 
             // Add the visualization of the left ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getLeft())){

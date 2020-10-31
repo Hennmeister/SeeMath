@@ -37,16 +37,29 @@ public class AdditionVisDemo extends Application {
         // For testing the drawExpression method
 
         FlowPane drawExpressionPane = new FlowPane();
+        drawExpressionPane.setHgap(10);
+        drawExpressionPane.setVgap(10);
+        drawExpressionPane.setAlignment(Pos.TOP_LEFT);
+        drawExpressionPane.setPrefWrapLength(100);
 
-        Expression ex1 = new Expression(4);
+        Expression ex1 = new Expression(1);
         Expression ex2 = new Expression("+");
-        Expression ex3 = new Expression(3);
+        Expression ex3 = new Expression(1);
+        Expression ex4 = new Expression("-");
+        Expression ex5 = new Expression(1);
+        Expression ex6 = new Expression("=");
+        Expression ex7 = new Expression(0);
+
 
         ExpressionTree expressionTree1 = new ExpressionTree(ex1);
         ExpressionTree expressionTree2 = new ExpressionTree(ex3);
         ExpressionTree expressionTree3 = new ExpressionTree(expressionTree1, ex2, expressionTree2);
+        ExpressionTree expressionTree4 = new ExpressionTree(ex5);
+        ExpressionTree expressionTree5 = new ExpressionTree(expressionTree3, ex4, expressionTree4);
+        ExpressionTree expressionTree6 = new ExpressionTree(ex7);
+        ExpressionTree expressionTree7 = new ExpressionTree(expressionTree5, ex6, expressionTree6);
 
-        drawExpressionPane.getChildren().add(additionVisualizer.drawExpression(expressionTree3));
+        drawExpressionPane.getChildren().add(additionVisualizer.drawExpression(expressionTree7));
 
         //primaryStage.setScene(new Scene(masterPane, 800, 800));
         primaryStage.setScene(new Scene(drawExpressionPane, 800, 800));
