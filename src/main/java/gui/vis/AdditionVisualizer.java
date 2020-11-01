@@ -5,10 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import logic.equations.AdditionEquation;
 import logic.equations.expression_tree.ExpressionTree;
-
-import java.util.Objects;
 
 public class AdditionVisualizer extends Visualizer {
 
