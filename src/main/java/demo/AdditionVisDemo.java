@@ -35,20 +35,19 @@ public class AdditionVisDemo extends Application {
         masterPane.getChildren().add(additionVisualizer.drawInt(4));
 
         // For testing the drawExpression method
-
         FlowPane drawExpressionPane = new FlowPane();
         drawExpressionPane.setHgap(10);
         drawExpressionPane.setVgap(10);
         drawExpressionPane.setAlignment(Pos.TOP_LEFT);
         drawExpressionPane.setPrefWrapLength(100);
 
-        Expression ex1 = new Expression(1);
+        Expression ex1 = new Expression(2);
         Expression ex2 = new Expression("+");
-        Expression ex3 = new Expression(1);
+        Expression ex3 = new Expression(9);
         Expression ex4 = new Expression("-");
-        Expression ex5 = new Expression(1);
+        Expression ex5 = new Expression(2);
         Expression ex6 = new Expression("=");
-        Expression ex7 = new Expression(0);
+        Expression ex7 = new Expression(17);
 
 
         ExpressionTree expressionTree1 = new ExpressionTree(ex1);

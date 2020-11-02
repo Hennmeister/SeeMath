@@ -52,11 +52,7 @@ public class AdditionVisualizer extends Visualizer {
     @Override
     public Pane drawExpression(ExpressionTree tree){
 
-        if (Objects.isNull(tree.getRoot())) {
-            return null;
-        }
-
-        else if (Objects.isNull(tree.getLeft()) && Objects.isNull(tree.getRight())){
+        if (Objects.isNull(tree.getLeft()) && Objects.isNull(tree.getRight())){
             return drawInt((Integer) tree.getRoot().evaluate());
         }
 
