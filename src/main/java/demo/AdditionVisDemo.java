@@ -1,6 +1,7 @@
 package demo;
 
 import javafx.application.Application;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -35,11 +36,11 @@ public class AdditionVisDemo extends Application {
         masterPane.getChildren().add(additionVisualizer.drawInt(4));
 
         // For testing the drawExpression method
-        FlowPane drawExpressionPane = new FlowPane();
+        FlowPane drawExpressionPane = new FlowPane(Orientation.VERTICAL);
         drawExpressionPane.setHgap(10);
-        drawExpressionPane.setVgap(10);
+        drawExpressionPane.setVgap(50);
         drawExpressionPane.setAlignment(Pos.TOP_LEFT);
-        drawExpressionPane.setPrefWrapLength(100);
+        //drawExpressionPane.setPrefWrapLength(100);
 
         Expression ex1 = new Expression(2);
         Expression ex2 = new Expression("+");
@@ -47,7 +48,7 @@ public class AdditionVisDemo extends Application {
         Expression ex4 = new Expression("-");
         Expression ex5 = new Expression(2);
         Expression ex6 = new Expression("=");
-        Expression ex7 = new Expression(17);
+        Expression ex7 = new Expression(80);
 
 
         ExpressionTree expressionTree1 = new ExpressionTree(ex1);
@@ -61,7 +62,8 @@ public class AdditionVisDemo extends Application {
         drawExpressionPane.getChildren().add(additionVisualizer.drawExpression(expressionTree7));
 
         //primaryStage.setScene(new Scene(masterPane, 800, 800));
-        primaryStage.setScene(new Scene(drawExpressionPane, 800, 800));
+        //primaryStage.setScene(new Scene(drawExpressionPane, 1200, 800));
+        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(expressionTree7), 800, 800));
         primaryStage.show();
 
 

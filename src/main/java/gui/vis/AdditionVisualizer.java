@@ -4,6 +4,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import logic.equations.expression_tree.ExpressionTree;
@@ -37,8 +38,8 @@ public class AdditionVisualizer extends Visualizer {
         pane.setPrefWrapLength(nodeSize);
 
         for (int i=0; i<num; i++){
-            Node discreteShapeCopy = new Rectangle(25, 25);
-            pane.getChildren().add(discreteShapeCopy);
+            Node node = new Rectangle(25, 25);
+            pane.getChildren().add(node);
         }
         return pane;
     }
@@ -58,11 +59,10 @@ public class AdditionVisualizer extends Visualizer {
 
         else {
             // Set up a Pane to hold the visualization
-            FlowPane masterPane = new FlowPane(Orientation.VERTICAL);
-            masterPane.setHgap(10);
-            masterPane.setVgap(10);
+            HBox masterPane = new HBox();
+            masterPane.setSpacing(10);
             masterPane.setAlignment(Pos.BASELINE_CENTER);
-            masterPane.setPrefWrapLength(nodeSize);
+            //masterPane.setPrefWrapLength(nodeSize);
 
             // Add the visualization of the left ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getLeft())){
