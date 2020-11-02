@@ -3,6 +3,7 @@ package logic;
 import gui.App;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
+import logic.equations.EquationFactory;
 import org.apache.log4j.BasicConfigurator;
 
 public class SeeMathServer {
@@ -15,23 +16,19 @@ public class SeeMathServer {
         config.setMaxFramePayloadLength(1024 * 1024);
         config.setMaxHttpContentLength(1024 * 1024);
 
-
         final SocketIOServer server = new SocketIOServer(config);
 
+        EquationFactory eF = new EquationFactory();
+
         server.addEventListener("result", String.class, (client, data, ackRequest) -> {
-            System.out.println("Data" + data);
-            App.main(new String[]{data});
+
         });
 
         server.addEventListener("expressions", String.class, (client, data, ackRequest) -> {
-            System.out.println("EXP" + data);
+            System.out.println("Received Expression");
+            eF.getEquation(data);
         });
 
         server.start();
-
-        Thread.sleep(Integer.MAX_VALUE);
-
-        server.stop();
     }
-
 }
