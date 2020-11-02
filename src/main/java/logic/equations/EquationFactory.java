@@ -54,14 +54,13 @@ public class EquationFactory {
      * @return the Expression Tree parsed from input
      */
     public ExpressionTree parseJSONExprTree(JSONObject subExpr) {
-        Expression<String> root = null;
         // Check if the subtree consists of a single number or contains subexpressions
         if (!subExpr.has("children")) {
-            String rootVal = (String) subExpr.get("value");
-            root = new Expression<String>(rootVal);
+            Integer rootVal = (Integer) subExpr.get("value");
+            Expression<Integer> root = new Expression<Integer>(rootVal);
             return new ExpressionTree(root);
         } else {
-            root = new Expression<String>((String) subExpr.get("command"));
+            Expression<String> root = new Expression<String>((String) subExpr.get("command"));
             ExpressionTree left = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0));
             ExpressionTree right = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(1));
             return new ExpressionTree(left, root, right);
