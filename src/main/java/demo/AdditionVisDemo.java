@@ -63,7 +63,7 @@ public class AdditionVisDemo extends Application {
 
         //primaryStage.setScene(new Scene(masterPane, 800, 800));
         //primaryStage.setScene(new Scene(drawExpressionPane, 1200, 800));
-        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(expressionTree7), 800, 800));
+        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(expressionTree7), 1500, 1500));
         primaryStage.show();
 
 

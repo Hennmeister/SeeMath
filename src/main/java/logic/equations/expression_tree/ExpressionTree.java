@@ -38,6 +38,10 @@ public class ExpressionTree {
         return false;
     }
 
+    public boolean isLeaf(){
+        return (right == null && left == null);
+    }
+
     public ExpressionTree getLeft() {
         return left;
     }
