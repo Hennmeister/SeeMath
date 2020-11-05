@@ -1,5 +1,6 @@
 package gui.vis;
 
+import javafx.geometry.Pos;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -20,6 +21,11 @@ public abstract class Visualizer {
         text.setFont(drawFont);
         text.setText(str);
         FlowPane pane = new FlowPane();
+        pane.setHgap(10);
+        pane.setVgap(10);
+        pane.setMaxSize(100, 100);
+        pane.setAlignment(Pos.BASELINE_CENTER);
+        pane.setPrefWrapLength(50);
         pane.getChildren().add(text);
         return pane;
     }

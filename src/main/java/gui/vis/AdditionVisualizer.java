@@ -1,8 +1,10 @@
 package gui.vis;
 
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import logic.equations.expression_tree.ExpressionTree;
@@ -34,10 +36,11 @@ public class AdditionVisualizer extends Visualizer {
         pane.setPrefWrapLength(nodeSize);
 
         for (int i=0; i<num; i++){
-            pane.getChildren().add(discreteShape);
+            Node node = new Rectangle(25, 25);
+            pane.getChildren().add(node);
         }
         return pane;
-    };
+    }
 
     /**
      * Given an ExpressionTree, create a nested FlowPane structure visualizing every node within the ExpressionTree.
@@ -47,37 +50,35 @@ public class AdditionVisualizer extends Visualizer {
      */
     @Override
     public Pane drawExpression(ExpressionTree tree){
-        return null;
-        /**
-        if (Objects.isNull(tree.root)) {
-            return null;
+
+        if (Objects.isNull(tree.getLeft()) && Objects.isNull(tree.getRight())){
+            return drawInt((Integer) tree.getRoot().evaluate());
         }
 
         else {
             // Set up a Pane to hold the visualization
-            FlowPane masterPane = new FlowPane();
-            masterPane.setHgap(10);
-            masterPane.setVgap(10);
+            HBox masterPane = new HBox();
+            masterPane.setSpacing(10);
+            masterPane.setAlignment(Pos.BASELINE_CENTER);
+            //masterPane.setPrefWrapLength(nodeSize);
 
             // Add the visualization of the left ExpressionTree to the masterPane
-            if (!Objects.isNull(tree.left)){
-                FlowPane leftPane = drawExpression(tree.left);
+            if (!Objects.isNull(tree.getLeft())){
+                Pane leftPane = drawExpression(tree.getLeft());
                 masterPane.getChildren().add(leftPane);
             }
 
-            // Add the visualization of the root value, will be
-            // masterPane.getChildren().add(drawString(tree.root.value));
-            // OR
-            // masterPane.getChildren().add(drawInt(tree.root.value));
+            // Add the visualization of the root value
+            masterPane.getChildren().add(drawString((String) tree.getRoot().evaluate()));
 
             // Add the visualization of the right ExpressionTree to the masterPane
-            if (!Objects.isNull(tree.right)){
-                FlowPane rightPane = drawExpression(tree.right);
+            if (!Objects.isNull(tree.getRight())){
+                Pane rightPane = drawExpression(tree.getRight());
                 masterPane.getChildren().add(rightPane);
             }
 
-
-        }*/
+            return masterPane;
+        }
 
     }
 
