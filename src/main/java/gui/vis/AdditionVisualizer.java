@@ -3,27 +3,20 @@ package gui.vis;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Paint;
 import logic.equations.expression_tree.ExpressionTree;
 
+import java.awt.*;
 import java.util.Objects;
+import static java.lang.Math.abs;
 
 public class AdditionVisualizer extends Visualizer {
-
-    Node discreteShape = new Rectangle(25, 25);
-    // The Node that will be replicated on screen to visualize integers
-
-    public void setDiscreteShape(Node node){
-        this.discreteShape = node;
-    }
-
-    public Node getDiscreteShape(){
-        return this.discreteShape;
-    }
-
     /**
      * Creates a FlowPane containing {@code num} copies of {@code discreteShape}.
      * @param num The amount of things.
@@ -32,15 +25,33 @@ public class AdditionVisualizer extends Visualizer {
     @Override
     public Pane drawInt(int num){
         FlowPane pane = new FlowPane();
-        pane.setHgap(10);
-        pane.setVgap(10);
-        pane.setAlignment(Pos.BASELINE_CENTER);
+        pane.setHgap(5);
+        pane.setVgap(5);
+        pane.setAlignment(Pos.CENTER);
         pane.setPrefWrapLength(nodeSize);
+        pane.setMaxSize(nodeSize, nodeSize);
 
-        for (int i=0; i<num; i++){
-            Node node = new Rectangle(25, 25);
+        int absNum = abs(num);
+
+        for (int i=0; i<absNum; i++){
+            Rectangle node;
+
+            // Construct a rectangle of the appropriate size, given <num>
+            if (num <= 9){
+                node = new Rectangle(25, 25);
+            } else {
+                node = new Rectangle(10, 10);
+            }
+
+            // If <num> is 0 or positive color the node green, otherwise color it red
+            if (num >= 0){
+                node.setFill(javafx.scene.paint.Color.GREEN);
+            } else {
+                node.setFill(javafx.scene.paint.Color.RED);
+            }
             pane.getChildren().add(node);
         }
+        //pane.setStyle("-fx-border-color: black"); // for debug
         return pane;
     }
 
@@ -60,9 +71,10 @@ public class AdditionVisualizer extends Visualizer {
         else {
             // Set up a Pane to hold the visualization
             HBox masterPane = new HBox();
-            masterPane.setSpacing(10);
-            masterPane.setAlignment(Pos.BASELINE_CENTER);
-            //masterPane.setPrefWrapLength(nodeSize);
+            masterPane.setSpacing(0);
+            masterPane.setAlignment(Pos.TOP_LEFT);
+            //masterPane.setStyle("-fx-border-color: black"); // for debug
+            masterPane.setMaxHeight(nodeSize);
 
             // Add the visualization of the left ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getLeft())){
