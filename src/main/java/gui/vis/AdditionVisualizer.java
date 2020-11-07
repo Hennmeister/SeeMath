@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Paint;
 import logic.equations.expression_tree.ExpressionTree;
 
 import java.awt.*;
@@ -39,8 +38,10 @@ public class AdditionVisualizer extends Visualizer {
             // Construct a rectangle of the appropriate size, given <num>
             if (num <= 9){
                 node = new Rectangle(25, 25);
-            } else {
+            } else if (num <= 36) {
                 node = new Rectangle(10, 10);
+            } else {
+                node = new Rectangle(5, 5);
             }
 
             // If <num> is 0 or positive color the node green, otherwise color it red
