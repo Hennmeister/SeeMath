@@ -74,7 +74,7 @@ public class AdditionVisualizer extends Visualizer{
     }
 
     /**
-     * Given an ExpressionTree, create a nested FlowPane structure visualizing every node within the ExpressionTree.
+     * Given an ExpressionTree, create a nested HBox structure visualizing every node within the ExpressionTree.
      * Assumes that all interior nodes will be strings representing operators and all leaves will be integers.
      * @param tree The root ExpressionTree to be visualized.
      * @return A FlowPane containing a visualization of {@code tree}.
