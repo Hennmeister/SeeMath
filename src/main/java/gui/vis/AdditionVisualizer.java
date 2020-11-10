@@ -1,12 +1,12 @@
 package gui.vis;
 
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Rectangle;
 import logic.equations.expression_tree.ExpressionTree;
@@ -15,12 +15,13 @@ import java.awt.*;
 import java.util.Objects;
 import static java.lang.Math.abs;
 
-public class AdditionVisualizer extends Visualizer {
+public class AdditionVisualizer extends Visualizer{
     /**
      * Creates a FlowPane containing {@code num} copies of {@code discreteShape}.
      * @param num The amount of things.
      * @return A FlowPane containing the things.
      */
+
     @Override
     public Pane drawInt(int num){
         FlowPane pane = new FlowPane();
@@ -53,7 +54,20 @@ public class AdditionVisualizer extends Visualizer {
             pane.getChildren().add(node);
         }
         //pane.setStyle("-fx-border-color: black"); // for debug
-        return pane;
+        StackPane stackPane = new StackPane();
+        stackPane.setAlignment(Pos.CENTER);
+        stackPane.setMaxSize(nodeSize, nodeSize);
+        stackPane.getChildren().add(pane);
+        stackPane.setOnMouseEntered((EventHandler) event -> {
+            stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+            stackPane.getChildren().add(drawString(Integer.toString(num)));
+        });
+        stackPane.setOnMouseExited((EventHandler) e -> {
+            stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
+            stackPane.getChildren().remove(1);
+        });
+
+        return stackPane;
     }
 
     /**
