@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.WebController;
 
 /**
  * JavaFX App
@@ -19,6 +20,21 @@ public class App extends Application {
         var javaVersion = SystemInfo.javaVersion();
         var javafxVersion = SystemInfo.javafxVersion();
 
+
+        // TODO: Maybe move the following to main class - do we only need access to stage to make UI updates?
+
+        VisualizationPresenter visPresenter = new VisualizationPresenter();
+        // EquationManager eqnManager = new EquationManager(visPresenter);
+
+
+        // Start WebSocket Server
+        try {
+            WebController server = new WebController(/* eqnManager */);
+            server.startServer(); } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         stage.setTitle("SeeMath");
 
         StackPane layout = new StackPane();
@@ -26,11 +42,6 @@ public class App extends Application {
         Label label = new Label("HELLO, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
         label.setFont(new Font("Arial", 24));
 
-        Button button = new Button("Click");
-        button.setOnAction(e -> label.setText("Have you ever had upsexy for dinner?"));
-
-        layout.getChildren().addAll(label, button);
-        layout.setAlignment(button, Pos.BOTTOM_CENTER);
 
         Scene scene = new Scene(layout, 640, 480);
         stage.setScene(scene);

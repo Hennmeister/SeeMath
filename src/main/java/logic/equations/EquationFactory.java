@@ -21,7 +21,7 @@ public class EquationFactory {
      * @param JSON_expr_data equation data in JSON format
      * @throws InvalidEquationException
      */
-    public void getEquation(String JSON_expr_data) throws InvalidEquationException {
+    public Equation getEquation(String JSON_expr_data) throws InvalidEquationException {
         // parse string into Java JSON object
         JSONObject jsonObj = new JSONObject(JSON_expr_data);
         // retrieve equation meta data
@@ -46,6 +46,7 @@ public class EquationFactory {
         // Create the equation
         // TEMP: equations are always false and of string type addition
         Equation eqn = new Equation(equationBlockId, problemId, tree, false, "Addition" );
+        return eqn;
     }
 
     /**
