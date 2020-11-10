@@ -54,10 +54,13 @@ public class AdditionVisualizer extends Visualizer{
             pane.getChildren().add(node);
         }
         //pane.setStyle("-fx-border-color: black"); // for debug
+        // Set up a StackPane to handle mouse-over behaviour on top of the visualization
         StackPane stackPane = new StackPane();
         stackPane.setAlignment(Pos.CENTER);
         stackPane.setMaxSize(nodeSize, nodeSize);
         stackPane.getChildren().add(pane);
+
+        // Code for mouse-over behaviour:
         stackPane.setOnMouseEntered((EventHandler) event -> {
             stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
             stackPane.getChildren().add(drawString(Integer.toString(num)));
