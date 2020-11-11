@@ -6,6 +6,11 @@ import java.util.Comparator;
 public class EquationManager {
     private ArrayList<Equation> equationList = new ArrayList<>();
     public void add(Equation e){
+        for(Equation equation : equationList){
+            if(equation.getProblemId() == e.getProblemId()){
+                equationList.set(equationList.indexOf(equation),e);
+            }
+        }
         equationList.add(e);
     }
     /**
