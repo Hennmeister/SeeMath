@@ -4,35 +4,35 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class EquationManager {
-    private ArrayList<Equation> lst = new ArrayList<>();
+    private ArrayList<Equation> equationList = new ArrayList<>();
     public void add(Equation e){
-        lst.add(e);
+        equationList.add(e);
     }
     /**
      * @return Returns equation at this index within the EquationManager.
      */
     public Equation get(int index){
-        return lst.get(index);
+        return equationList.get(index);
     }
     /**
      * @return Removes and returns equation at this index within the EquationManager.
      */
-    public Equation remove(int index){
-        return lst.remove(index);
+    public Equation removeAt(int index){
+        return equationList.remove(index);
     }
     /**
-     * @return Removes and returns the passed in equation within the EquationManager.
+     * @return Removes and returns whether the passed in equation within the EquationManager was removed.
      */
     public boolean remove(Equation e){
-        return lst.remove(e);
+        return equationList.remove(e);
     }
     public void sortById(){
-        lst.sort(Comparator.comparing(Equation::getId));
+        equationList.sort(Comparator.comparing(Equation::getId));
     }
     public void sortByProblemId(){
-        lst.sort(Comparator.comparing(Equation::getProblemId));
+        equationList.sort(Comparator.comparing(Equation::getProblemId));
     }
     public void sortByVisualizationType(){
-        lst.sort(Comparator.comparing(Equation::getVisualizationType));
+        equationList.sort(Comparator.comparing(Equation::getVisualizationType));
     }
 }
