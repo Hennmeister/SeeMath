@@ -44,11 +44,11 @@ public class AdditionVisDemo extends Application {
 
         Expression ex1 = new Expression(2);
         Expression ex2 = new Expression("+");
-        Expression ex3 = new Expression(9);
+        Expression ex3 = new Expression(-9);
         Expression ex4 = new Expression("-");
         Expression ex5 = new Expression(2);
         Expression ex6 = new Expression("=");
-        Expression ex7 = new Expression(80);
+        Expression ex7 = new Expression(150);
 
 
         ExpressionTree expressionTree1 = new ExpressionTree(ex1);
