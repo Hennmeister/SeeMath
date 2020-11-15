@@ -9,6 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.WebController;
+import logic.equations.EquationManager;
 
 /**
  * JavaFX App
@@ -23,14 +24,14 @@ public class App extends Application {
 
         // TODO: Maybe move the following to main class - do we only need access to stage to make UI updates?
 
-        VisualizationPresenter visPresenter = new VisualizationPresenter();
-        // EquationManager eqnManager = new EquationManager(visPresenter);
+        VisualizationPresenter visPresenter = new VisualizationPresenter(stage);
+        EquationManager eqnManager = new EquationManager(visPresenter);
 
 
         // Start WebSocket Server
         try {
             WebController server = new WebController(/* eqnManager */);
-            server.startServer(); } catch (InterruptedException e) {
+            server.startServer(eqnManager); } catch (InterruptedException e) {
             e.printStackTrace();
         }
 

@@ -1,10 +1,16 @@
 package gui;
 
+import javafx.stage.Stage;
 import logic.equations.Equation;
 
 public class VisualizationPresenter implements VisualizationCreator {
 
-    @Override
-    public void updateVisualization(Equation eqn) {
+    private Stage stage;
+
+    public VisualizationPresenter(Stage stage) {
+        this.stage = stage;
     }
+
+    @Override
+    public void updateVisualization(Equation eqn) { }
 }
