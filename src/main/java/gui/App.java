@@ -18,19 +18,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        var javaVersion = SystemInfo.javaVersion();
-        var javafxVersion = SystemInfo.javafxVersion();
-
-
-        // TODO: Maybe move the following to main class - do we only need access to stage to make UI updates?
-
         VisualizationPresenter visPresenter = new VisualizationPresenter(stage);
         EquationManager eqnManager = new EquationManager(visPresenter);
 
 
         // Start WebSocket Server
         try {
-            WebController server = new WebController(/* eqnManager */);
+            WebController server = new WebController();
             server.startServer(eqnManager); } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -40,9 +34,9 @@ public class App extends Application {
 
         StackPane layout = new StackPane();
 
-        Label label = new Label("HELLO, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
+        Label label = new Label("SeeMath Hypatia App");
         label.setFont(new Font("Arial", 24));
-
+        layout.getChildren().addAll(label);
 
         Scene scene = new Scene(layout, 640, 480);
         stage.setScene(scene);

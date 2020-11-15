@@ -57,7 +57,8 @@ public class EquationFactory {
     public ExpressionTree parseJSONExprTree(JSONObject subExpr) {
         // Check if the subtree consists of a single number or contains subexpressions
         if (!subExpr.has("children")) {
-            Integer rootVal = (Integer) subExpr.get("value");
+            Integer rootVal = Integer.parseInt((String) subExpr.get("value"));
+            System.out.println("Root: " + rootVal );
             Expression<Integer> root = new Expression<Integer>(rootVal);
             return new ExpressionTree(root);
         } else {

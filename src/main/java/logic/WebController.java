@@ -10,8 +10,6 @@ import org.apache.log4j.BasicConfigurator;
 
 public class WebController {
 
-    // EquationManager
-
     /**
      * starts the WebSocket server to listen for events from the Hypatia editor
      * @throws InterruptedException
