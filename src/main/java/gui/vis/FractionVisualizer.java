@@ -46,6 +46,7 @@ public class FractionVisualizer extends Visualizer{
         }
         //Draw the remainder of the fraction
         Pane pane = new Pane();
+        double startAngle = 0.0;
         for (int i = 0; i < denom; i++){
             Arc arc = new Arc();
             arc.setCenterX(51);
@@ -53,7 +54,7 @@ public class FractionVisualizer extends Visualizer{
             arc.setRadiusX(50);
             arc.setRadiusY(50);
             arc.setLength(arcLength);
-            arc.setStartAngle(0);
+            arc.setStartAngle(startAngle);
             arc.setType(ArcType.ROUND);
             if (i < num){
                 arc.setFill(Color.DEEPSKYBLUE);
@@ -62,6 +63,7 @@ public class FractionVisualizer extends Visualizer{
             }
             arc.setStroke(Color.BLACK);
             pane.getChildren().add(arc);
+            startAngle += arcLength;
         }
         masterPane.getChildren().add(pane);
         return masterPane;
