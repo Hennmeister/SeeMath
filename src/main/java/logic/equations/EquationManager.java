@@ -1,10 +1,17 @@
 package logic.equations;
 
+import gui.VisualizationCreator;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class EquationManager {
     private ArrayList<Equation> equationList = new ArrayList<>();
+    private VisualizationCreator presenter;
+
+    public EquationManager(VisualizationCreator visPresenter){
+        this.presenter = visPresenter;
+    }
     public void add(Equation e){
         for(Equation equation : equationList){
             if(equation.getProblemId() == e.getProblemId()){
