@@ -73,12 +73,32 @@ public abstract class Expression {
         return left == null && right == null;
     }
 
+    public ExpType getType(){
+        return type;
+    }
+
+    public Expression getLeft() {
+        return left;
+    }
+
+    public Expression getRight() {
+        return right;
+    }
+
     public void setType(ExpType type){
         this.type = type;
     }
 
-    public ExpType getType(){
-        return type;
+    public void setLeft(Expression left) {
+        this.left = left;
+    }
+
+    public void setRight(Expression right) {
+        this.right = right;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     // getValue() is the same as toString()
