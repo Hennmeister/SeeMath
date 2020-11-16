@@ -1,23 +1,92 @@
 package logic.equations.expression_tree;
 
+import java.util.ArrayList;
 
-public class Expression<T> {
+public abstract class Expression {
 
-    T value;
+    String value;
+    Expression left, right = null;
+    ExpType type;
 
     /**
-     * Creates an expression with the value inputted
-     * @param value: value of expression
+     * Creates a leaf expression with the value inputted
+     * @param value value of expression
      */
-    public Expression(T value){
+    public Expression(String value){
         this.value = value;
+        // left and right are null
     }
 
-    public T evaluate(){
-        return value;
+    /**
+     * Creates an expression with the values inputted
+     * @param left left sub-expression
+     * @param value value of current expression
+     * @param right right sub-expression
+     */
+    public Expression(Expression left, String value, Expression right){
+        this.value = value;
+        this.left = left;
+        this.right = right;
+    }
+
+    /**
+     * Checks validity of expression tree
+     * @return whether tree is valid (recursively)
+     */
+    public boolean isValid(){
+        if(right == null && left == null){
+            return true;
+        } else if(right != null && left != null) {
+            return right.isValid() && left.isValid();
+        }
+        // else expression is unbalanced i.e x + _
+        return false;
+    }
+
+    public abstract Double evaluate();
+
+    /**
+     * Gets all the leaves from the tree
+     * @return an AraayList containing the number value of all leaves
+     */
+    public ArrayList<Double> getLeaves(){
+        ArrayList<Double> leaves = new ArrayList<>();
+        if (value == null){
+            return leaves;
+        }
+        else if (this.isLeaf()) {
+            leaves.add(this.evaluate());
+            return leaves;
+        }
+        else {
+            leaves.addAll(left.getLeaves());
+            leaves.addAll(right.getLeaves());
+            return leaves;
+        }
+    }
+
+    /**
+     * Checks if this node is a leaf node
+     * @return whether node is a leaf
+     */
+    public boolean isLeaf(){
+        return left == null && right == null;
+    }
+
+    public void setType(ExpType type){
+        this.type = type;
+    }
+
+    public ExpType getType(){
+        return type;
+    }
+
+    // getValue() is the same as toString()
+    public String getValue(){
+        return this.toString();
     }
 
     public String toString(){
-        return String.valueOf(value);
+        return value;
     }
 }
