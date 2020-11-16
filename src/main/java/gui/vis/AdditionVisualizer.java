@@ -1,17 +1,12 @@
 package gui.vis;
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Shape;
 import javafx.scene.shape.Rectangle;
-import logic.equations.expression_tree.ExpressionTree;
+import logic.equations.expression_tree.Expression;
 
-import java.awt.*;
 import java.util.Objects;
 import static java.lang.Math.abs;
 
@@ -61,11 +56,11 @@ public class AdditionVisualizer extends Visualizer{
         stackPane.getChildren().add(pane);
 
         // Code for mouse-over behaviour:
-        stackPane.setOnMouseEntered((EventHandler) event -> {
+        stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
             stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
             stackPane.getChildren().add(drawString(Integer.toString(num)));
         });
-        stackPane.setOnMouseExited((EventHandler) e -> {
+        stackPane.setOnMouseExited((EventHandler<Event>) e -> {
             stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
             stackPane.getChildren().remove(1);
         });
@@ -80,9 +75,9 @@ public class AdditionVisualizer extends Visualizer{
      * @return A FlowPane containing a visualization of {@code tree}.
      */
     @Override
-    public Pane drawExpression(ExpressionTree tree){
+    public Pane drawExpression(Expression tree){
 
-        if (Objects.isNull(tree.getLeft()) && Objects.isNull(tree.getRight())){
+        if (tree.isLeaf()){
             return drawInt((Integer) tree.getRoot().evaluate());
         }
 

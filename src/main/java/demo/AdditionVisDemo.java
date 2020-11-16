@@ -17,8 +17,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import gui.vis.Visualizer;
 import gui.vis.AdditionVisualizer;
+import logic.equations.expression_tree.AdditionOp;
+import logic.equations.expression_tree.BinaryOp;
 import logic.equations.expression_tree.Expression;
-import logic.equations.expression_tree.ExpressionTree;
+import logic.equations.expression_tree.Expression;
+import logic.equations.expression_tree.Number;
 
 public class AdditionVisDemo extends Application {
 
@@ -42,28 +45,16 @@ public class AdditionVisDemo extends Application {
         drawExpressionPane.setAlignment(Pos.TOP_LEFT);
         //drawExpressionPane.setPrefWrapLength(100);
 
-        Expression ex1 = new Expression(2);
-        Expression ex2 = new Expression("+");
-        Expression ex3 = new Expression(-9);
-        Expression ex4 = new Expression("-");
-        Expression ex5 = new Expression(2);
-        Expression ex6 = new Expression("=");
-        Expression ex7 = new Expression(150);
+        Expression ex1 = new Number("2");
+        Expression ex2 = new Number("19");
+        Expression ex3 = new AdditionOp(ex1, ex2);
 
 
-        ExpressionTree expressionTree1 = new ExpressionTree(ex1);
-        ExpressionTree expressionTree2 = new ExpressionTree(ex3);
-        ExpressionTree expressionTree3 = new ExpressionTree(expressionTree1, ex2, expressionTree2);
-        ExpressionTree expressionTree4 = new ExpressionTree(ex5);
-        ExpressionTree expressionTree5 = new ExpressionTree(expressionTree3, ex4, expressionTree4);
-        ExpressionTree expressionTree6 = new ExpressionTree(ex7);
-        ExpressionTree expressionTree7 = new ExpressionTree(expressionTree5, ex6, expressionTree6);
-
-        drawExpressionPane.getChildren().add(additionVisualizer.drawExpression(expressionTree7));
+        drawExpressionPane.getChildren().add(additionVisualizer.drawExpression(ex3));
 
         //primaryStage.setScene(new Scene(masterPane, 800, 800));
         //primaryStage.setScene(new Scene(drawExpressionPane, 1200, 800));
-        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(expressionTree7), 800, 800));
+        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(ex3), 800, 800));
         primaryStage.show();
 
 

@@ -5,7 +5,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import logic.equations.expression_tree.ExpressionTree;
+import logic.equations.expression_tree.Expression;
 
 public abstract class Visualizer {
 
@@ -28,7 +28,7 @@ public abstract class Visualizer {
         return nodeSize;
     }
 
-    public abstract Pane drawExpression(ExpressionTree tree);
+    public abstract Pane drawExpression(Expression tree);
 
     public abstract Pane drawInt(int num);
 
