@@ -12,11 +12,11 @@ import static java.lang.Math.abs;
 
 public class AdditionVisualizer extends Visualizer{
     /**
-     * Creates a FlowPane containing {@code num} copies of {@code discreteShape}.
-     * @param num The amount of things.
-     * @return A FlowPane containing the things.
+     * Creates a FlowPane containing {@code num} Rectangles. If {@code num} is positive Rectangles will be green,
+     * if {@code num} is negative Rectangles will be red.
+     * @param num The amount of things to be visualized.
+     * @return A FlowPane containing the shapes of the visualization.
      */
-
     @Override
     public Pane drawInt(int num){
         FlowPane pane = new FlowPane();
@@ -69,7 +69,8 @@ public class AdditionVisualizer extends Visualizer{
     }
 
     /**
-     * Given an ExpressionTree, create a nested HBox structure visualizing every node within the ExpressionTree.
+     * Given an ExpressionTree, create a nested HBox structure visualizing every node within the ExpressionTree as
+     * an addition/subtraction equation.
      * Assumes that all interior nodes will be strings representing operators and all leaves will be integers.
      * @param tree The root ExpressionTree to be visualized.
      * @return A FlowPane containing a visualization of {@code tree}.
@@ -82,7 +83,7 @@ public class AdditionVisualizer extends Visualizer{
         }
 
         else {
-            /*
+
             // Set up a Pane to hold the visualization
             HBox masterPane = new HBox();
             masterPane.setSpacing(0);
@@ -106,7 +107,6 @@ public class AdditionVisualizer extends Visualizer{
             }
 
             return masterPane;
-            */ return null;
         }
 
     }

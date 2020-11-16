@@ -1,5 +1,6 @@
 package gui.vis;
 
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -10,6 +11,7 @@ import logic.equations.expression_tree.Expression;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 public class FractionVisualizer extends Visualizer{
 
@@ -18,7 +20,15 @@ public class FractionVisualizer extends Visualizer{
         return null;
     };
 
-    public Pane drawFrac(Double num, Double denom){
+    /**
+     * Visualizes one or more circles, each split into {@code denom} different segments, with
+     * {@code num} of those segments being coloured in.
+     * @param num the numerator of the fraction being visualized.
+     * @param denom the denominator of the fraction being visualized.
+     * @return The Pane containing the circles which represent the fraction.
+     */
+
+    public Pane drawFraction(Double num, Double denom){
         HBox masterPane = new HBox();
         masterPane.setSpacing(10);
 
@@ -38,6 +48,7 @@ public class FractionVisualizer extends Visualizer{
                 arc.setType(ArcType.ROUND);
                 arc.setFill(Color.DEEPSKYBLUE);
                 arc.setStroke(Color.BLACK);
+                arc.setStrokeWidth(1);
                 pane.getChildren().add(arc);
                 startAngle += arcLength;
             }
@@ -62,6 +73,7 @@ public class FractionVisualizer extends Visualizer{
                 arc.setFill(Color.WHITE);
             }
             arc.setStroke(Color.BLACK);
+            arc.setStrokeWidth(1);
             pane.getChildren().add(arc);
             startAngle += arcLength;
         }
@@ -69,8 +81,16 @@ public class FractionVisualizer extends Visualizer{
         return masterPane;
     };
 
+    /**
+     * Given an ExpressionTree, create a nested HBox structure visualizing every node within the ExpressionTree
+     * as fractions.
+     * Assumes that all interior nodes will be strings representing operators and all leaves will be doubles.
+     * @param tree The root ExpressionTree to be visualized.
+     * @return A FlowPane containing a visualization of {@code tree}.
+     */
     @Override
     public Pane drawExpression(Expression tree) {
+        // Find the LCM for all the leaves representing denominators in the expression
         ArrayList<Double> leaves = tree.getLeaves();
         ArrayList<Double> rightLeaves = new ArrayList<>();
         for (int i = 0; i < leaves.size(); i=i+2){
@@ -78,10 +98,44 @@ public class FractionVisualizer extends Visualizer{
         }
         Double denominator = findLCM(rightLeaves);
 
+        if (tree.getLeft().isLeaf() && tree.getRight().isLeaf()){
+            // Draw fraction where the left leaf is numerator, right leaf is denominator
+            // First, adjust the numerator to the equivalent numerator over the LCM for the expression
+            double adjustedNum = tree.getLeft().evaluate() * (denominator/tree.getRight().evaluate());
+            return drawFraction(adjustedNum, denominator);
+        }
 
-        return null;
+        else {
+            // Set up a Pane to hold the visualization
+            HBox masterPane = new HBox();
+            masterPane.setSpacing(0);
+            masterPane.setAlignment(Pos.TOP_LEFT);
+            //masterPane.setStyle("-fx-border-color: black"); // for debug
+            masterPane.setMaxHeight(nodeSize);
+
+            // Add the visualization of the left ExpressionTree to the masterPane
+            if (!Objects.isNull(tree.getLeft())){
+                Pane leftPane = drawExpression(tree.getLeft());
+                masterPane.getChildren().add(leftPane);
+            }
+
+            // Add the visualization of the root value
+            masterPane.getChildren().add(drawString(tree.getValue()));
+
+            // Add the visualization of the right ExpressionTree to the masterPane
+            if (!Objects.isNull(tree.getRight())){
+                Pane rightPane = drawExpression(tree.getRight());
+                masterPane.getChildren().add(rightPane);
+            }
+
+            return masterPane;
+        }
     }
 
+    /**
+     * Given an ArrayList of Doubles, returns the lowest common multiple of every element. Assumes all elements
+     * are whole numbers.
+     */
     private Double findLCM(ArrayList<Double> list){
         Double ans = 0.0;
         Double testVal = Collections.max(list); //Start testing at the maximum number in the list
