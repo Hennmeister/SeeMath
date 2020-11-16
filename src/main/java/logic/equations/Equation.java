@@ -2,12 +2,13 @@ package logic.equations;
 
 import logic.equations.expression_tree.ExpressionTree;
 
+import java.util.Objects;
+
 public class Equation {
-    private String id;
+    private String mathBlockId;
     private int problemId;
     private ExpressionTree tree;
     private boolean isCorrect;
-    private String visualizationType;
 
     /**
      * Contructs a new equation object
@@ -15,14 +16,12 @@ public class Equation {
      * @param problemId The id of the problem in the Hypatia assignment
      * @param tree The expression tree representing the equation values
      * @param isCorrect Whether the equation is true or not
-     * @param visualizationType The type of the visualization used for the equation, such as addition and multiplication
      */
-    public Equation (String id, int problemId, ExpressionTree tree, boolean isCorrect, String visualizationType)  {
-        this.id = id;
+    public Equation (String id, int problemId, ExpressionTree tree, boolean isCorrect)  {
+        this.mathBlockId = id;
         this.problemId = problemId;
         this.tree = tree;
         this.isCorrect = isCorrect;
-        this.visualizationType = visualizationType;
     }
 
     /**
@@ -36,8 +35,8 @@ public class Equation {
     /**
      * @return The id of the math block containing this equation in Hypatia.
      */
-    public String getId() {
-        return id;
+    public String getMathBlockId() {
+        return mathBlockId;
     }
 
     /**
@@ -55,10 +54,26 @@ public class Equation {
         return isCorrect;
     }
 
-    /**
-     * @return The type of visualization that should be used to represent this equation.
-     */
-    public String getVisualizationType() {
-        return visualizationType;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Equation equation = (Equation) o;
+        return problemId == equation.problemId &&
+                mathBlockId.equals(equation.mathBlockId) &&
+                tree.equals(equation.tree);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mathBlockId, problemId, tree);
+    }
+
+    @Override
+    public String toString() {
+        return "Equation{" +
+                "mathBlockId='" + mathBlockId + '\'' +
+                ", problemId=" + problemId +
+                '}';
     }
 }

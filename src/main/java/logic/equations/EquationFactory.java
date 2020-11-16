@@ -22,16 +22,16 @@ public class EquationFactory {
      * @throws InvalidEquationException
      */
     public Equation getEquation(String JSON_expr_data) throws InvalidEquationException {
-        // parse string into Java JSON object
+        // Parse string into Java JSON object
         JSONObject jsonObj = new JSONObject(JSON_expr_data);
-        // retrieve equation meta data
+        // Retrieve equation meta data
         String equationBlockId = (String) jsonObj.get("mathid");
         Integer problemId = (Integer) jsonObj.get("problem");
 
-        //get value array
+        // Get only the first equation in equation array
         JSONArray eqnArray = (JSONArray) ((JSONArray) jsonObj.get("value")).get(0);
 
-        //get expression tree root
+        // Get expression tree root
         Expression<String> root = null;
         try {
                 root = new Expression<String> ((String) ((JSONObject) eqnArray.get(1)).get("command"));
@@ -44,8 +44,8 @@ public class EquationFactory {
         ExpressionTree tree = new ExpressionTree(left, root, right);
 
         // Create the equation
-        // TEMP: equations are always false and of string type addition
-        Equation eqn = new Equation(equationBlockId, problemId, tree, false, "Addition" );
+        // TEMP: equations are always false
+        Equation eqn = new Equation(equationBlockId, problemId, tree, false);
         return eqn;
     }
 
@@ -58,7 +58,6 @@ public class EquationFactory {
         // Check if the subtree consists of a single number or contains subexpressions
         if (!subExpr.has("children")) {
             Integer rootVal = Integer.parseInt((String) subExpr.get("value"));
-            System.out.println("Root: " + rootVal );
             Expression<Integer> root = new Expression<Integer>(rootVal);
             return new ExpressionTree(root);
         } else {
