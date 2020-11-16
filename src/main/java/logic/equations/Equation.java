@@ -1,35 +1,46 @@
 package logic.equations;
 
-import logic.equations.expression_tree.ExpressionTree;
+import logic.equations.expression_tree.Expression;
 
 import java.util.Objects;
 
 public class Equation {
     private String mathBlockId;
     private int problemId;
-    private ExpressionTree tree;
+    private Expression leftTree;
+    private Expression rightTree;
     private boolean isCorrect;
 
     /**
      * Contructs a new equation object
      * @param id The id of the math block
      * @param problemId The id of the problem in the Hypatia assignment
-     * @param tree The expression tree representing the equation values
+     * @param leftTree The left expression in the equation
+     * @param rightTree The right expression in the equation
      * @param isCorrect Whether the equation is true or not
      */
-    public Equation (String id, int problemId, ExpressionTree tree, boolean isCorrect)  {
+    public Equation (String id, int problemId, Expression leftTree, Expression rightTree, boolean isCorrect)  {
         this.mathBlockId = id;
         this.problemId = problemId;
-        this.tree = tree;
+        this.leftTree = leftTree;
+        this.rightTree = rightTree;
         this.isCorrect = isCorrect;
     }
 
     /**
-     * @return The expression tree representing the equation, with operators as internal nodes and
+     * @return The left expression of the equation tree, with operators as internal nodes and
      * leaves as values.
      */
-    public ExpressionTree getTree() {
-        return tree;
+    public Expression getLeftTree() {
+        return leftTree;
+    }
+
+    /**
+     * @return The right expression of the equation tree, with operators as internal nodes and
+     * leaves as values.
+     */
+    public Expression getRightTree() {
+        return rightTree;
     }
 
     /**
@@ -61,12 +72,13 @@ public class Equation {
         Equation equation = (Equation) o;
         return problemId == equation.problemId &&
                 mathBlockId.equals(equation.mathBlockId) &&
-                tree.equals(equation.tree);
+                leftTree.equals(equation.leftTree) &&
+                rightTree.equals(equation.rightTree);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mathBlockId, problemId, tree);
+        return Objects.hash(mathBlockId, problemId);
     }
 
     @Override
