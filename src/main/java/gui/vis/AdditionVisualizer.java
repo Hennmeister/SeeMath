@@ -78,10 +78,11 @@ public class AdditionVisualizer extends Visualizer{
     public Pane drawExpression(Expression tree){
 
         if (tree.isLeaf()){
-            return drawInt((Integer) tree.getRoot().evaluate());
+            return drawInt(Integer.parseInt(tree.getValue()));
         }
 
         else {
+            /*
             // Set up a Pane to hold the visualization
             HBox masterPane = new HBox();
             masterPane.setSpacing(0);
@@ -96,7 +97,7 @@ public class AdditionVisualizer extends Visualizer{
             }
 
             // Add the visualization of the root value
-            masterPane.getChildren().add(drawString((String) tree.getRoot().evaluate()));
+            masterPane.getChildren().add(drawString(tree.getValue()));
 
             // Add the visualization of the right ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getRight())){
@@ -105,6 +106,7 @@ public class AdditionVisualizer extends Visualizer{
             }
 
             return masterPane;
+            */ return null;
         }
 
     }
