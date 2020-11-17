@@ -31,8 +31,10 @@ public class WebController {
         });
 
         server.addEventListener("expressions", String.class, (client, data, ackRequest) -> {
-            System.out.println("Received Expression");
+            // System.out.println("Expression" + data);
             Equation eqn = eqnFactory.getEquation(data);
+            System.out.println("SERVER: " + eqn );
+
             eqnManager.add(eqn);
         });
 

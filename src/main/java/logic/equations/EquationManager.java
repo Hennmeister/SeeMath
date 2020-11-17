@@ -12,14 +12,22 @@ public class EquationManager {
     public EquationManager(VisualizationCreator visPresenter){
         this.presenter = visPresenter;
     }
+
     public void add(Equation e){
-        for(Equation equation : equationList){
-            if(equation.getProblemId() == e.getProblemId()){
-                equationList.set(equationList.indexOf(equation),e);
+        boolean found = false;
+        for (Equation equation : equationList){
+            if (equation.getMathBlockId().equals(e.getMathBlockId())){
+                if (!equation.equals(e)) {
+                    equationList.set(equationList.indexOf(equation), e);
+                    presenter.updateVisualization(e);
+                }
+                return;
             }
         }
         equationList.add(e);
+        presenter.updateVisualization(e);
     }
+
     /**
      * @return Returns equation at this index within the EquationManager.
      */
@@ -39,12 +47,9 @@ public class EquationManager {
         return equationList.remove(e);
     }
     public void sortById(){
-        equationList.sort(Comparator.comparing(Equation::getId));
+        equationList.sort(Comparator.comparing(Equation::getMathBlockId));
     }
     public void sortByProblemId(){
         equationList.sort(Comparator.comparing(Equation::getProblemId));
-    }
-    public void sortByVisualizationType(){
-        equationList.sort(Comparator.comparing(Equation::getVisualizationType));
     }
 }

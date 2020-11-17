@@ -1,43 +1,53 @@
 package logic.equations;
 
-import logic.equations.expression_tree.ExpressionTree;
+import logic.equations.expression_tree.Expression;
+
+import java.util.Objects;
 
 public class Equation {
-    private String id;
+    private String mathBlockId;
     private int problemId;
-    private ExpressionTree tree;
+    private Expression leftTree;
+    private Expression rightTree;
     private boolean isCorrect;
-    private String visualizationType;
 
     /**
      * Contructs a new equation object
      * @param id The id of the math block
      * @param problemId The id of the problem in the Hypatia assignment
-     * @param tree The expression tree representing the equation values
+     * @param leftTree The left expression in the equation
+     * @param rightTree The right expression in the equation
      * @param isCorrect Whether the equation is true or not
-     * @param visualizationType The type of the visualization used for the equation, such as addition and multiplication
      */
-    public Equation (String id, int problemId, ExpressionTree tree, boolean isCorrect, String visualizationType)  {
-        this.id = id;
+    public Equation (String id, int problemId, Expression leftTree, Expression rightTree, boolean isCorrect)  {
+        this.mathBlockId = id;
         this.problemId = problemId;
-        this.tree = tree;
+        this.leftTree = leftTree;
+        this.rightTree = rightTree;
         this.isCorrect = isCorrect;
-        this.visualizationType = visualizationType;
     }
 
     /**
-     * @return The expression tree representing the equation, with operators as internal nodes and
+     * @return The left expression of the equation tree, with operators as internal nodes and
      * leaves as values.
      */
-    public ExpressionTree getTree() {
-        return tree;
+    public Expression getLeftTree() {
+        return leftTree;
+    }
+
+    /**
+     * @return The right expression of the equation tree, with operators as internal nodes and
+     * leaves as values.
+     */
+    public Expression getRightTree() {
+        return rightTree;
     }
 
     /**
      * @return The id of the math block containing this equation in Hypatia.
      */
-    public String getId() {
-        return id;
+    public String getMathBlockId() {
+        return mathBlockId;
     }
 
     /**
@@ -55,10 +65,27 @@ public class Equation {
         return isCorrect;
     }
 
-    /**
-     * @return The type of visualization that should be used to represent this equation.
-     */
-    public String getVisualizationType() {
-        return visualizationType;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Equation equation = (Equation) o;
+        return problemId == equation.problemId &&
+                mathBlockId.equals(equation.mathBlockId) &&
+                leftTree.equals(equation.leftTree) &&
+                rightTree.equals(equation.rightTree);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mathBlockId, problemId);
+    }
+
+    @Override
+    public String toString() {
+        return "Equation{" +
+                "mathBlockId='" + mathBlockId + '\'' +
+                ", problemId=" + problemId +
+                '}';
     }
 }
