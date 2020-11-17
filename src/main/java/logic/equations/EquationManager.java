@@ -14,7 +14,6 @@ public class EquationManager {
     }
 
     public void add(Equation e){
-        System.out.println("HERE in EQN MANAGER");
         boolean found = false;
         for (Equation equation : equationList){
             if (equation.getMathBlockId().equals(e.getMathBlockId())){

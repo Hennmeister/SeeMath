@@ -34,6 +34,7 @@ public class WebController {
             // System.out.println("Expression" + data);
             Equation eqn = eqnFactory.getEquation(data);
             System.out.println("SERVER: " + eqn );
+
             eqnManager.add(eqn);
         });
 

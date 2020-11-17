@@ -54,6 +54,7 @@ public class EquationFactory {
             String rootVal = (String) subExpr.get("value");
             Number rootExpr = new Number(rootVal);
             return rootExpr;
+
         } else {
             Expression left = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0));
             Expression right = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(1));
