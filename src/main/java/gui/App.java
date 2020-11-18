@@ -8,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.WebController;
+import logic.equations.EquationManager;
 
 /**
  * JavaFX App
@@ -16,21 +18,25 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        var javaVersion = SystemInfo.javaVersion();
-        var javafxVersion = SystemInfo.javafxVersion();
+        VisualizationPresenter visPresenter = new VisualizationPresenter(stage);
+        EquationManager eqnManager = new EquationManager(visPresenter);
+
+
+        // Start WebSocket Server
+        try {
+            WebController server = new WebController();
+            server.startServer(eqnManager); } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         stage.setTitle("SeeMath");
 
         StackPane layout = new StackPane();
 
-        Label label = new Label("HELLO, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
+        Label label = new Label("SeeMath Hypatia App");
         label.setFont(new Font("Arial", 24));
-
-        Button button = new Button("Click");
-        button.setOnAction(e -> label.setText("Have you ever had upsexy for dinner?"));
-
-        layout.getChildren().addAll(label, button);
-        layout.setAlignment(button, Pos.BOTTOM_CENTER);
+        layout.getChildren().addAll(label);
 
         Scene scene = new Scene(layout, 640, 480);
         stage.setScene(scene);
