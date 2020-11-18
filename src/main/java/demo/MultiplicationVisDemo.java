@@ -2,6 +2,7 @@ package demo;
 
 import gui.vis.MultiplicationVisualizer;
 import javafx.application.Application;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -17,8 +18,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import gui.vis.Visualizer;
 import gui.vis.AdditionVisualizer;
+import logic.equations.expression_tree.AdditionOp;
 import logic.equations.expression_tree.Expression;
-import logic.equations.expression_tree.ExpressionTree;
+import logic.equations.expression_tree.MultiplicationOp;
+import logic.equations.expression_tree.Number;
 
 public class MultiplicationVisDemo extends Application {
     @Override
@@ -31,41 +34,23 @@ public class MultiplicationVisDemo extends Application {
         masterPane.getChildren().add(mV.drawInt(2));
 
         // For testing the drawExpression method
-        FlowPane drawExpressionPane = new FlowPane();
+        FlowPane drawExpressionPane = new FlowPane(Orientation.VERTICAL);
         drawExpressionPane.setHgap(10);
-        drawExpressionPane.setVgap(40);
+        drawExpressionPane.setVgap(50);
         drawExpressionPane.setAlignment(Pos.TOP_LEFT);
-        drawExpressionPane.setPrefWrapLength(100);
+        //drawExpressionPane.setPrefWrapLength(100);
 
-        /*
-        Creating Expression objects for testing
-         */
-        Expression ex1 = new Expression(2);
-        Expression ex2 = new Expression("*");
-        Expression ex3 = new Expression(9);
-        Expression ex4 = new Expression(2);
-        Expression ex5 = new Expression("=");
+        Expression ex1 = new Number("2");
+        Expression ex2 = new Number("4");
+        Expression ex3 = new MultiplicationOp(ex1, ex2);
+        Expression ex4 = new MultiplicationOp(ex1, ex3);
+        Expression ex6 = new MultiplicationOp(ex3, ex3);
+        Expression ex5 = new MultiplicationOp(ex1, ex6);
 
-        /*
-        Creating Tree objects from Expression objects above for testing
-         */
-        ExpressionTree tree = new ExpressionTree(new ExpressionTree(ex1), ex2, new ExpressionTree(ex3));
-        ExpressionTree tree1 = new ExpressionTree(tree, ex2, new ExpressionTree(ex4));
-        ExpressionTree tree2 = new ExpressionTree(tree, ex5, new ExpressionTree(ex4));
+        drawExpressionPane.getChildren().add(mV.drawExpression(ex5));
 
-        drawExpressionPane.getChildren().add(mV.drawExpression(tree));
-        //drawExpressionPane.getChildren().add(mV.drawExpression(tree1));
-        //drawExpressionPane.getChildren().add(mV.drawExpression(tree2));
-
-        /*
-        Testing to see how borders work and how to potentially provide more useful information to a multiplication
-        visualization.
-         */
         BorderPane border = new BorderPane();
-        border.setTop(mV.drawString("* 9"));
         border.setCenter(drawExpressionPane);
-        border.setLeft(mV.drawString("2"));
-        //primaryStage.setScene(new Scene(masterPane, 800, 800));
         primaryStage.setScene(new Scene(border, 600, 600));
         primaryStage.show();
     }
