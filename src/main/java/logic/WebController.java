@@ -3,11 +3,18 @@ package logic;
 import gui.App;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
+import logic.equations.Equation;
+import logic.equations.EquationFactory;
+import logic.equations.EquationManager;
 import org.apache.log4j.BasicConfigurator;
 
-public class SeeMathServer {
+public class WebController {
 
-    public static void main(String[] args) throws InterruptedException {
+    /**
+     * starts the WebSocket server to listen for events from the Hypatia editor
+     * @throws InterruptedException
+     */
+    public void startServer( EquationManager eqnManager ) throws InterruptedException {
         BasicConfigurator.configure();
         Configuration config = new Configuration();
         config.setHostname("127.0.0.1");
@@ -15,23 +22,22 @@ public class SeeMathServer {
         config.setMaxFramePayloadLength(1024 * 1024);
         config.setMaxHttpContentLength(1024 * 1024);
 
-
         final SocketIOServer server = new SocketIOServer(config);
 
+        EquationFactory eqnFactory = new EquationFactory();
+
         server.addEventListener("result", String.class, (client, data, ackRequest) -> {
-            System.out.println("Data" + data);
-            App.main(new String[]{data});
+          //  System.out.println("Result:" + data);
         });
 
         server.addEventListener("expressions", String.class, (client, data, ackRequest) -> {
-            System.out.println("EXP" + data);
+            // System.out.println("Expression" + data);
+            Equation eqn = eqnFactory.getEquation(data);
+            System.out.println("SERVER: " + eqn );
+
+            eqnManager.add(eqn);
         });
 
         server.start();
-
-        Thread.sleep(Integer.MAX_VALUE);
-
-        server.stop();
     }
-
 }
