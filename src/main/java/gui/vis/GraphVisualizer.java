@@ -2,7 +2,7 @@ package gui.vis;
 
 import javafx.scene.layout.Pane;
 
-import logic.equations.expression_tree.ExpressionTree;
+import logic.equations.expression_tree.Expression;
 
 public class GraphVisualizer extends Visualizer{
 
@@ -12,7 +12,7 @@ public class GraphVisualizer extends Visualizer{
     };
 
     @Override
-    public Pane drawExpression(ExpressionTree tree) {
+    public Pane drawExpression(Expression tree) {
         return null;
     }
 }
