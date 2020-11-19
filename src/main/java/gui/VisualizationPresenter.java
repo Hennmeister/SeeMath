@@ -36,7 +36,5 @@ public class VisualizationPresenter implements VisualizationCreator {
             stage.setScene(scene);
             stage.show();
         });
-        System.out.println("VisualizationPresenter" + eqn);
-
     }
 }

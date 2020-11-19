@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Equation {
     private String mathBlockId;
     private int problemId;
+    private String equalityOperator;
     private Expression leftTree;
     private Expression rightTree;
     private boolean isCorrect;
@@ -15,16 +16,19 @@ public class Equation {
      * Contructs a new equation object
      * @param id The id of the math block
      * @param problemId The id of the problem in the Hypatia assignment
+     * @param equalityOperator The equality operator (=, ≈, ≠) connecting the two expression trees
      * @param leftTree The left expression in the equation
      * @param rightTree The right expression in the equation
      * @param isCorrect Whether the equation is true or not
      */
-    public Equation (String id, int problemId, Expression leftTree, Expression rightTree, boolean isCorrect)  {
+    public Equation (String id, int problemId, String equalityOperator,
+                     Expression leftTree, Expression rightTree, boolean isCorrect)  {
         this.mathBlockId = id;
         this.problemId = problemId;
         this.leftTree = leftTree;
         this.rightTree = rightTree;
         this.isCorrect = isCorrect;
+        this.equalityOperator = equalityOperator;
     }
 
     /**
@@ -59,10 +63,17 @@ public class Equation {
 
     /**
      * @return Whether this equation is correct mathematically, so if the left side and right side are correct under
-     * the given operator fonud at the root.
+     * the given operator found at the root.
      */
     public boolean isCorrect() {
         return isCorrect;
+    }
+
+    /**
+     * @return Get the equality operator joining the expressions of the equation
+     */
+    public String getEqualityOperator() {
+        return equalityOperator;
     }
 
     @Override
@@ -83,9 +94,10 @@ public class Equation {
 
     @Override
     public String toString() {
-        return "Equation{" +
+        return "Equation: {" +
                 "mathBlockId='" + mathBlockId + '\'' +
-                ", problemId=" + problemId +
+                ", problemId=" + problemId + '\'' +
+                ", expression: " + leftTree.toString() + equalityOperator + rightTree.toString() +
                 '}';
     }
 }
