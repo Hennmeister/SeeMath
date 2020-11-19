@@ -3,6 +3,7 @@ package gui.vis;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -35,6 +36,12 @@ public class FractionVisualizer extends Visualizer{
         HBox masterPane = new HBox();
         masterPane.setSpacing(10);
 
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(3.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
+
         double arcLength = 360/denom;
         //Draw full circles for each whole number contained within the fraction
         while (num > denom){
@@ -55,6 +62,7 @@ public class FractionVisualizer extends Visualizer{
                 pane.getChildren().add(arc);
                 startAngle += arcLength;
             }
+            pane.setEffect(dropShadow);
             masterPane.getChildren().add(pane);
             num = num - denom;
         }
@@ -80,6 +88,7 @@ public class FractionVisualizer extends Visualizer{
             pane.getChildren().add(arc);
             startAngle += arcLength;
         }
+        pane.setEffect(dropShadow);
         masterPane.getChildren().add(pane);
         return masterPane;
     };
@@ -105,6 +114,10 @@ public class FractionVisualizer extends Visualizer{
         return drawExpressionRecursive(tree, denominator);
     }
 
+    /**
+     * Used for recursively drawing a fraction Expression recursively
+     * based on a pre-defined common denominator.
+     */
     private Pane drawExpressionRecursive(Expression tree, double denominator){
 
         if (tree.getLeft().isLeaf() && tree.getRight().isLeaf()){

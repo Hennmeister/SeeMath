@@ -25,8 +25,6 @@ import logic.equations.expression_tree.Number;
 
 public class AdditionVisDemo extends Application {
 
-    Button button;
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("This is a test of the AdditionVisualizer.");
