@@ -54,10 +54,10 @@ public class EquationFactory {
             String rootVal = (String) subExpr.get("value");
             String leafType = (String) subExpr.get("command");
             if (leafType.equals("Number")) {
-                return new Number('-' + rootVal);
+                return new Number(isNegative ? '-' + rootVal : rootVal);
             }
             if (leafType.equals("Symbol")){
-                return new Variable('-' + rootVal);
+                return new Variable(isNegative ? '-' + rootVal : rootVal);
             }
             else throw new InvalidEquationException("Leaf is not a Number or Variable");
         } else {
