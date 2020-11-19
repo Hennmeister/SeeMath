@@ -1,27 +1,22 @@
 package gui.vis;
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Shape;
 import javafx.scene.shape.Rectangle;
-import logic.equations.expression_tree.ExpressionTree;
+import logic.equations.expression_tree.Expression;
 
-import java.awt.*;
 import java.util.Objects;
 import static java.lang.Math.abs;
 
 public class AdditionVisualizer extends Visualizer{
     /**
-     * Creates a FlowPane containing {@code num} copies of {@code discreteShape}.
-     * @param num The amount of things.
-     * @return A FlowPane containing the things.
+     * Creates a FlowPane containing {@code num} Rectangles. If {@code num} is positive Rectangles will be green,
+     * if {@code num} is negative Rectangles will be red.
+     * @param num The amount of things to be visualized.
+     * @return A FlowPane containing the shapes of the visualization.
      */
-
     @Override
     public Pane drawInt(int num){
         FlowPane pane = new FlowPane();
@@ -61,11 +56,11 @@ public class AdditionVisualizer extends Visualizer{
         stackPane.getChildren().add(pane);
 
         // Code for mouse-over behaviour:
-        stackPane.setOnMouseEntered((EventHandler) event -> {
+        stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
             stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
             stackPane.getChildren().add(drawString(Integer.toString(num)));
         });
-        stackPane.setOnMouseExited((EventHandler) e -> {
+        stackPane.setOnMouseExited((EventHandler<Event>) e -> {
             stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
             stackPane.getChildren().remove(1);
         });
@@ -74,19 +69,21 @@ public class AdditionVisualizer extends Visualizer{
     }
 
     /**
-     * Given an ExpressionTree, create a nested HBox structure visualizing every node within the ExpressionTree.
+     * Given an ExpressionTree, create a nested HBox structure visualizing every node within the ExpressionTree as
+     * an addition/subtraction equation.
      * Assumes that all interior nodes will be strings representing operators and all leaves will be integers.
      * @param tree The root ExpressionTree to be visualized.
      * @return A FlowPane containing a visualization of {@code tree}.
      */
     @Override
-    public Pane drawExpression(ExpressionTree tree){
+    public Pane drawExpression(Expression tree){
 
-        if (Objects.isNull(tree.getLeft()) && Objects.isNull(tree.getRight())){
-            return drawInt((Integer) tree.getRoot().evaluate());
+        if (tree.isLeaf()){
+            return drawInt(Integer.parseInt(tree.getValue()));
         }
 
         else {
+
             // Set up a Pane to hold the visualization
             HBox masterPane = new HBox();
             masterPane.setSpacing(0);
@@ -101,7 +98,7 @@ public class AdditionVisualizer extends Visualizer{
             }
 
             // Add the visualization of the root value
-            masterPane.getChildren().add(drawString((String) tree.getRoot().evaluate()));
+            masterPane.getChildren().add(drawString(tree.getValue()));
 
             // Add the visualization of the right ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getRight())){
