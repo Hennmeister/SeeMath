@@ -49,23 +49,30 @@ public class EquationFactory {
      * @return the Expression Tree parsed from input
      */
     public Expression parseJSONExprTree(JSONObject subExpr) throws InvalidEquationException {
-        // Check if the subtree consists of a single number or contains subexpressions
+        // Check if the expression is a leaf (number or variable)
         if (!subExpr.has("children")) {
             String rootVal = (String) subExpr.get("value");
-            Number rootExpr = new Number(rootVal);
-            return rootExpr;
+            // Check if node is a number of a variable
+            try {
+                Double.parseDouble(rootVal);
+                return new Number(rootVal);
+            } catch (NumberFormatException e){
+                return new Variable(rootVal);
+            }
 
         } else {
             Expression left = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0));
             Expression right = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(1));
             String operator = (String) subExpr.get("command");
             switch (operator) {
-                case "+":
+                case "Addition":
                     return new AdditionOp(left, right);
-                case "/":
+                case "Division":
                     return new DivisionOp(left, right);
-                case "*":
+                case "Multiplication":
                     return new MultiplicationOp(left, right);
+                case "Exponential":
+                    return new ExponentOp(left, right);
                 default:
                     throw new InvalidEquationException("Operator not recognized");
             }
