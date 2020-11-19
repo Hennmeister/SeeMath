@@ -1,9 +1,12 @@
 package gui.vis;
 
+
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
@@ -93,16 +96,39 @@ public class FractionVisualizer extends Visualizer{
         // Find the LCM for all the leaves representing denominators in the expression
         ArrayList<Double> leaves = tree.getLeaves();
         ArrayList<Double> rightLeaves = new ArrayList<>();
-        for (int i = 0; i < leaves.size(); i=i+2){
+        for (int i = 1; i < leaves.size(); i=i+2){
             rightLeaves.add(leaves.get(i));
         }
+
         Double denominator = findLCM(rightLeaves);
+
+        return drawExpressionRecursive(tree, denominator);
+    }
+
+    private Pane drawExpressionRecursive(Expression tree, double denominator){
 
         if (tree.getLeft().isLeaf() && tree.getRight().isLeaf()){
             // Draw fraction where the left leaf is numerator, right leaf is denominator
             // First, adjust the numerator to the equivalent numerator over the LCM for the expression
-            double adjustedNum = tree.getLeft().evaluate() * (denominator/tree.getRight().evaluate());
-            return drawFraction(adjustedNum, denominator);
+
+            double adjustedNum = tree.getLeft().evaluate() * denominator / tree.getRight().evaluate();
+
+            Pane fractionPane = drawFraction(adjustedNum, denominator);
+            StackPane stackPane = new StackPane();
+            stackPane.getChildren().add(fractionPane);
+
+            stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
+                stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+                stackPane.getChildren().add(drawString(tree.getLeft().evaluate().intValue() +
+                        "/" + tree.getRight().evaluate().intValue()));
+            });
+            stackPane.setOnMouseExited((EventHandler<Event>) e -> {
+                stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
+                stackPane.getChildren().remove(1);
+            });
+
+            return stackPane;
+            //return drawFraction(tree.getLeft().evaluate(), tree.getRight().evaluate());
         }
 
         else {
@@ -115,7 +141,7 @@ public class FractionVisualizer extends Visualizer{
 
             // Add the visualization of the left ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getLeft())){
-                Pane leftPane = drawExpression(tree.getLeft());
+                Pane leftPane = drawExpressionRecursive(tree.getLeft(), denominator);
                 masterPane.getChildren().add(leftPane);
             }
 
@@ -124,7 +150,7 @@ public class FractionVisualizer extends Visualizer{
 
             // Add the visualization of the right ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getRight())){
-                Pane rightPane = drawExpression(tree.getRight());
+                Pane rightPane = drawExpressionRecursive(tree.getRight(), denominator);
                 masterPane.getChildren().add(rightPane);
             }
 

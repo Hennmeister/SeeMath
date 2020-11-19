@@ -1,5 +1,7 @@
 package gui.vis;
 
+import javafx.scene.layout.Pane;
+import logic.equations.expression_tree.Expression;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
@@ -11,7 +13,6 @@ import javafx.scene.shape.Circle;
 import logic.equations.expression_tree.Expression;
 import java.util.ArrayList;
 import static java.lang.Math.abs;
-
 
 public class MultiplicationVisualizer extends Visualizer {
     /**
