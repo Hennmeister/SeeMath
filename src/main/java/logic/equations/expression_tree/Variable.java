@@ -4,9 +4,10 @@ public class Variable extends Expression {
     /**
      * Creates a variable instance from a String
      * @param value string representation of the variable
+     * @param id the Hypatia-assigned id for this math node
      */
-    public Variable(String value){
-        super(value);
+    public Variable(String value, String id){
+        super(value, id);
         this.setType(ExpType.VARIABLE);
     }
 

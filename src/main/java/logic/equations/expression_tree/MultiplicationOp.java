@@ -6,9 +6,10 @@ public class MultiplicationOp extends BinaryOp {
      * Creates a multiplication operator
      * @param left left sub-expression
      * @param right right sub-expression
+     * @param id the Hypatia-assigned id for this math node
      */
-    public MultiplicationOp(Expression left, Expression right){
-        super(left, "*", right);
+    public MultiplicationOp(Expression left, Expression right, String id){
+        super(left, "*", right, id);
         this.setType(ExpType.MULTIPLICATION);
     }
 
