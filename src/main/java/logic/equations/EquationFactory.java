@@ -1,6 +1,5 @@
 package logic.equations;
 
-import com.sun.org.apache.xpath.internal.operations.Div;
 import logic.InvalidEquationException;
 import logic.equations.expression_tree.*;
 import logic.equations.expression_tree.Expression;
@@ -34,8 +33,8 @@ public class EquationFactory {
         // Get only the first equation in equation array
         JSONArray eqnArray = (JSONArray) ((JSONArray) jsonObj.get("value")).get(0);
 
-        Expression left = parseJSONExprTree((JSONObject) eqnArray.get(0));
-        Expression right = parseJSONExprTree((JSONObject) eqnArray.get(2));
+        Expression left = parseJSONExprTree((JSONObject) eqnArray.get(0), false);
+        Expression right = parseJSONExprTree((JSONObject) eqnArray.get(2), false);
 
         // Create the equation
         // TEMP: equations are always false
@@ -46,26 +45,42 @@ public class EquationFactory {
     /**
      * Create an expresion tree by parsing JSON object
      * @param subExpr The expression tree in JSON object format
+     * @param isNegative Stores whether the leaves should be negated
      * @return the Expression Tree parsed from input
      */
-    public Expression parseJSONExprTree(JSONObject subExpr) throws InvalidEquationException {
-        // Check if the subtree consists of a single number or contains subexpressions
+    public Expression parseJSONExprTree(JSONObject subExpr, boolean isNegative) throws InvalidEquationException {
+        // Check if the expression is a leaf (number or variable)
         if (!subExpr.has("children")) {
             String rootVal = (String) subExpr.get("value");
-            Number rootExpr = new Number(rootVal);
-            return rootExpr;
-
+            String leafType = (String) subExpr.get("command");
+            if (leafType.equals("Number")) {
+                return new Number(isNegative ? '-' + rootVal : rootVal);
+            }
+            if (leafType.equals("Symbol")){
+                return new Variable(isNegative ? '-' + rootVal : rootVal);
+            }
+            else throw new InvalidEquationException("Leaf is not a Number or Variable");
         } else {
-            Expression left = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0));
-            Expression right = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(1));
             String operator = (String) subExpr.get("command");
+
+            // Explicit case for 'Negative' Operator since it is the only unary operator we handle
+            if (operator.equals("Neg")) {
+                return parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0), !isNegative);
+            }
+
+            Expression left = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0), isNegative);
+            Expression right = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(1),
+                    operator.equals("Minus") != isNegative);
             switch (operator) {
-                case "+":
+                case "Plus":
+                case "Minus":
                     return new AdditionOp(left, right);
-                case "/":
+                case "Divide":
                     return new DivisionOp(left, right);
-                case "*":
+                case "Multiply":
                     return new MultiplicationOp(left, right);
+                case "Exponent":
+                    return new ExponentOp(left, right);
                 default:
                     throw new InvalidEquationException("Operator not recognized");
             }
