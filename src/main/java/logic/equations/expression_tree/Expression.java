@@ -104,11 +104,11 @@ public abstract class Expression {
 
     // getValue() is the same as toString()
     public String getValue(){
-        return this.toString();
+        return value;
     }
 
     public String toString(){
-        return value;
+        return left.toString() + value + right.toString();
     }
 
     @Override

@@ -33,12 +33,22 @@ public class EquationFactory {
         // Get only the first equation in equation array
         JSONArray eqnArray = (JSONArray) ((JSONArray) jsonObj.get("value")).get(0);
 
-        Expression left = parseJSONExprTree((JSONObject) eqnArray.get(0), false);
-        Expression right = parseJSONExprTree((JSONObject) eqnArray.get(2), false);
+        String equalityOp = parseEqualityOperator((String) ((JSONObject) eqnArray.get(1)).get("command"));
 
+        Expression left; Expression right;
+
+        if (equalityOp.equals("≠")) {
+            left = parseJSONExprTree(((JSONArray)
+                    ( (JSONObject) eqnArray.get(0)).get("children")).getJSONObject(0), false);
+            right =  parseJSONExprTree(((JSONArray)
+                    ( (JSONObject) eqnArray.get(0)).get("children")).getJSONObject(1), false);
+        } else {
+            left = parseJSONExprTree((JSONObject) eqnArray.get(0), false);
+            right = parseJSONExprTree((JSONObject) eqnArray.get(2), false);
+        }
         // Create the equation
         // TEMP: equations are always false
-        Equation eqn = new Equation(equationBlockId, problemId, left, right, false);
+        Equation eqn = new Equation(equationBlockId, problemId, equalityOp, left, right, false);
         return eqn;
     }
 
@@ -84,6 +94,25 @@ public class EquationFactory {
                 default:
                     throw new InvalidEquationException("Operator not recognized");
             }
+        }
+    }
+
+    /**
+     * Find the appropriate string representation for an equality operator
+     * @param equalityOpJSON The string equality operator command created by Hypatia
+     * @return The string representation of given operator in this app
+     * @throws InvalidEquationException
+     */
+    public String parseEqualityOperator(String equalityOpJSON) throws InvalidEquationException {
+        switch (equalityOpJSON) {
+            case "=":
+                return equalityOpJSON;
+            case "Approx":
+                return "≈";
+            case "<>":
+                return "≠";
+            default:
+                throw new InvalidEquationException("Equality Operator not recognized");
         }
     }
 }
