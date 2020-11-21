@@ -18,7 +18,7 @@ public class MultiplicationVisDemo extends Application {
         // For testing the drawInt and drawString methods
         FlowPane masterPane = new FlowPane();
         MultiplicationVisualizer mV = new MultiplicationVisualizer();
-        masterPane.getChildren().add(mV.drawInt(2));
+        //masterPane.getChildren().add(mV.drawInt(2));
 
         // For testing the drawExpression method
         //FlowPane drawExpressionPane = new FlowPane(Orientation.VERTICAL);
@@ -29,12 +29,12 @@ public class MultiplicationVisDemo extends Application {
         drawExpressionPane.setAlignment(Pos.TOP_LEFT);
         //drawExpressionPane.setPrefWrapLength(100);
 
-        Expression ex1 = new Number("2");
-        Expression ex2 = new Number("3");
+        Expression ex1 = new Number("-2");
+        Expression ex2 = new Number("-3");
         Expression ex3 = new MultiplicationOp(ex1, ex2);
-        Expression ex4 = new MultiplicationOp(ex1, ex3);
+        Expression ex4 = new Number("-3");
+        Expression ex5 = new MultiplicationOp(ex3, ex4);
         Expression ex6 = new MultiplicationOp(ex3, ex3);
-        Expression ex5 = new MultiplicationOp(ex1, ex6);
 
         drawExpressionPane.getChildren().add(mV.drawExpression(ex3));
 

@@ -17,21 +17,26 @@ import static java.lang.Math.abs;
 
 public class MultiplicationVisualizer extends Visualizer {
     /**
-     * Creates a FlowPane containing {@code num} copies of {@code discreteShape}.
+     * Creates a FlowPane containing {@code num} copies of {@code shape}.
      * @param num The amount of things.
      * @return A FlowPane containing the things.
      */
-    @Override
-    public Pane drawInt(int num){
+
+    public Pane drawInt(int num, boolean isPos){
         VBox pane = new VBox();
         pane.setSpacing(10);
         pane.setAlignment(Pos.BASELINE_CENTER);
 
         for (int i=0; i<abs(num); i++){
-            Circle shape = new Circle(10); //using a circle to differentiate from addition
+            Rectangle shape = new Rectangle(25, 25);
             pane.getChildren().add(shape);
 
-            shape.setFill(Color.DARKCYAN);
+            if (isPos) {
+                shape.setFill(javafx.scene.paint.Color.GREEN);
+            }
+            else {
+                shape.setFill(javafx.scene.paint.Color.RED);
+            }
         }
         return pane;
     };
@@ -46,7 +51,7 @@ public class MultiplicationVisualizer extends Visualizer {
         Pane vis = mouseOver(tree); //get the visualization
         GridPane border = new GridPane(); //create a GridPane to add the borders of the visualization
         //the string representation of the number that is being repeated
-        Pane left = drawString(findLeftMostLeaf(tree).getValue());
+        Pane left = drawString(tree.findLeftMostLeaf().getValue());
         Pane top;
         if (tree.isLeaf()) { //if tree is leaf, then its equivalent to multiplying by 1
             top = drawString("* 1");
@@ -65,21 +70,8 @@ public class MultiplicationVisualizer extends Visualizer {
         return border;
         }
 
-    /**
-     * Private helper to find the base number that is being repeated in the visualization. Was used to help with borders
-     * @param tree - the expression from drawExpression
-     * @return the leftmost leaf's value
-     */
-    private Expression findLeftMostLeaf(Expression tree) {
-        if (tree.isLeaf()) {
-            return tree;
-        }
-        else {
-            return findLeftMostLeaf(tree.getLeft());
-        }
-    }
     private Pane getMultiplicationFactors(Expression tree) {
-        Expression left = findLeftMostLeaf(tree);
+        Expression left = tree.findLeftMostLeaf();
         ArrayList<Double> factors = tree.getLeaves();
         factors.remove(left.evaluate());
         String result = "";
@@ -91,9 +83,9 @@ public class MultiplicationVisualizer extends Visualizer {
         //return drawString("* " + (int) result);
         return drawString(result);
     }
-    private Pane drawRecursive(Expression tree) {
+    private Pane drawRecursive(Expression tree, boolean isPos) {
         if (tree.isLeaf()){
-            return drawInt(Integer.parseInt(tree.getValue()));
+            return drawInt(Integer.parseInt(tree.getValue()), isPos);
         }
         else {
             // Set up a Pane to hold the visualization
@@ -103,32 +95,29 @@ public class MultiplicationVisualizer extends Visualizer {
             //draw result:
             //repeat the vis for left subtree, right subtree amount of times
             for(int i = 1; i <= abs(tree.getRight().evaluate()); i++) {
-                masterPane.getChildren().add(drawRecursive(tree.getLeft()));
+                masterPane.getChildren().add(drawRecursive(tree.getLeft(), isPos));
             }
 
             return masterPane;
         }
     }
+
     private Pane mouseOver(Expression tree) {
         // Set up a StackPane to handle mouse-over behaviour on top of the visualization
         StackPane stackPane = new StackPane();
         stackPane.setAlignment(Pos.CENTER);
         stackPane.setMaxSize(nodeSize, nodeSize);
-        stackPane.getChildren().add(drawRecursive(tree));
-        if (tree.evaluate() < 0) {
-            // Code for mouse-over behaviour:
-            stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
-                stackPane.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5); -fx-background-radius: 10;");
-                stackPane.getChildren().add(drawString(""));
-            });
+        if (tree.evaluate() > 0){
+            stackPane.getChildren().add(drawRecursive(tree, true));
         }
-        else {
-            // Code for mouse-over behaviour:
-            stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
-                stackPane.setStyle("-fx-background-color: rgba(0, 204, 0, 0.5); -fx-background-radius: 10;");
-                stackPane.getChildren().add(drawString(""));
-            });
+        else{
+            stackPane.getChildren().add(drawRecursive(tree, false));
         }
+        // Code for mouse-over behaviour:
+        stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
+            stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+            stackPane.getChildren().add(drawString(tree.evaluate().toString()));
+        });
         stackPane.setOnMouseExited((EventHandler<Event>) e -> {
             stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
             stackPane.getChildren().remove(1);

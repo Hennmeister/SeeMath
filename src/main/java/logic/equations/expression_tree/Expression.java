@@ -74,6 +74,15 @@ public abstract class Expression {
         return left == null && right == null;
     }
 
+    public Expression findLeftMostLeaf() {
+        if (this.isLeaf()) {
+            return this;
+        }
+        else {
+            return left.findLeftMostLeaf();
+        }
+    }
+
     public ExpType getType(){
         return type;
     }
