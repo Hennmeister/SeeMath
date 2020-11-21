@@ -34,9 +34,9 @@ public class App extends Application {
 
         StackPane layout = new StackPane();
 
-        Label label = new Label("SeeMath Hypatia App");
-        label.setFont(new Font("Arial", 24));
-        layout.getChildren().addAll(label);
+//        Label label = new Label("SeeMath Hypatia App");
+//        label.setFont(new Font("Arial", 24));
+//        layout.getChildren().addAll(label);
 
         Scene scene = new Scene(layout, 640, 480);
         stage.setScene(scene);
