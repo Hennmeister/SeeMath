@@ -7,15 +7,6 @@ import logic.equations.expression_tree.Number;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-// Sample Equation Input
-// {"problem":1,"docid":"916.6.2","docname":"Assignment *","userid":1378,"version":87,
-//        "value":[[{"id":"chr1378-10$chr1378-10","value":"8","command":"Number"},
-//        {"id":"chr1378-7$chr1378-7","command":"="},
-//        {"children":[{"id":"chr1378-69$chr1378-69","value":"7","command":"Number"},
-//        {"id":"chr1378-165$chr1378-165","value":"5","command":"Number"}],
-//        "id":"chr1378-69$chr1378-165","command":"Plus"}]],"mathid":"tex10.mth1378-2","username":"Henning L"}
-
-
 public class EquationFactory {
 
     /**
@@ -46,28 +37,28 @@ public class EquationFactory {
             left = parseJSONExprTree((JSONObject) eqnArray.get(0), false);
             right = parseJSONExprTree((JSONObject) eqnArray.get(2), false);
         }
-        // Create the equation
-        // TEMP: equations are always false
-        Equation eqn = new Equation(equationBlockId, problemId, equalityOp, left, right, false);
-        return eqn;
+        // Create the equation - notice by default they are correct
+        return new Equation(equationBlockId, problemId, equalityOp, left, right, true);
     }
 
     /**
-     * Create an expresion tree by parsing JSON object
+     * Create an expression tree by parsing JSON object
      * @param subExpr The expression tree in JSON object format
      * @param isNegative Stores whether the leaves should be negated
      * @return the Expression Tree parsed from input
      */
     public Expression parseJSONExprTree(JSONObject subExpr, boolean isNegative) throws InvalidEquationException {
+        String fullId = subExpr.getString("id");
+        String id = fullId.substring(0, fullId.indexOf('$'));
         // Check if the expression is a leaf (number or variable)
         if (!subExpr.has("children")) {
             String rootVal = (String) subExpr.get("value");
             String leafType = (String) subExpr.get("command");
             if (leafType.equals("Number")) {
-                return new Number(isNegative ? '-' + rootVal : rootVal);
+                return new Number(isNegative ? '-' + rootVal : rootVal, id);
             }
             if (leafType.equals("Symbol")){
-                return new Variable(isNegative ? '-' + rootVal : rootVal);
+                return new Variable(isNegative ? '-' + rootVal : rootVal, id);
             }
             else throw new InvalidEquationException("Leaf is not a Number or Variable");
         } else {
@@ -84,13 +75,13 @@ public class EquationFactory {
             switch (operator) {
                 case "Plus":
                 case "Minus":
-                    return new AdditionOp(left, right);
+                    return new AdditionOp(left, right, id);
                 case "Divide":
-                    return new DivisionOp(left, right);
+                    return new DivisionOp(left, right, id);
                 case "Multiply":
-                    return new MultiplicationOp(left, right);
+                    return new MultiplicationOp(left, right, id);
                 case "Exponent":
-                    return new ExponentOp(left, right);
+                    return new ExponentOp(left, right, id);
                 default:
                     throw new InvalidEquationException("Operator not recognized");
             }

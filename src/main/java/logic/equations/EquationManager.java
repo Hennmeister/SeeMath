@@ -13,6 +13,11 @@ public class EquationManager {
         this.presenter = visPresenter;
     }
 
+    /**
+     * Add an equation to the list of stored equations
+     * If an equation is a modified version of an already stored equation, overwrite the old equation instead
+     * @param e The equation to be added
+     */
     public void add(Equation e){
         boolean found = false;
         for (Equation equation : equationList){
@@ -26,6 +31,20 @@ public class EquationManager {
         }
         equationList.add(e);
         presenter.updateVisualization(e);
+    }
+
+    /**
+     * Sets the equation containing the expression node with the given id to incorrect
+     * @param id The id of the incorrect expression node
+     * @param isCorrect Whether this equation is logically correct
+     */
+    public void updateEquationCorrectness(String id, boolean isCorrect){
+        for (Equation eqn : equationList){
+            if(eqn.containsExpression(id)) {
+                eqn.setCorrectness(isCorrect);
+                return;
+            }
+        }
     }
 
     /**

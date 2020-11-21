@@ -31,6 +31,10 @@ public class Equation {
         this.equalityOperator = equalityOperator;
     }
 
+    public boolean containsExpression(String id){
+        return leftTree.containsId(id) || rightTree.containsId(id);
+    }
+
     /**
      * @return The left expression of the equation tree, with operators as internal nodes and
      * leaves as values.
@@ -76,6 +80,14 @@ public class Equation {
         return equalityOperator;
     }
 
+    /**
+     * Sets whether this equation is logically correct
+     * @param correct true if equation is logically correct; false otherwise
+     */
+    public void setCorrectness(boolean correct) {
+        isCorrect = correct;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,8 +107,8 @@ public class Equation {
     @Override
     public String toString() {
         return "Equation: {" +
-                "mathBlockId='" + mathBlockId + '\'' +
                 ", problemId=" + problemId + '\'' +
+                ", isCorrect=" + isCorrect() + '\'' +
                 ", expression: " + leftTree.toString() + equalityOperator + rightTree.toString() +
                 '}';
     }

@@ -8,13 +8,16 @@ public abstract class Expression {
     String value;
     Expression left, right = null;
     ExpType type;
+    String id;
 
     /**
      * Creates a leaf expression with the value inputted
      * @param value value of expression
+     * @param id the Hypatia-assigned id for this math node
      */
-    public Expression(String value){
+    public Expression(String value, String id){
         this.value = value;
+        this.id = id;
         // left and right are null
     }
 
@@ -23,11 +26,13 @@ public abstract class Expression {
      * @param left left sub-expression
      * @param value value of current expression
      * @param right right sub-expression
+     * @param id the Hypatia-assigned id for this math node
      */
-    public Expression(Expression left, String value, Expression right){
+    public Expression(Expression left, String value, Expression right, String id){
         this.value = value;
         this.left = left;
         this.right = right;
+        this.id = id;
     }
 
     /**
@@ -67,6 +72,15 @@ public abstract class Expression {
     }
 
     /**
+     * Check if this expression or its children contain the given id
+     * @param id The id of the math node assigned by Hypatia
+     * @return true if this expression tree contains the given id; False otherwise
+     */
+    public boolean containsId(String id){
+        return this.getId().equals(id) || (!this.isLeaf() && (this.left.containsId(id) || this.right.containsId(id)));
+    }
+
+    /**
      * Checks if this node is a leaf node
      * @return whether node is a leaf
      */
@@ -85,6 +99,8 @@ public abstract class Expression {
     public Expression getRight() {
         return right;
     }
+
+    public String getId() { return id; }
 
     public void setType(ExpType type){
         this.type = type;
@@ -108,7 +124,7 @@ public abstract class Expression {
     }
 
     public String toString(){
-        return left.toString() + value + right.toString();
+        return left.toString() + (value.charAt(0) == '-' ? "(" + value + ")" : value) + right.toString();
     }
 
     @Override

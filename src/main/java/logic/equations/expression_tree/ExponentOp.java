@@ -6,9 +6,10 @@ public class ExponentOp extends BinaryOp {
      * Creates an exponential operator
      * @param left left sub-expression representing the base
      * @param right right sub-expression representing the exponent
+     * @param id the Hypatia-assigned id for this math node
      */
-    public ExponentOp(Expression left, Expression right){
-        super(left, "^", right);
+    public ExponentOp(Expression left, Expression right, String id){
+        super(left, "^", right, id);
         this.setType(ExpType.EXPONENT);
     }
 
