@@ -30,14 +30,12 @@ public class App extends Application {
         VisualizationPresenter visPresenter = new VisualizationPresenter(stage);
         EquationManager eqnManager = new EquationManager(visPresenter);
 
-
         // Start WebSocket Server
         try {
             WebController server = new WebController();
             server.startServer(eqnManager); } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
 
         // Change application colour scheme here
         String colour1 = "#24496d";
@@ -51,7 +49,7 @@ public class App extends Application {
                 "-fx-padding: 0, 0, 0, 0; " +
                 "-fx-spacing: 0; ");
 
-        // Right-aligned Buttons for window behaviour
+        // Right-aligned Buttons for window behaviour:
         Button closeButton = new Button();
         Image closeImg = new Image(new FileInputStream("x.png"));
         ImageView closeView = new ImageView(closeImg);
@@ -100,7 +98,7 @@ public class App extends Application {
             });
         }
 
-        // Left-aligned drop-down menus
+        // Left-aligned drop-down menus:
         MenuBar menuBar = new MenuBar();
         menuBar.setStyle("-fx-padding: 0, 1, 0, 1; " +
                 "-fx-spacing: 0; " +
@@ -113,6 +111,8 @@ public class App extends Application {
         Menu fileMenu = new Menu("file");
         Menu editMenu = new Menu("edit");
         Menu helpMenu = new Menu("help");
+
+        // MenuItem functionality implementation:
 
         MenuItem saveImage = new MenuItem("save image");
         saveImage.setOnAction((EventHandler<ActionEvent>) event -> {
@@ -129,6 +129,7 @@ public class App extends Application {
             System.out.println("Change Colour action.");
         });
 
+        // Construct toolbar hierarchy:
         fileMenu.getItems().addAll(saveImage);
         editMenu.getItems().addAll(changeColours);
         helpMenu.getItems().addAll(aboutSeeMath);
