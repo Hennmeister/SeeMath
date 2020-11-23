@@ -5,11 +5,18 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.WebController;
 import logic.equations.EquationManager;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * JavaFX App
@@ -17,7 +24,7 @@ import logic.equations.EquationManager;
 public class App extends Application {
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws FileNotFoundException{
         VisualizationPresenter visPresenter = new VisualizationPresenter(stage);
         EquationManager eqnManager = new EquationManager(visPresenter);
 
@@ -29,17 +36,10 @@ public class App extends Application {
             e.printStackTrace();
         }
 
-
+        LandingPage landing = new LandingPage();
         stage.setTitle("SeeMath");
 
-        StackPane layout = new StackPane();
-
-        Label label = new Label("SeeMath Hypatia App");
-        label.setFont(new Font("Arial", 24));
-        layout.getChildren().addAll(label);
-
-        Scene scene = new Scene(layout, 640, 480);
-        stage.setScene(scene);
+        stage.setScene(landing.getLandingPage(stage));
         stage.show();
     }
 
