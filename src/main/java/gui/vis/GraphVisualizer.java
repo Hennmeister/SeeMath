@@ -6,7 +6,7 @@ import logic.equations.expression_tree.Expression;
 
 public class GraphVisualizer extends Visualizer{
 
-    @Override
+
     public Pane drawInt(int num){
         return null;
     };
