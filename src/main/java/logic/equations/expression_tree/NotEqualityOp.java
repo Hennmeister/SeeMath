@@ -10,7 +10,7 @@ public class NotEqualityOp extends EqualityOp {
      */
     public NotEqualityOp(Expression left, Expression right, String id){
         super(left, right, id);
-        setValue("≈");
+        setValue("≠");
         this.setType(ExpType.EQUALITY);
     }
 
