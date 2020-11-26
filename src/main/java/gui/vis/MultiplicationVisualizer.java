@@ -47,7 +47,6 @@ public class MultiplicationVisualizer extends Visualizer {
      * @param tree The root ExpressionTree to be visualized.
      * @return A FlowPane containing a visualization of {@code tree}.
      */
-    @Override
     public Pane drawExpression(Expression tree) {
         Pane vis = mouseOver(tree); //get the visualization
         GridPane border = new GridPane(); //create a GridPane to add the borders of the visualization

@@ -43,16 +43,16 @@ public class AdditionVisDemo extends Application {
         drawExpressionPane.setAlignment(Pos.TOP_LEFT);
         //drawExpressionPane.setPrefWrapLength(100);
 
-        Expression ex1 = new Number("2");
-        Expression ex2 = new Number("19");
-        Expression ex3 = new AdditionOp(ex1, ex2);
+        //Expression ex1 = new Number("2");
+        //Expression ex2 = new Number("19");
+        //Expression ex3 = new AdditionOp(ex1, ex2);
 
 
-        drawExpressionPane.getChildren().add(additionVisualizer.drawExpression(ex3));
+        //drawExpressionPane.getChildren().add(additionVisualizer.drawExpression(ex3));
 
         //primaryStage.setScene(new Scene(masterPane, 800, 800));
         //primaryStage.setScene(new Scene(drawExpressionPane, 1200, 800));
-        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(ex3), 800, 800));
+        //primaryStage.setScene(new Scene(additionVisualizer.drawExpression(ex3), 800, 800));
         primaryStage.show();
 
 

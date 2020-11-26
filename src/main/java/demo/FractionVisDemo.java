@@ -23,7 +23,7 @@ public class FractionVisDemo extends Application{
         FlowPane masterPane = new FlowPane();
 
         FractionVisualizer fractionVisualizer = new FractionVisualizer();
-
+        /**
         Expression ex1 = new Number("1");
         Expression ex2 = new Number("2");
         Expression ex3 = new DivisionOp(ex1, ex2);
@@ -31,7 +31,7 @@ public class FractionVisDemo extends Application{
         Expression ex5 = new Number("4");
         Expression ex6 = new DivisionOp(ex4, ex5);
         Expression ex7 = new AdditionOp(ex3, ex6);
-
+        */
         //masterPane.getChildren().add(fractionVisualizer.drawExpression(ex7));
 
         primaryStage.setScene(new Scene(masterPane, 800, 800));

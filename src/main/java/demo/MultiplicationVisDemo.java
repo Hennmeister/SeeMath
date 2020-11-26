@@ -28,7 +28,7 @@ public class MultiplicationVisDemo extends Application {
         //drawExpressionPane.setVgap(50);
         drawExpressionPane.setAlignment(Pos.TOP_LEFT);
         //drawExpressionPane.setPrefWrapLength(100);
-
+        /**
         Expression ex1 = new Number("-2");
         Expression ex2 = new Number("-3");
         Expression ex3 = new MultiplicationOp(ex1, ex2);
@@ -37,9 +37,9 @@ public class MultiplicationVisDemo extends Application {
         Expression ex6 = new MultiplicationOp(ex3, ex3);
 
         drawExpressionPane.getChildren().add(mV.drawExpression(ex3));
-
+        */
         BorderPane border = new BorderPane();
-        border.setCenter(mV.drawExpression(ex6));
+        //border.setCenter(mV.drawExpression(ex6));
         //border.setCenter(drawExpressionPane);
         primaryStage.setScene(new Scene(border, 800, 800));
         primaryStage.show();

@@ -39,9 +39,10 @@ import java.util.ArrayList;
 public class App extends Application {
 
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) throws FileNotFoundException {
         VisualizationPresenter visPresenter = new VisualizationPresenter(stage);
         EquationManager eqnManager = new EquationManager(visPresenter);
+        WindowFactory windowFactory = new WindowFactory();
 
 
         // Start WebSocket Server
@@ -56,6 +57,12 @@ public class App extends Application {
         ImageView iconView = new ImageView(iconImage);
         iconView.setPreserveRatio(true);
         iconView.setFitHeight(35);
+
+        // BorderPane is the root pane for the App
+        BorderPane borderPane = windowFactory.createWindow(stage, iconView);
+
+        // visPane is the main blank space in the app, where the content (i.e. visualizations) should go
+        AnchorPane visPane = (AnchorPane) borderPane.getCenter();
 
 
         Scene scene = new Scene(borderPane);
