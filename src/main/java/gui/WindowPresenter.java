@@ -13,7 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class WindowFactory {
+public class WindowPresenter {
 
     public BorderPane createWindow(Stage stage, ImageView icon) throws FileNotFoundException {
 
