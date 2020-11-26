@@ -19,11 +19,6 @@ import java.util.Objects;
 
 public class FractionVisualizer extends Visualizer{
 
-    @Override
-    public Pane drawInt(int num){
-        return null;
-    };
-
     /**
      * Visualizes one or more circles, each split into {@code denom} different segments, with
      * {@code num} of those segments being coloured in.
@@ -97,21 +92,31 @@ public class FractionVisualizer extends Visualizer{
      * Given an ExpressionTree, create a nested HBox structure visualizing every node within the ExpressionTree
      * as fractions.
      * Assumes that all interior nodes will be strings representing operators and all leaves will be doubles.
-     * @param tree The root ExpressionTree to be visualized.
      * @return A FlowPane containing a visualization of {@code tree}.
      */
-    @Override
-    public Pane drawExpression(Expression tree) {
+
+    public Pane drawExpression(Expression left, String equality, Expression right) {
         // Find the LCM for all the leaves representing denominators in the expression
-        ArrayList<Double> leaves = tree.getLeaves();
+        ArrayList<Double> leaves = left.getLeaves();
+        leaves.addAll(right.getLeaves());
         ArrayList<Double> rightLeaves = new ArrayList<>();
         for (int i = 1; i < leaves.size(); i=i+2){
             rightLeaves.add(leaves.get(i));
         }
-
         Double denominator = findLCM(rightLeaves);
 
-        return drawExpressionRecursive(tree, denominator);
+        Pane leftPane = drawExpressionRecursive(left, denominator);
+        Pane rightPane = drawExpressionRecursive(right, denominator);
+        Pane center = drawString(equality);
+
+        HBox masterPane = new HBox();
+        masterPane.setSpacing(0);
+        masterPane.setAlignment(Pos.TOP_LEFT);
+        //masterPane.setStyle("-fx-border-color: black"); // for debug
+        masterPane.setMaxHeight(nodeSize);
+        masterPane.getChildren().addAll(leftPane, center, rightPane);
+
+        return masterPane;
     }
 
     /**
@@ -141,7 +146,6 @@ public class FractionVisualizer extends Visualizer{
             });
 
             return stackPane;
-            //return drawFraction(tree.getLeft().evaluate(), tree.getRight().evaluate());
         }
 
         else {

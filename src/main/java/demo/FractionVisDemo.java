@@ -28,7 +28,7 @@ public class FractionVisDemo extends Application{
         Expression ex6 = new DivisionOp(ex4, ex5);
         Expression ex7 = new AdditionOp(ex3, ex6);
 
-        masterPane.getChildren().add(fractionVisualizer.drawExpression(ex7));
+        //masterPane.getChildren().add(fractionVisualizer.drawExpression(ex7));
 
         primaryStage.setScene(new Scene(masterPane, 800, 800));
         primaryStage.show();
