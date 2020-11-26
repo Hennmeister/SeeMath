@@ -68,8 +68,6 @@ public class App extends Application {
 
         Scene scene = new Scene(borderPane);
 
-        scene.getStylesheets().add("src/main/java/gui/seemathstyle.css");
-
         stage.getIcons().add(iconImage);
 
         stage.setTitle("SeeMath");
