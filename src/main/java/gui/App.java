@@ -31,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -66,6 +67,8 @@ public class App extends Application {
 
 
         Scene scene = new Scene(borderPane);
+
+        scene.getStylesheets().add("src/main/java/gui/seemathstyle.css");
 
         stage.getIcons().add(iconImage);
 
