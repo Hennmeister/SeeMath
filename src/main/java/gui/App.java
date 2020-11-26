@@ -11,12 +11,22 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.WebController;
 import logic.equations.EquationManager;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,6 +43,7 @@ public class App extends Application {
         VisualizationPresenter visPresenter = new VisualizationPresenter(stage);
         EquationManager eqnManager = new EquationManager(visPresenter);
 
+
         // Start WebSocket Server
         try {
             WebController server = new WebController();
@@ -40,6 +51,7 @@ public class App extends Application {
             e.printStackTrace();
         }
 
+        LandingPage landing = new LandingPage();
         Image iconImage = new Image(new FileInputStream("seemathicon.png"));
         ImageView iconView = new ImageView(iconImage);
         iconView.setPreserveRatio(true);

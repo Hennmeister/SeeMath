@@ -1,21 +1,11 @@
 package logic.equations;
 
-//import com.sun.org.apache.xpath.internal.operations.Div;
 import logic.InvalidEquationException;
 import logic.equations.expression_tree.*;
 import logic.equations.expression_tree.Expression;
 import logic.equations.expression_tree.Number;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-// Sample Equation Input
-// {"problem":1,"docid":"916.6.2","docname":"Assignment *","userid":1378,"version":87,
-//        "value":[[{"id":"chr1378-10$chr1378-10","value":"8","command":"Number"},
-//        {"id":"chr1378-7$chr1378-7","command":"="},
-//        {"children":[{"id":"chr1378-69$chr1378-69","value":"7","command":"Number"},
-//        {"id":"chr1378-165$chr1378-165","value":"5","command":"Number"}],
-//        "id":"chr1378-69$chr1378-165","command":"Plus"}]],"mathid":"tex10.mth1378-2","username":"Henning L"}
-
 
 public class EquationFactory {
 
@@ -34,41 +24,86 @@ public class EquationFactory {
         // Get only the first equation in equation array
         JSONArray eqnArray = (JSONArray) ((JSONArray) jsonObj.get("value")).get(0);
 
-        Expression left = parseJSONExprTree((JSONObject) eqnArray.get(0));
-        Expression right = parseJSONExprTree((JSONObject) eqnArray.get(2));
+        String equalityOp = parseEqualityOperator((String) ((JSONObject) eqnArray.get(1)).get("command"));
 
-        // Create the equation
-        // TEMP: equations are always false
-        Equation eqn = new Equation(equationBlockId, problemId, left, right, false);
-        return eqn;
+        Expression left; Expression right;
+
+        if (equalityOp.equals("≠")) {
+            left = parseJSONExprTree(((JSONArray)
+                    ( (JSONObject) eqnArray.get(0)).get("children")).getJSONObject(0), false);
+            right =  parseJSONExprTree(((JSONArray)
+                    ( (JSONObject) eqnArray.get(0)).get("children")).getJSONObject(1), false);
+        } else {
+            left = parseJSONExprTree((JSONObject) eqnArray.get(0), false);
+            right = parseJSONExprTree((JSONObject) eqnArray.get(2), false);
+        }
+        // Create the equation - notice by default they are correct
+        return new Equation(equationBlockId, problemId, equalityOp, left, right, true);
     }
 
     /**
-     * Create an expresion tree by parsing JSON object
+     * Create an expression tree by parsing JSON object
      * @param subExpr The expression tree in JSON object format
+     * @param isNegative Stores whether the leaves should be negated
      * @return the Expression Tree parsed from input
      */
-    public Expression parseJSONExprTree(JSONObject subExpr) throws InvalidEquationException {
-        // Check if the subtree consists of a single number or contains subexpressions
+    public Expression parseJSONExprTree(JSONObject subExpr, boolean isNegative) throws InvalidEquationException {
+        String fullId = subExpr.getString("id");
+        String id = fullId.substring(0, fullId.indexOf('$'));
+        // Check if the expression is a leaf (number or variable)
         if (!subExpr.has("children")) {
             String rootVal = (String) subExpr.get("value");
-            Number rootExpr = new Number(rootVal);
-            return rootExpr;
-
+            String leafType = (String) subExpr.get("command");
+            if (leafType.equals("Number")) {
+                return new Number(isNegative ? '-' + rootVal : rootVal, id);
+            }
+            if (leafType.equals("Symbol")){
+                return new Variable(isNegative ? '-' + rootVal : rootVal, id);
+            }
+            else throw new InvalidEquationException("Leaf is not a Number or Variable");
         } else {
-            Expression left = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0));
-            Expression right = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(1));
             String operator = (String) subExpr.get("command");
+
+            // Explicit case for 'Negative' Operator since it is the only unary operator we handle
+            if (operator.equals("Neg")) {
+                return parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0), !isNegative);
+            }
+
+            Expression left = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0), isNegative);
+            Expression right = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(1),
+                    operator.equals("Minus") != isNegative);
             switch (operator) {
-                case "+":
-                    return new AdditionOp(left, right);
-                case "/":
-                    return new DivisionOp(left, right);
-                case "*":
-                    return new MultiplicationOp(left, right);
+                case "Plus":
+                case "Minus":
+                    return new AdditionOp(left, right, id);
+                case "Divide":
+                    return new DivisionOp(left, right, id);
+                case "Multiply":
+                    return new MultiplicationOp(left, right, id);
+                case "Exponent":
+                    return new ExponentOp(left, right, id);
                 default:
                     throw new InvalidEquationException("Operator not recognized");
             }
+        }
+    }
+
+    /**
+     * Find the appropriate string representation for an equality operator
+     * @param equalityOpJSON The string equality operator command created by Hypatia
+     * @return The string representation of given operator in this app
+     * @throws InvalidEquationException
+     */
+    public String parseEqualityOperator(String equalityOpJSON) throws InvalidEquationException {
+        switch (equalityOpJSON) {
+            case "=":
+                return equalityOpJSON;
+            case "Approx":
+                return "≈";
+            case "<>":
+                return "≠";
+            default:
+                throw new InvalidEquationException("Equality Operator not recognized");
         }
     }
 }

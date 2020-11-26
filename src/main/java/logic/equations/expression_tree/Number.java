@@ -5,9 +5,10 @@ public class Number extends Expression {
     /**
      * Creates a number instance from a String
      * @param value string representation of the number
+     * @param id the Hypatia-assigned id for this math node
      */
-    public Number(String value){
-        super(value);
+    public Number(String value, String id){
+        super(value, id);
         this.setType(ExpType.NUMBER);
     }
 

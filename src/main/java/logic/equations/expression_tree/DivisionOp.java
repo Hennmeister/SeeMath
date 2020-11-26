@@ -6,9 +6,10 @@ public class DivisionOp extends BinaryOp {
      * Creates a division operator
      * @param left left sub-expression
      * @param right right sub-expression
+     * @param id the Hypatia-assigned id for this math node
      */
-    public DivisionOp(Expression left, Expression right){
-        super(left, "/", right);
+    public DivisionOp(Expression left, Expression right, String id){
+        super(left, "/", right, id);
         this.setType(ExpType.DIVISION);
     }
 

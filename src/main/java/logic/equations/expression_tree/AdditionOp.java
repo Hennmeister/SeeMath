@@ -6,9 +6,10 @@ public class AdditionOp extends BinaryOp {
      * Creates an addition operator
      * @param left left sub-expression
      * @param right right sub-expression
+     * @param id the Hypatia-assigned id for this math node
      */
-    public AdditionOp(Expression left, Expression right){
-        super(left, "+", right);
+    public AdditionOp(Expression left, Expression right, String id){
+        super(left, "+", right, id);
         this.setType(ExpType.ADDITION);
     }
 

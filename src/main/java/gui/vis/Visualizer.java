@@ -9,7 +9,7 @@ import logic.equations.expression_tree.Expression;
 
 public abstract class Visualizer {
 
-    Font drawFont = new Font(75);
+    Font drawFont = new Font(30);
     int nodeSize = 100;
 
     public void setDrawFont(Font font){
@@ -27,6 +27,10 @@ public abstract class Visualizer {
     public int getNodeSize(){
         return nodeSize;
     }
+
+    public abstract Pane drawExpression(Expression tree);
+
+    //public abstract Pane drawInt(int num);
 
     public Pane drawString(String str){
         Text text = new Text();

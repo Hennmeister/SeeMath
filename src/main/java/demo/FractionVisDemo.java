@@ -9,12 +9,16 @@ import logic.equations.expression_tree.AdditionOp;
 import logic.equations.expression_tree.DivisionOp;
 import logic.equations.expression_tree.Expression;
 import logic.equations.expression_tree.Number;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 
 public class FractionVisDemo extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("This is a test of the FractionVisualizer.");
+
 
         FlowPane masterPane = new FlowPane();
 

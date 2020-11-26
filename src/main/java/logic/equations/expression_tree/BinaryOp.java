@@ -7,9 +7,10 @@ public abstract class BinaryOp extends Expression {
      * @param left left sub-expression
      * @param value string representation of binary operator
      * @param right right sub-tree
+     * @param id the Hypatia-assigned id for this math node
      */
-    public BinaryOp(Expression left, String value, Expression right){
-        super(value);
+    public BinaryOp(Expression left, String value, Expression right, String id){
+        super(value, id);
         this.left = left;
         this.right = right;
     }

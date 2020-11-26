@@ -17,7 +17,7 @@ public class AdditionVisualizer extends Visualizer{
      * @param num The amount of things to be visualized.
      * @return A FlowPane containing the shapes of the visualization.
      */
-    @Override
+
     public Pane drawInt(int num){
         FlowPane pane = new FlowPane();
         pane.setHgap(5);
