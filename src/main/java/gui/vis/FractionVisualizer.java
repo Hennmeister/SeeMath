@@ -95,28 +95,16 @@ public class FractionVisualizer extends Visualizer{
      * @return A FlowPane containing a visualization of {@code tree}.
      */
 
-    public Pane drawExpression(Expression left, String equality, Expression right) {
+    public Pane drawExpression(Expression tree) {
         // Find the LCM for all the leaves representing denominators in the expression
-        ArrayList<Double> leaves = left.getLeaves();
-        leaves.addAll(right.getLeaves());
+        ArrayList<Double> leaves = tree.getLeaves();
         ArrayList<Double> rightLeaves = new ArrayList<>();
         for (int i = 1; i < leaves.size(); i=i+2){
             rightLeaves.add(leaves.get(i));
         }
         Double denominator = findLCM(rightLeaves);
 
-        Pane leftPane = drawExpressionRecursive(left, denominator);
-        Pane rightPane = drawExpressionRecursive(right, denominator);
-        Pane center = drawString(equality);
-
-        HBox masterPane = new HBox();
-        masterPane.setSpacing(0);
-        masterPane.setAlignment(Pos.TOP_LEFT);
-        //masterPane.setStyle("-fx-border-color: black"); // for debug
-        masterPane.setMaxHeight(nodeSize);
-        masterPane.getChildren().addAll(leftPane, center, rightPane);
-
-        return masterPane;
+        return drawExpressionRecursive(tree, denominator);
     }
 
     /**
