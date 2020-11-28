@@ -10,6 +10,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import logic.equations.expression_tree.AdditionOp;
 import logic.equations.expression_tree.Expression;
 import logic.equations.expression_tree.MultiplicationOp;
 import logic.equations.expression_tree.Number;
@@ -44,11 +45,12 @@ public class MultiplicationVisDemo extends Application {
         Expression ex4 = new Number("-3", "1");
         Expression ex5 = new MultiplicationOp(ex3, ex4, "1");
         Expression ex6 = new MultiplicationOp(ex3, ex3, "1");
+        Expression ex7 = new AdditionOp(ex3, ex3, "1");
 
         drawExpressionPane.getChildren().add(mV.drawExpression(ex3));
 
         BorderPane border = new BorderPane();
-        border.setCenter(mV.drawExpression(ex3));
+        border.setCenter(mV.drawExpression(ex7));
         //border.setCenter(drawExpressionPane);
         primaryStage.setScene(new Scene(border, 800, 800));
         primaryStage.show();
@@ -56,7 +58,6 @@ public class MultiplicationVisDemo extends Application {
 
         /*
         Code for testing the photoHintCreator
-         */
         File file = new File("/Users/affansiddiqui/Desktop/image.png");
         Pane pane = mV.drawExpression(ex3);
         pane.setStyle("-fx-padding: 25");
@@ -66,6 +67,7 @@ public class MultiplicationVisDemo extends Application {
         byte [] arr = s.toByteArray();
         String str = Base64.getEncoder().encodeToString(arr);
         System.out.println(str);
+         */
 
     }
     public static void main(String[] args) {

@@ -1,6 +1,8 @@
 package gui.vis;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Box;
+import javafx.scene.text.Font;
 import logic.equations.expression_tree.Expression;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -15,6 +17,7 @@ import javafx.scene.shape.Circle;
 import logic.equations.expression_tree.Expression;
 import java.util.ArrayList;
 import static java.lang.Math.abs;
+import logic.equations.expression_tree.ExpType;
 
 public class MultiplicationVisualizer extends Visualizer {
     /**
@@ -30,6 +33,7 @@ public class MultiplicationVisualizer extends Visualizer {
 
         for (int i=0; i<abs(num); i++){
             Rectangle shape = new Rectangle(25, 25);
+            //Box shape = new Box(35, 25, 50);
             pane.getChildren().add(shape);
 
             if (isPos) {
@@ -49,6 +53,24 @@ public class MultiplicationVisualizer extends Visualizer {
      */
     @Override
     public Pane drawExpression(Expression tree) {
+        if (tree.getType() != ExpType.MULTIPLICATION) { //if root is not multiplication, draw left, root right
+            HBox layout = new HBox();
+            Pane leftVisualization = drawExpression(tree.getLeft());
+            Pane rightVisualization = drawExpression(tree.getRight());
+            Font original = getDrawFont();
+            setDrawFont(new Font(50));
+            Pane root = drawString(tree.getValue());
+            setDrawFont(original);
+            layout.setSpacing(50);
+            layout.getChildren().addAll(leftVisualization, root, rightVisualization);
+            return layout;
+        }
+        else { //else return visualization of multiplication
+            return addLabels(tree);
+        }
+    }
+
+    private Pane addLabels(Expression tree) {
         Pane vis = mouseOver(tree); //get the visualization
         GridPane border = new GridPane(); //create a GridPane to add the borders of the visualization
         //the string representation of the number that is being repeated
@@ -61,20 +83,20 @@ public class MultiplicationVisualizer extends Visualizer {
             top = getMultiplicationFactors(tree);
         }
         //the following lines of code will set up the GridPane to hold the visualization and the borders
-        //NOTE: indexes .setConstraints are col, row
+        //NOTE: indices .setConstraints are col, row
         GridPane.setConstraints(vis, 1, 1); //put visualization in centre
         GridPane.setConstraints(left, 0, 1); //put left in the cell to the left of vis
         GridPane.setConstraints(top, 1, 0); //put top in the cell right above vis
         GridPane.setFillHeight(left, false); //this is for formatting
         GridPane.setHalignment(top, HPos.CENTER); //this is for formatting
+        //border.setGridLinesVisible(true); //for debugging
         border.getChildren().addAll(vis, left, top); //add everything to the GridPane
         return border;
-        }
+    }
 
     private Pane getMultiplicationFactors(Expression tree) {
-        Expression left = tree.findLeftMostLeaf();
         ArrayList<Double> factors = tree.getLeaves();
-        factors.remove(left.evaluate());
+        factors.remove(tree.findLeftMostLeaf().evaluate());
         String result = "";
         //double result = 1;
         for (Double d: factors) {
