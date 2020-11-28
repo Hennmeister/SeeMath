@@ -38,7 +38,7 @@ public class App extends Application {
 
         LandingPage landing = new LandingPage();
         stage.setTitle("SeeMath");
-
+      
         stage.setScene(landing.getLandingPage(stage));
         stage.show();
     }

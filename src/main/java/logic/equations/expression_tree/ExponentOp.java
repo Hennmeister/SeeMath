@@ -1,5 +1,9 @@
 package logic.equations.expression_tree;
 
+import gui.vis.AdditionVisualizer;
+import gui.vis.Visualizer;
+import javafx.scene.layout.Pane;
+
 public class ExponentOp extends BinaryOp {
 
     /**
@@ -17,8 +21,20 @@ public class ExponentOp extends BinaryOp {
      * Evaluates the this exponential node based on its sub-expressions (e.g 4^3)
      * @return the resulting number of the operation
      */
+    @Override
     public Double evaluate() {
         return Math.pow(left.evaluate(), right.evaluate());
+    }
+
+    /**
+     * Creates proper visualization for this operator
+     * @return the visualization as a Pane
+     */
+    @Override
+    public Pane visualization() {
+        // TODO: replace with exponent visualizer once this is implemented
+        Visualizer vis = new AdditionVisualizer();
+        return vis.drawExpression(this);
     }
 
 }
