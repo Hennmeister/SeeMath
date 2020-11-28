@@ -1,5 +1,7 @@
 package logic.equations.expression_tree;
 
+import javafx.scene.layout.Pane;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -37,19 +39,48 @@ public abstract class Expression {
 
     /**
      * Checks validity of expression tree
+     * Rules:
+     *  - first node is an equality operator
+     *  - all operations are of the same type
      * @return whether tree is valid (recursively)
      */
     public boolean isValid(){
-        if(right == null && left == null){
-            return true;
-        } else if(right != null && left != null) {
-            return right.isValid() && left.isValid();
+        // can be extended to approximately equals, not equals, etc
+        if (this instanceof EqualityOp){
+            ExpType type = left.getType();
+            return left.sameType(type) && right.sameType(type);
+        }
+        return false;
+    }
+
+    /**
+     * Checks if expression has uniform type of operators
+     * @param type type of the expression
+     * @return true if all tree operators match {@code type} and false otherwise
+     */
+    public boolean sameType(ExpType type){
+        if (right == null && left == null) {
+            // is a leaf: Number or Variable
+            return this instanceof Number;
+        } else if (right != null && left != null) {
+            // is an operator
+            return right.sameType(type) && left.sameType(type);
         }
         // else expression is unbalanced i.e x + _
         return false;
     }
 
+    /**
+     * Evaluates the this binary operator node based on its sub-expressions (e.g 4+3)
+     * @return the resulting number of the operation
+     */
     public abstract Double evaluate();
+
+    /**
+     * Creates proper visualization for this operator
+     * @return the visualization as a Pane
+     */
+    public abstract Pane visualization();
 
     /**
      * Gets all the leaves from the tree
@@ -57,7 +88,7 @@ public abstract class Expression {
      */
     public ArrayList<Double> getLeaves(){
         ArrayList<Double> leaves = new ArrayList<>();
-        if (value == null){
+        if (value == null) {
             return leaves;
         }
         else if (this.isLeaf()) {

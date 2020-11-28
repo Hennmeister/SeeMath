@@ -1,6 +1,10 @@
 package logic.equations.expression_tree;
 
-public class Variable extends Expression {
+import gui.vis.AdditionVisualizer;
+import gui.vis.Visualizer;
+import javafx.scene.layout.Pane;
+
+public class Variable extends Number {
     /**
      * Creates a variable instance from a String
      * @param value string representation of the variable
@@ -15,7 +19,19 @@ public class Variable extends Expression {
      * Evaluates the variable - since they are only used in graph visualizer, we just return 1 as a default
      * @return Default value of 1.0
      */
+    @Override
     public Double evaluate(){ return 1.0; }
+
+    /**
+     * Creates proper visualization for this operator
+     * @return the visualization as a Pane
+     */
+    @Override
+    public Pane visualization() {
+        // default visualizer
+        Visualizer vis = new AdditionVisualizer();
+        return vis.drawExpression(this);
+    }
 
     public String toString(){
         return value;

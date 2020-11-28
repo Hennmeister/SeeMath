@@ -1,5 +1,8 @@
 package logic.equations.expression_tree;
 
+import gui.vis.Visualizer;
+import javafx.scene.layout.Pane;
+
 public abstract class BinaryOp extends Expression {
 
     /**
@@ -20,5 +23,11 @@ public abstract class BinaryOp extends Expression {
      * @return the resulting number of the operation
      */
     public abstract Double evaluate();
+
+    /**
+     * Creates proper visualization for this operator
+     * @return the visualization as a Pane
+     */
+    public abstract Pane visualization();
 
 }
