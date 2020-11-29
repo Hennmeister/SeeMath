@@ -4,26 +4,29 @@ import gui.vis.AdditionVisualizer;
 import gui.vis.Visualizer;
 import javafx.scene.layout.Pane;
 
-public class AdditionOp extends BinaryOp {
+public class EqualityOp extends BinaryOp {
 
     /**
-     * Creates an addition operator
+     * Creates an equality operator
      * @param left left sub-expression
      * @param right right sub-expression
      * @param id the Hypatia-assigned id for this math node
      */
-    public AdditionOp(Expression left, Expression right, String id){
-        super(left, "+", right, id);
-        this.setType(ExpType.ADDITION);
+    public EqualityOp(Expression left, Expression right, String id){
+        super(left, "=", right, id);
+        this.setType(ExpType.EQUALITY);
     }
 
     /**
-     * Evaluates the this addition node based on its sub-expressions (e.g 4+3)
-     * @return the resulting number of the operation
+     * Evaluates the this equality node based on its sub-expressions (e.g 4 = 4 is True and 3 = 4 is False)
+     * @return 1 if equality is true and -1 otherwise
      */
     @Override
     public Double evaluate() {
-        return left.evaluate() + right.evaluate();
+        if (left.evaluate().equals(right.evaluate())){
+            return 1.0;
+        }
+        return -1.0;
     }
 
     /**
@@ -35,4 +38,5 @@ public class AdditionOp extends BinaryOp {
         Visualizer vis = new AdditionVisualizer();
         return vis.drawExpression(this);
     }
+
 }

@@ -6,5 +6,6 @@ public enum ExpType {
     ADDITION,
     MULTIPLICATION,
     DIVISION,
-    EXPONENT
+    EXPONENT,
+    EQUALITY
 }
