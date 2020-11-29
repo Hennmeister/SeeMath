@@ -11,6 +11,7 @@ public class GraphVisualizer extends Visualizer{
         return null;
     };
 
+    @Override
     public Pane drawExpression(Expression tree) {
         return null;
     }

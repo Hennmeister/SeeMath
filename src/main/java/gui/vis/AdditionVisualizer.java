@@ -75,6 +75,7 @@ public class AdditionVisualizer extends Visualizer{
      * @param tree The root ExpressionTree to be visualized.
      * @return A FlowPane containing a visualization of {@code tree}.
      */
+    @Override
     public Pane drawExpression(Expression tree){
 
         if (tree.isLeaf()){

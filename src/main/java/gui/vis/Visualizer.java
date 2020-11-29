@@ -28,6 +28,8 @@ public abstract class Visualizer {
         return nodeSize;
     }
 
+    abstract Pane drawExpression(Expression tree);
+
     public Pane drawString(String str){
         Text text = new Text();
         text.setFont(drawFont);

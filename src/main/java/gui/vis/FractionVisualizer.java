@@ -95,6 +95,7 @@ public class FractionVisualizer extends Visualizer{
      * @return A FlowPane containing a visualization of {@code tree}.
      */
 
+    @Override
     public Pane drawExpression(Expression tree) {
         // Find the LCM for all the leaves representing denominators in the expression
         ArrayList<Double> leaves = tree.getLeaves();
