@@ -3,6 +3,8 @@ package logic.equations.expression_tree;
 import gui.vis.AdditionVisualizer;
 import gui.vis.FractionVisualizer;
 import gui.vis.Visualizer;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 public class DivisionOp extends BinaryOp {
@@ -16,6 +18,16 @@ public class DivisionOp extends BinaryOp {
     public DivisionOp(Expression left, Expression right, String id){
         super(left, "/", right, id);
         this.setType(ExpType.DIVISION);
+    }
+
+    /**
+     * Checks validity of an fraction node
+     * - Rule: fraction are multiplication are not mixed together
+     * @return whether node is valid
+     */
+    @Override
+    public boolean isValid(){
+        return left.getType() != ExpType.MULTIPLICATION && right.getType() != ExpType.MULTIPLICATION;
     }
 
     /**

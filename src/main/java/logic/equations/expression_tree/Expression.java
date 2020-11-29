@@ -3,7 +3,9 @@ package logic.equations.expression_tree;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class Expression {
 
@@ -39,36 +41,19 @@ public abstract class Expression {
 
     /**
      * Checks validity of expression tree
-     * Rules:
-     *  - first node is an equality operator
-     *  - all operations are of the same type
      * @return whether tree is valid (recursively)
      */
     public boolean isValid(){
-        // can be extended to approximately equals, not equals, etc
-        if (this instanceof EqualityOp){
-            ExpType type = left.getType();
-            return left.sameType(type) && right.sameType(type);
-        }
-        return false;
-    }
-
-    /**
-     * Checks if expression has uniform type of operators
-     * @param type type of the expression
-     * @return true if all tree operators match {@code type} and false otherwise
-     */
-    public boolean sameType(ExpType type){
-        if (right == null && left == null) {
-            // is a leaf: Number or Variable
-            return this instanceof Number;
+        if (right == null && left == null){
+            return true;
         } else if (right != null && left != null) {
             // is an operator
-            return right.sameType(type) && left.sameType(type);
+            return right.isValid() && left.isValid();
         }
         // else expression is unbalanced i.e x + _
         return false;
     }
+
 
     /**
      * Evaluates the this binary operator node based on its sub-expressions (e.g 4+3)
@@ -100,6 +85,33 @@ public abstract class Expression {
             leaves.addAll(right.getLeaves());
             return leaves;
         }
+    }
+
+    /**
+     * Finds the number of distinct variables in Expression tree
+     * @return integer number of distinct variables
+     */
+    public int distinctVariables(){
+        Set<String> var = new HashSet<>();
+        return variables(var).size();
+    }
+
+    /**
+     * Helper method for finding distinctVariables()
+     * @param var a set containing variables in expression
+     * @return the set containing all variables in expression (recursively)
+     */
+    public Set<String> variables(Set<String> var){
+        if (right == null && left == null){
+            if (this.getType() == ExpType.VARIABLE) {
+                var.add(this.getValue());
+            }
+        } else {
+            Set<String> copy = new HashSet<>(var);
+            var.addAll(left.variables(copy));
+            var.addAll(right.variables(copy));
+        }
+        return var;
     }
 
     /**

@@ -88,6 +88,15 @@ public class Equation {
         isCorrect = correct;
     }
 
+    /**
+     * Checks if equation has a variable i.e. is an algebraic expression
+     * @return true if equation is algebraic and false otherwise
+     */
+    public boolean isAlgebraic(){
+        // We might want to restrict to only one or two variables depending on the graph visualizer implementation
+        return leftTree.distinctVariables() >= 1 || rightTree.distinctVariables() >= 1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
