@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class FractionVisualizer extends Visualizer{
 
-    @Override
+
     public Pane drawInt(int num){
         return null;
     };
