@@ -1,11 +1,12 @@
 package gui.vis;
 
-
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
@@ -18,11 +19,6 @@ import java.util.Objects;
 
 public class FractionVisualizer extends Visualizer{
 
-
-    public Pane drawInt(int num){
-        return null;
-    };
-
     /**
      * Visualizes one or more circles, each split into {@code denom} different segments, with
      * {@code num} of those segments being coloured in.
@@ -34,6 +30,12 @@ public class FractionVisualizer extends Visualizer{
     public Pane drawFraction(Double num, Double denom){
         HBox masterPane = new HBox();
         masterPane.setSpacing(10);
+
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(3.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
 
         double arcLength = 360/denom;
         //Draw full circles for each whole number contained within the fraction
@@ -55,6 +57,7 @@ public class FractionVisualizer extends Visualizer{
                 pane.getChildren().add(arc);
                 startAngle += arcLength;
             }
+            pane.setEffect(dropShadow);
             masterPane.getChildren().add(pane);
             num = num - denom;
         }
@@ -80,6 +83,7 @@ public class FractionVisualizer extends Visualizer{
             pane.getChildren().add(arc);
             startAngle += arcLength;
         }
+        pane.setEffect(dropShadow);
         masterPane.getChildren().add(pane);
         return masterPane;
     };
@@ -88,9 +92,9 @@ public class FractionVisualizer extends Visualizer{
      * Given an ExpressionTree, create a nested HBox structure visualizing every node within the ExpressionTree
      * as fractions.
      * Assumes that all interior nodes will be strings representing operators and all leaves will be doubles.
-     * @param tree The root ExpressionTree to be visualized.
      * @return A FlowPane containing a visualization of {@code tree}.
      */
+
     @Override
     public Pane drawExpression(Expression tree) {
         // Find the LCM for all the leaves representing denominators in the expression
@@ -99,12 +103,15 @@ public class FractionVisualizer extends Visualizer{
         for (int i = 1; i < leaves.size(); i=i+2){
             rightLeaves.add(leaves.get(i));
         }
-
         Double denominator = findLCM(rightLeaves);
 
         return drawExpressionRecursive(tree, denominator);
     }
 
+    /**
+     * Used for recursively drawing a fraction Expression recursively
+     * based on a pre-defined common denominator.
+     */
     private Pane drawExpressionRecursive(Expression tree, double denominator){
 
         if (tree.getLeft().isLeaf() && tree.getRight().isLeaf()){
@@ -128,7 +135,6 @@ public class FractionVisualizer extends Visualizer{
             });
 
             return stackPane;
-            //return drawFraction(tree.getLeft().evaluate(), tree.getRight().evaluate());
         }
 
         else {
