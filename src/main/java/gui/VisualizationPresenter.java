@@ -6,10 +6,8 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.equations.Equation;
@@ -73,8 +71,10 @@ public class VisualizationPresenter implements VisualizationCreator {
 
             layout.getChildren().addAll(label, drawEqn);
 
-            Scene scene = new Scene(layout, 640, 480);
-            stage.setScene(scene);
+            BorderPane ui = (BorderPane) stage.getScene().getRoot();
+            AnchorPane visPane = (AnchorPane) ui.getCenter();
+            visPane.getChildren().add(layout);
+            stage.setScene(stage.getScene());
             stage.show();
         });
     }
