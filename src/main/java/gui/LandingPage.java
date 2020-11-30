@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
 
 public class LandingPage {
 
-    public Scene getLandingPage(Stage stage) throws FileNotFoundException {
+    public Pane getLandingPage(Stage stage) throws FileNotFoundException {
 
         VBox layout = new VBox();
         Label label = new Label("SeeMath Hypatia App");
@@ -26,7 +26,7 @@ public class LandingPage {
         Button about = new Button("About");
         about.setOnAction(e -> {
             try {
-                stage.setScene(getAboutPage(stage));
+                stage.setScene(new Scene(getAboutPage(stage)));
             } catch (FileNotFoundException fileNotFoundException) {
                 fileNotFoundException.printStackTrace();
             }
@@ -35,7 +35,7 @@ public class LandingPage {
         layout.setSpacing(50);
         layout.setAlignment(Pos.BASELINE_CENTER);
         layout.getChildren().addAll(label, getLogo(), about);
-        return new Scene(layout, 600, 400);
+        return layout;
     }
 
 
@@ -60,19 +60,19 @@ public class LandingPage {
         return imageView;
     }
 
-    private Scene getAboutPage(Stage stage) throws FileNotFoundException {
+    private Pane getAboutPage(Stage stage) throws FileNotFoundException {
         VBox layout = new VBox();
         layout.setSpacing(50);
         layout.setAlignment(Pos.CENTER);
 
-        Button home = new Button("Home");
-        home.setOnAction(e -> {
-            try {
-                stage.setScene(getLandingPage(stage));
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
-            }
-        });
+//        Button home = new Button("Home");
+//        home.setOnAction(e -> {
+//            try {
+//                stage.setScene(getLandingPage(stage));
+//            } catch (FileNotFoundException fileNotFoundException) {
+//                fileNotFoundException.printStackTrace();
+//            }
+//        });
 
         Label aboutLabel = new Label("About SeeMath");
         aboutLabel.setFont(new Font("Century Gothic", 24));
@@ -97,8 +97,9 @@ public class LandingPage {
 
         flow.setLineSpacing(2.0);
 
-        layout.getChildren().addAll(aboutLabel, getLogo(), flow, home);
-        return new Scene(layout, 600, 750);
+        layout.getChildren().addAll(aboutLabel, getLogo(), flow);
+        //return new Scene(layout, 600, 750);
+        return layout;
 
     }
 
