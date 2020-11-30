@@ -1,15 +1,16 @@
 package logic.equations;
 
+import logic.equations.expression_tree.ExpType;
 import logic.equations.expression_tree.Expression;
 
 import java.util.Objects;
 
 public class Equation {
-    private String mathBlockId;
-    private int problemId;
-    private String equalityOperator;
-    private Expression leftTree;
-    private Expression rightTree;
+    private final String mathBlockId;
+    private final int problemId;
+    private final String equalityOperator;
+    private final Expression leftTree;
+    private final Expression rightTree;
     private boolean isCorrect;
 
     /**
@@ -89,12 +90,16 @@ public class Equation {
     }
 
     /**
-     * Checks if equation has a variable i.e. is an algebraic expression
-     * @return true if equation is algebraic and false otherwise
+     * Checks if equation is graph visualizable
+     * Rules:
+     * - equation has exactly 2 variables
+     * - left side is a single variable (e.g. y = __)
+     * - right side has a variable different than the one on the left side
+     * @return true if graph is visualizable and false otherwise
      */
-    public boolean isAlgebraic(){
-        // We might want to restrict to only one or two variables depending on the graph visualizer implementation
-        return leftTree.distinctVariables() >= 1 || rightTree.distinctVariables() >= 1;
+    public boolean graphVisualizable(){
+        boolean leftConditions = leftTree.isLeaf() && (leftTree.getType() == ExpType.VARIABLE);
+        return  leftConditions && leftTree.distinctVariables() + rightTree.distinctVariables() == 2;
     }
 
     @Override

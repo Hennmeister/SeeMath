@@ -39,7 +39,7 @@ public class VisualizationPresenter implements VisualizationCreator {
             layout.getChildren().addAll(left.visualization(), vis.drawString(equality), right.visualization());
         }
         else{
-            Label label = new Label("unsupported visualization");
+            Label label = new Label("Unsupported Visualization. Please edit your equation in Hypatia.");
             layout.getChildren().add(label);
         }
         return layout;
@@ -58,15 +58,16 @@ public class VisualizationPresenter implements VisualizationCreator {
             StackPane layout = new StackPane();
 
             // displays equation id
-            Label label = new Label("Equation ID: " + eqn.getProblemId());
+            Label label = new Label("Problem ID: " + eqn.getProblemId());
             label.setFont(new Font("Arial", 24));
 
             Pane drawEqn;
 
-            if (eqn.isAlgebraic()){
+            if (eqn.graphVisualizable()){
                 GraphVisualizer vis = new GraphVisualizer();
-                //drawEqn = vis.drawExpression(eqn.getLeftTree(), eqn.getRightTree());
-                drawEqn = new Pane(); //place holder for ^^
+                // assuming graph is of the form y = ....
+                // so we visualize the right subtree
+                drawEqn = vis.drawExpression(eqn.getRightTree());
             } else{
                 drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
             }

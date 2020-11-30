@@ -88,6 +88,15 @@ public abstract class Expression {
     }
 
     /**
+     * Checks if tree contains a node of type {@code type}
+     * @param type expression type to check for
+     * @return true if Expression contain {@code type} and false otherwise
+     */
+    public boolean hasType(ExpType type){
+        return this.getType() == type || left.hasType(type) || right.hasType(type);
+    }
+
+    /**
      * Finds the number of distinct variables in Expression tree
      * @return integer number of distinct variables
      */

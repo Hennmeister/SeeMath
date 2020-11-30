@@ -28,7 +28,7 @@ public class MultiplicationOp extends BinaryOp {
      */
     @Override
     public boolean isValid(){
-        if (left.getType() == ExpType.DIVISION || right.getType() == ExpType.DIVISION){
+        if (left.hasType(ExpType.DIVISION) || right.hasType(ExpType.DIVISION)){
             return false;
         }
         return left.isValid() && right.isValid();
