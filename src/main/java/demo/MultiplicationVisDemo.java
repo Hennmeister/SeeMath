@@ -1,5 +1,6 @@
 package demo;
 
+import gui.PhotoHintPresenter;
 import gui.vis.AdditionVisualizer;
 import gui.vis.MultiplicationVisualizer;
 import javafx.application.Application;
@@ -55,11 +56,10 @@ public class MultiplicationVisDemo extends Application {
         primaryStage.setScene(new Scene(border, 800, 800));
         primaryStage.show();
 
-
         /*
-        Code for testing the photoHintCreator
+        //Code for testing the photoHintCreator
         File file = new File("/Users/affansiddiqui/Desktop/image.png");
-        Pane pane = mV.drawExpression(ex3);
+        Pane pane = mV.drawExpression(ex7);
         pane.setStyle("-fx-padding: 25");
         WritableImage write = pane.snapshot(new SnapshotParameters(), null);
         ByteArrayOutputStream s = new ByteArrayOutputStream();
@@ -67,7 +67,7 @@ public class MultiplicationVisDemo extends Application {
         byte [] arr = s.toByteArray();
         String str = Base64.getEncoder().encodeToString(arr);
         System.out.println(str);
-         */
+        */
 
     }
     public static void main(String[] args) {

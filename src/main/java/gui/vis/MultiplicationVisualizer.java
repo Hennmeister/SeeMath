@@ -55,12 +55,13 @@ public class MultiplicationVisualizer extends Visualizer {
     public Pane drawExpression(Expression tree) {
         if (tree.getType() != ExpType.MULTIPLICATION) { //if root is not multiplication, draw left, root right
             HBox layout = new HBox();
+            layout.setAlignment(Pos.BASELINE_CENTER);
             Pane leftVisualization = drawExpression(tree.getLeft());
             Pane rightVisualization = drawExpression(tree.getRight());
-            Font original = getDrawFont();
-            setDrawFont(new Font(50));
+            //Font original = getDrawFont();
+            //setDrawFont(new Font(50));
             Pane root = drawString(tree.getValue());
-            setDrawFont(original);
+            //setDrawFont(original);
             layout.setSpacing(50);
             layout.getChildren().addAll(leftVisualization, root, rightVisualization);
             return layout;

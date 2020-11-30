@@ -1,12 +1,15 @@
 package demo;
 
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -17,11 +20,15 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import gui.vis.Visualizer;
 import gui.vis.AdditionVisualizer;
-import logic.equations.expression_tree.AdditionOp;
-import logic.equations.expression_tree.BinaryOp;
-import logic.equations.expression_tree.Expression;
+import logic.equations.expression_tree.*;
 import logic.equations.expression_tree.Expression;
 import logic.equations.expression_tree.Number;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
 
 public class AdditionVisDemo extends Application {
 
@@ -45,18 +52,30 @@ public class AdditionVisDemo extends Application {
         drawExpressionPane.setAlignment(Pos.TOP_LEFT);
         //drawExpressionPane.setPrefWrapLength(100);
 
-        Expression ex1 = new Number("2");
-        Expression ex2 = new Number("19");
-        Expression ex3 = new AdditionOp(ex1, ex2);
+        Expression ex1 = new Number("2", "1");
+        Expression ex2 = new Number("19", "1");
+        Expression ex3 = new AdditionOp(ex1, ex2, "1");
+        Expression ex4 = new MultiplicationOp(ex1, ex2, "1");
+        Expression ex5 = new AdditionOp(ex4, ex2, "1");
 
 
         drawExpressionPane.getChildren().add(additionVisualizer.drawExpression(ex3));
 
         //primaryStage.setScene(new Scene(masterPane, 800, 800));
         //primaryStage.setScene(new Scene(drawExpressionPane, 1200, 800));
-        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(ex3), 800, 800));
+        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(ex5), 800, 800));
         primaryStage.show();
 
+//        File file = new File("/Users/affansiddiqui/Desktop/image.png");
+//        //BufferedImage image;
+//
+//
+//
+//        AdditionVisualizer av = new AdditionVisualizer();
+//        Pane pane = av.drawExpression(ex3);
+//        WritableImage write = drawExpressionPane.snapshot(new SnapshotParameters(), null);
+//        RenderedImage renderedImage = SwingFXUtils.fromFXImage(write, null);
+//        ImageIO.write(renderedImage, "png", file);
 
     }
 
