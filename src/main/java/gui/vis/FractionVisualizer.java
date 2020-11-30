@@ -124,10 +124,16 @@ public class FractionVisualizer extends Visualizer{
             StackPane stackPane = new StackPane();
             stackPane.getChildren().add(fractionPane);
 
+            //Set Mouse-over Behaviour
+
             stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
-                stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
-                stackPane.getChildren().add(drawString(tree.getLeft().evaluate().intValue() +
-                        "/" + tree.getRight().evaluate().intValue()));
+                //stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+                //stackPane.getChildren().add(drawString(tree.getLeft().evaluate().intValue() +
+                 //       "/" + tree.getRight().evaluate().intValue()));
+                Pane strPane = drawString(tree.getLeft().evaluate().intValue() +
+                        "/" + tree.getRight().evaluate().intValue());
+                strPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+                stackPane.getChildren().add(strPane);
             });
             stackPane.setOnMouseExited((EventHandler<Event>) e -> {
                 stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");

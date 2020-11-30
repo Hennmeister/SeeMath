@@ -57,8 +57,10 @@ public class AdditionVisualizer extends Visualizer{
 
         // Code for mouse-over behaviour:
         stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
-            stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
-            stackPane.getChildren().add(drawString(Integer.toString(num)));
+            //stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+            Pane strPane = drawString(Integer.toString(num));
+            strPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+            stackPane.getChildren().add(strPane);
         });
         stackPane.setOnMouseExited((EventHandler<Event>) e -> {
             stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");

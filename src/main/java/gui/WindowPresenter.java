@@ -20,7 +20,7 @@ public class WindowPresenter {
 
         // Change application colour scheme here
         String colour2 = "#24496d";
-        String colour1 = "#caebfa";
+        String colour1 = "#4FC3F7";
 
         // borderPane is the root for the visualization scene
         BorderPane borderPane = new BorderPane();
@@ -32,7 +32,6 @@ public class WindowPresenter {
                 "-fx-text-fill: white");
 
         /**
-
         // Formatting the right-aligned Buttons for window behaviour:
         Button closeButton = createCloseButton(stage);
         Button maximizeButton = createMaximizeButton(stage);
@@ -83,7 +82,7 @@ public class WindowPresenter {
         VBox visPane = new VBox();
         visPane.setPrefSize(900, 500);
         visPane.setAlignment(Pos.TOP_CENTER);
-        visPane.setSpacing(10);
+        visPane.setSpacing(20);
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(visPane);

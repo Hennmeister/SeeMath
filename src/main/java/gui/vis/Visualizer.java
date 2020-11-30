@@ -35,10 +35,10 @@ public abstract class Visualizer {
         text.setFont(drawFont);
         text.setText(str);
         FlowPane pane = new FlowPane();
-        pane.setHgap(10);
-        pane.setVgap(10);
-        pane.setMaxSize(100, 100);
-        pane.setAlignment(Pos.BASELINE_CENTER);
+        //pane.setHgap(10);
+        //pane.setVgap(10);
+        //pane.setMaxSize(100, 100);
+        pane.setAlignment(Pos.CENTER);
         pane.setPrefWrapLength(50);
         pane.getChildren().add(text);
         //pane.setStyle("-fx-border-color: black"); // for debug
