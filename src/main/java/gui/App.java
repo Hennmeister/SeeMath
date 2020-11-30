@@ -42,7 +42,7 @@ public class App extends Application {
         BorderPane borderPane = windowPresenter.createWindow(stage, iconView);
 
         // visPane is the main blank space in the app, where the content (i.e. visualizations) should go
-        AnchorPane visPane = (AnchorPane) borderPane.getCenter();
+        VBox visPane = (VBox) borderPane.getCenter();
 
 
         Scene scene = new Scene(borderPane);

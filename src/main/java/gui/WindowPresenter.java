@@ -3,6 +3,7 @@ package gui;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -76,8 +77,9 @@ public class WindowPresenter {
         toolBar.getItems().addAll(icon, menuBar, buffer, minimizeButton, maximizeButton, closeButton);
 
         // The AnchorPane holds the visualization within the blank space in the center of the application
-        AnchorPane visPane = new AnchorPane();
+        VBox visPane = new VBox();
         visPane.setPrefSize(900, 500);
+        visPane.setAlignment(Pos.CENTER);
 
         borderPane.setTop(toolBar);
         borderPane.setCenter(visPane);

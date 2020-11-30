@@ -72,7 +72,7 @@ public class VisualizationPresenter implements VisualizationCreator {
             layout.getChildren().addAll(label, drawEqn);
 
             BorderPane ui = (BorderPane) stage.getScene().getRoot();
-            AnchorPane visPane = (AnchorPane) ui.getCenter();
+            VBox visPane = (VBox) ui.getCenter();
             visPane.getChildren().add(layout);
             stage.setScene(stage.getScene());
             stage.show();
