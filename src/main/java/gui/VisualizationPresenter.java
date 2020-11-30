@@ -12,16 +12,17 @@ import logic.WebController;
 import logic.equations.Equation;
 import logic.equations.expression_tree.Expression;
 
-import java.util.Base64;
 
 public class VisualizationPresenter implements VisualizationCreator {
 
     private Stage stage;
     private WebController serverController;
+    private PhotoHintPresenter photoHintPresenter;
 
     public VisualizationPresenter(Stage stage, WebController serverController) {
         this.stage = stage;
         this.serverController = serverController;
+        this.photoHintPresenter = new PhotoHintPresenter();
     }
 
     /**
@@ -61,14 +62,16 @@ public class VisualizationPresenter implements VisualizationCreator {
             // and equation now only holds a reference to the tree as a whole (no more left, right subtrees)
             Pane drawEqn = makeVisualization(eqn.getTree());
 
+            String base64Image = photoHintPresenter.getPhotoHint(drawEqn);
+            if (!eqn.isCorrect()) {
+                serverController.sendVisualHint(eqn, base64Image);
+            }
+
             layout.getChildren().add(drawEqn);
 
             Scene scene = new Scene(layout, 640, 480);
             stage.setScene(scene);
             stage.show();
-            serverController.sentVisualHint(eqn, "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUA\n" +
-                    "AAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO\n" +
-                    "    9TXL0Y4OHwAAAABJRU5ErkJggg==");
         });
     }
 }

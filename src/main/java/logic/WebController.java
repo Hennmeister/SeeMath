@@ -54,16 +54,14 @@ public class WebController {
         serverInstance.start();
     }
 
-    public void sentVisualHint(Equation eqn, String base64Img) {
+    public void sendVisualHint(Equation eqn, String base64Img) {
         JSONObject packet = new JSONObject();
         packet.put("mathid", eqn.getMathBlockId());
         packet.put("version", eqn.getVersion());
         packet.put("id", eqn.getLeftTree().findLeftMostLeaf().getId() + "$" + eqn.getRightTree().findRightMostLeaf().getId());
         packet.put("color", "#FFFF0037");
         packet.put("type", "math-custom");
-        packet.put("hint", "&<img src=\"data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUA\n" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO\n" +
-                "    9TXL0Y4OHwAAAABJRU5ErkJggg==\" alt=\"Red dot\" />");
+        packet.put("hint", "&<img src=\"data:image/png;base64, " + base64Img + "\" alt=\"Red dot\" />");
         client.sendEvent("add_box", packet.toString());
     }
 }
