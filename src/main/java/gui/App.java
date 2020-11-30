@@ -43,14 +43,14 @@ public class App extends Application {
 
         // visPane is the main blank space in the app, where the content (i.e. visualizations) should go
         VBox visPane = (VBox) borderPane.getCenter();
-
+        visPane.getChildren().addAll(landing.getLandingPage(stage));
 
         Scene scene = new Scene(borderPane);
 
         stage.getIcons().add(iconImage);
 
         stage.setTitle("SeeMath");
-        stage.initStyle(StageStyle.UNDECORATED);
+        //stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();
     }

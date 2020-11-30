@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
@@ -26,7 +27,10 @@ public class LandingPage {
         Button about = new Button("About");
         about.setOnAction(e -> {
             try {
-                stage.setScene(new Scene(getAboutPage(stage)));
+                BorderPane pane = (BorderPane) stage.getScene().getRoot();
+                VBox visPane = (VBox) pane.getCenter();
+                visPane.getChildren().clear();
+                visPane.getChildren().addAll(getAboutPage(stage));
             } catch (FileNotFoundException fileNotFoundException) {
                 fileNotFoundException.printStackTrace();
             }
@@ -60,7 +64,7 @@ public class LandingPage {
         return imageView;
     }
 
-    private Pane getAboutPage(Stage stage) throws FileNotFoundException {
+    public Pane getAboutPage(Stage stage) throws FileNotFoundException {
         VBox layout = new VBox();
         layout.setSpacing(50);
         layout.setAlignment(Pos.CENTER);

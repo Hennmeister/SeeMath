@@ -66,7 +66,7 @@ public class WindowPresenter {
 
         Menu fileMenu = createFileMenu();
         Menu editMenu = createEditMenu();
-        Menu helpMenu = createHelpMenu();
+        Menu helpMenu = createHelpMenu(stage);
 
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 
@@ -153,12 +153,19 @@ public class WindowPresenter {
         return editMenu;
     }
 
-    private Menu createHelpMenu(){
+    private Menu createHelpMenu(Stage stage){
         Menu helpMenu = new Menu("help");
-
+        LandingPage landing = new LandingPage();
         MenuItem aboutSeeMath = new MenuItem("about SeeMath");
         aboutSeeMath.setOnAction((EventHandler<ActionEvent>) e -> {
-            // Placeholder action:
+            try {
+                BorderPane pane = (BorderPane) stage.getScene().getRoot();
+                VBox visPane = (VBox) pane.getCenter();
+                visPane.getChildren().clear();
+                visPane.getChildren().addAll(landing.getAboutPage(stage));
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
             System.out.println("About SeeMath action.");
         });
 
