@@ -43,6 +43,11 @@ public class App extends Application {
 
         // visPane is the main blank space in the app, where the content (i.e. visualizations) should go
         AnchorPane visPane = (AnchorPane) borderPane.getCenter();
+        Pane land = landing.getLandingPage(stage);
+        AnchorPane.setTopAnchor(land, 100.0 );
+        AnchorPane.setLeftAnchor(land, 200.0);
+        visPane.getChildren().addAll(land);
+
 
 
         Scene scene = new Scene(borderPane);
