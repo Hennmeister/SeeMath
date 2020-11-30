@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class WindowPresenter {
 
-    public BorderPane createWindow(Stage stage, ImageView icon) throws FileNotFoundException {
+    public BorderPane createWindow(Stage stage) {
 
         // Change application colour scheme here
         String colour2 = "#24496d";
@@ -77,7 +77,7 @@ public class WindowPresenter {
         HBox buffer = new HBox();
         HBox.setHgrow(buffer, Priority.ALWAYS);
 
-        toolBar.getItems().addAll(icon, menuBar, buffer);
+        toolBar.getItems().addAll(menuBar, buffer);
 
         // The AnchorPane holds the visualization within the blank space in the center of the application
         VBox visPane = new VBox();
