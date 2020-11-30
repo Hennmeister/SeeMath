@@ -93,7 +93,7 @@ public class AdditionVisualizer extends Visualizer{
 
             // Add the visualization of the left ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getLeft())){
-                Pane leftPane = drawExpression(tree.getLeft());
+                Pane leftPane = tree.getLeft().visualization();
                 masterPane.getChildren().add(leftPane);
             }
 
@@ -102,7 +102,7 @@ public class AdditionVisualizer extends Visualizer{
 
             // Add the visualization of the right ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getRight())){
-                Pane rightPane = drawExpression(tree.getRight());
+                Pane rightPane = tree.getRight().visualization();
                 masterPane.getChildren().add(rightPane);
             }
 
