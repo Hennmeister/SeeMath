@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
 import javafx.scene.text.Font;
@@ -31,7 +32,7 @@ public class VisualizationPresenter implements VisualizationCreator {
     public Pane makeVisualization(Expression left, String equality, Expression right){
         HBox layout = new HBox();
         layout.setSpacing(0);
-        layout.setAlignment(Pos.TOP_LEFT);
+        layout.setAlignment(Pos.TOP_CENTER);
         if (left.isValid() && right.isValid()) {
             AdditionVisualizer vis = new AdditionVisualizer();
             layout.getChildren().addAll(left.visualization(), vis.drawString(equality), right.visualization());
@@ -53,7 +54,7 @@ public class VisualizationPresenter implements VisualizationCreator {
         Platform.runLater(() -> {
 
             // StackPane so we can stack new equations as they get visualized
-            StackPane layout = new StackPane();
+            //StackPane layout = new StackPane();
 
             // displays equation id
             Label label = new Label("Equation ID: " + eqn.getProblemId());
@@ -69,11 +70,13 @@ public class VisualizationPresenter implements VisualizationCreator {
                 drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
             }
 
-            layout.getChildren().addAll(label, drawEqn);
+            //layout.getChildren().addAll(label, drawEqn);
 
             BorderPane ui = (BorderPane) stage.getScene().getRoot();
-            VBox visPane = (VBox) ui.getCenter();
-            visPane.getChildren().add(layout);
+            ScrollPane sp = (ScrollPane) ui.getCenter();
+            VBox visPane = (VBox) sp.getContent();
+            visPane.getChildren().clear();
+            visPane.getChildren().addAll(label, drawEqn);
             stage.setScene(stage.getScene());
             stage.show();
         });

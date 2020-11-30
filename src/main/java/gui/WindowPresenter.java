@@ -31,6 +31,8 @@ public class WindowPresenter {
                 "-fx-spacing: 0; " +
                 "-fx-text-fill: white");
 
+        /**
+
         // Formatting the right-aligned Buttons for window behaviour:
         Button closeButton = createCloseButton(stage);
         Button maximizeButton = createMaximizeButton(stage);
@@ -52,6 +54,7 @@ public class WindowPresenter {
                 button.setStyle("-fx-background-color: " + colour1 + "; " + "-fx-background-radius: 0");
             });
         }
+         **/
 
         // Left-aligned drop-down menus:
         MenuBar menuBar = new MenuBar();
@@ -74,15 +77,19 @@ public class WindowPresenter {
         HBox buffer = new HBox();
         HBox.setHgrow(buffer, Priority.ALWAYS);
 
-        toolBar.getItems().addAll(icon, menuBar, buffer, minimizeButton, maximizeButton, closeButton);
+        toolBar.getItems().addAll(icon, menuBar, buffer);
 
         // The AnchorPane holds the visualization within the blank space in the center of the application
         VBox visPane = new VBox();
         visPane.setPrefSize(900, 500);
-        visPane.setAlignment(Pos.CENTER);
+        visPane.setAlignment(Pos.TOP_CENTER);
+        visPane.setSpacing(10);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(visPane);
 
         borderPane.setTop(toolBar);
-        borderPane.setCenter(visPane);
+        borderPane.setCenter(scrollPane);
 
         return borderPane;
     }
@@ -160,7 +167,8 @@ public class WindowPresenter {
         aboutSeeMath.setOnAction((EventHandler<ActionEvent>) e -> {
             try {
                 BorderPane pane = (BorderPane) stage.getScene().getRoot();
-                VBox visPane = (VBox) pane.getCenter();
+                ScrollPane sp = (ScrollPane) pane.getCenter();
+                VBox visPane = (VBox) sp.getContent();
                 visPane.getChildren().clear();
                 visPane.getChildren().addAll(landing.getAboutPage(stage));
             } catch (FileNotFoundException fileNotFoundException) {

@@ -32,9 +32,9 @@ public class AdditionVisualizer extends Visualizer{
             Rectangle node;
 
             // Construct a rectangle of the appropriate size, given <num>
-            if (num <= 9){
+            if (num <= 30){
                 node = new Rectangle(25, 25);
-            } else if (num <= 36) {
+            } else if (num <= 60) {
                 node = new Rectangle(10, 10);
             } else {
                 node = new Rectangle(5, 5);

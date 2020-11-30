@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -28,7 +29,8 @@ public class LandingPage {
         about.setOnAction(e -> {
             try {
                 BorderPane pane = (BorderPane) stage.getScene().getRoot();
-                VBox visPane = (VBox) pane.getCenter();
+                ScrollPane sp = (ScrollPane) pane.getCenter();
+                VBox visPane = (VBox) sp.getContent();
                 visPane.getChildren().clear();
                 visPane.getChildren().addAll(getAboutPage(stage));
             } catch (FileNotFoundException fileNotFoundException) {
