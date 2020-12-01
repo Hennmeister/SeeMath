@@ -2,6 +2,7 @@ package gui;
 
 import gui.vis.AdditionVisualizer;
 import gui.vis.GraphVisualizer;
+import gui.vis.Visualizer;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -9,8 +10,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -23,9 +27,7 @@ import java.util.Collections;
 public class VisualizationPresenter implements VisualizationCreator {
 
     private Stage stage;
-    private Group visualizations = new Group();
     private ArrayList<Node> lst;
-    private int count = 0;
 
     public VisualizationPresenter(Stage stage) {
         this.stage = stage;
@@ -77,9 +79,20 @@ public class VisualizationPresenter implements VisualizationCreator {
                 drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
             }
 
-            // Store the Visualization and Label for later access
+            // Store the Visualization and Label for later access, add a Line between equations for visual clarity
+            if (lst.size() > 0){
+                Line line = new Line(0, 0, 500, 0);
+                DropShadow dropShadow = new DropShadow();
+                dropShadow.setRadius(3.0);
+                dropShadow.setOffsetX(3.0);
+                dropShadow.setOffsetY(3.0);
+                dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
+                line.setEffect(dropShadow);
+                lst.add(line);
+            }
             lst.add(drawEqn);
             lst.add(label);
+
 
             // Navigate through the UI objects to get to the visPane
             BorderPane ui = (BorderPane) stage.getScene().getRoot();
