@@ -3,7 +3,7 @@ package demo;
 import gui.vis.AdditionVisualizer;
 import gui.vis.MultiplicationVisualizer;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
+//import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -56,7 +56,7 @@ public class MultiplicationVisDemo extends Application {
 
         /*
         Code for testing the photoHintCreator
-         */
+
         File file = new File("/Users/affansiddiqui/Desktop/image.png");
         Pane pane = mV.drawExpression(ex3);
         pane.setStyle("-fx-padding: 25");
@@ -66,7 +66,7 @@ public class MultiplicationVisDemo extends Application {
         byte [] arr = s.toByteArray();
         String str = Base64.getEncoder().encodeToString(arr);
         System.out.println(str);
-
+        */
     }
     public static void main(String[] args) {
         launch(args);

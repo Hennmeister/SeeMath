@@ -28,7 +28,7 @@ public abstract class Visualizer {
         return nodeSize;
     }
 
-    abstract Pane drawExpression(Expression tree);
+    public abstract Pane drawExpression(Expression tree);
 
     public Pane drawString(String str){
         Text text = new Text();
