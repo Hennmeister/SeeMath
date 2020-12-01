@@ -81,7 +81,10 @@ public class WindowPresenter {
         // The AnchorPane holds the visualization within the blank space in the center of the application
         VBox visPane = new VBox();
         visPane.setPrefSize(900, 500);
-        visPane.setAlignment(Pos.TOP_CENTER);
+        //visPane.setMinHeight(500);
+        //visPane.setMinWidth(900);
+        //visPane.setMinSize(900, 500);
+        visPane.setAlignment(Pos.CENTER);
         visPane.setSpacing(20);
 
         ScrollPane scrollPane = new ScrollPane();

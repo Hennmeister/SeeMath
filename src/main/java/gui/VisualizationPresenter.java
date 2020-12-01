@@ -57,7 +57,7 @@ public class VisualizationPresenter implements VisualizationCreator {
             //StackPane layout = new StackPane();
 
             // displays equation id
-            Label label = new Label("Equation ID: " + eqn.getProblemId());
+            Label label = new Label("Equation: " + eqn.toStringLabel() + " - ID: " + eqn.getProblemId());
             label.setFont(new Font("Arial", 24));
 
             Pane drawEqn;

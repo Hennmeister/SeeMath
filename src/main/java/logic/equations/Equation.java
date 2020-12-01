@@ -121,4 +121,8 @@ public class Equation {
                 ", expression: " + leftTree.toString() + equalityOperator + rightTree.toString() +
                 '}';
     }
+
+    public String toStringLabel() {
+        return "\"" + leftTree.toString() + equalityOperator + rightTree.toString() + "\"";
+    }
 }

@@ -53,6 +53,7 @@ public class App extends Application {
         stage.getIcons().add(iconImage);
 
         stage.setTitle("SeeMath");
+
         //stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();

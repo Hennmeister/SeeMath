@@ -32,22 +32,26 @@ public class AdditionVisualizer extends Visualizer{
             Rectangle node;
 
             // Construct a rectangle of the appropriate size, given <num>
+            /*
             if (num <= 30){
                 node = new Rectangle(25, 25);
             } else if (num <= 60) {
                 node = new Rectangle(10, 10);
             } else {
                 node = new Rectangle(5, 5);
-            }
+            }*/
+
+            node = new Rectangle(25, 25);
 
             // If <num> is 0 or positive color the node green, otherwise color it red
             if (num >= 0){
-                node.setFill(javafx.scene.paint.Color.GREEN);
+                node.setFill(positiveColor);
             } else {
-                node.setFill(javafx.scene.paint.Color.RED);
+                node.setFill(negativeColor);
             }
             pane.getChildren().add(node);
         }
+        pane.setEffect(getDropShadow());
         //pane.setStyle("-fx-border-color: black"); // for debug
         // Set up a StackPane to handle mouse-over behaviour on top of the visualization
         StackPane stackPane = new StackPane();
