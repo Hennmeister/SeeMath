@@ -27,11 +27,11 @@ import java.util.Collections;
 public class VisualizationPresenter implements VisualizationCreator {
 
     private Stage stage;
-    private ArrayList<Node> lst;
+    private ArrayList<Node> visList;
 
     public VisualizationPresenter(Stage stage) {
         this.stage = stage;
-        this.lst = new ArrayList<Node>();
+        this. visList = new ArrayList<Node>();
     }
 
     /**
@@ -80,7 +80,7 @@ public class VisualizationPresenter implements VisualizationCreator {
             }
 
             // Store the Visualization and Label for later access, add a Line between equations for visual clarity
-            if (lst.size() > 0){
+            if (visList.size() > 0){
                 Line line = new Line(0, 0, 500, 0);
                 DropShadow dropShadow = new DropShadow();
                 dropShadow.setRadius(3.0);
@@ -88,11 +88,10 @@ public class VisualizationPresenter implements VisualizationCreator {
                 dropShadow.setOffsetY(3.0);
                 dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
                 line.setEffect(dropShadow);
-                lst.add(line);
+                visList.add(line);
             }
-            lst.add(drawEqn);
-            lst.add(label);
-
+            visList.add(drawEqn);
+            visList.add(label);
 
             // Navigate through the UI objects to get to the visPane
             BorderPane ui = (BorderPane) stage.getScene().getRoot();
@@ -101,8 +100,8 @@ public class VisualizationPresenter implements VisualizationCreator {
 
             // Empty the visPane, before adding in all the stored visualizations
             visPane.getChildren().clear();
-            for (int i = lst.size() - 1; i >= 0; i -= 1) {
-                 visPane.getChildren().add(lst.get(i));
+            for (int i = visList.size() - 1; i >= 0; i -= 1) {
+                 visPane.getChildren().add(visList.get(i));
             }
             stage.setScene(stage.getScene());
             stage.show();
