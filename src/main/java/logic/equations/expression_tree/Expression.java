@@ -88,12 +88,21 @@ public abstract class Expression {
     }
 
     /**
-     * Finds the number of distinct variables in Expression tree
-     * @return integer number of distinct variables
+     * Checks if tree contains a node of type {@code type}
+     * @param type expression type to check for
+     * @return true if Expression contain {@code type} and false otherwise
      */
-    public int distinctVariables(){
+    public boolean hasType(ExpType type){
+        return this.getType() == type || left.hasType(type) || right.hasType(type);
+    }
+
+    /**
+     * Finds all distinct variables in expression tree
+     * @return a set containing the string value of all variables in the expression
+     */
+    public Set<String> distinctVariables(){
         Set<String> var = new HashSet<>();
-        return variables(var).size();
+        return findDistinctVar(var);
     }
 
     /**
@@ -101,15 +110,15 @@ public abstract class Expression {
      * @param var a set containing variables in expression
      * @return the set containing all variables in expression (recursively)
      */
-    public Set<String> variables(Set<String> var){
+    private Set<String> findDistinctVar(Set<String> var){
         if (right == null && left == null){
             if (this.getType() == ExpType.VARIABLE) {
                 var.add(this.getValue());
             }
         } else {
             Set<String> copy = new HashSet<>(var);
-            var.addAll(left.variables(copy));
-            var.addAll(right.variables(copy));
+            var.addAll(left.findDistinctVar(copy));
+            var.addAll(right.findDistinctVar(copy));
         }
         return var;
     }
