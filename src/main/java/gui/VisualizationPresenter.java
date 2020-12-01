@@ -4,22 +4,32 @@ import gui.vis.AdditionVisualizer;
 import gui.vis.GraphVisualizer;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.equations.Equation;
 import logic.equations.expression_tree.Expression;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class VisualizationPresenter implements VisualizationCreator {
 
     private Stage stage;
+    private Group visualizations = new Group();
+    private ArrayList<Node> lst;
+    private int count = 0;
 
     public VisualizationPresenter(Stage stage) {
         this.stage = stage;
+        this.lst = new ArrayList<Node>();
     }
 
     /**
@@ -53,9 +63,6 @@ public class VisualizationPresenter implements VisualizationCreator {
         // Runs the UI related logic on the javaFX thread
         Platform.runLater(() -> {
 
-            // StackPane so we can stack new equations as they get visualized
-            //StackPane layout = new StackPane();
-
             // displays equation id
             Label label = new Label("Equation: " + eqn.toStringLabel() + " - ID: " + eqn.getProblemId());
             label.setFont(new Font("Arial", 24));
@@ -70,13 +77,20 @@ public class VisualizationPresenter implements VisualizationCreator {
                 drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
             }
 
-            //layout.getChildren().addAll(label, drawEqn);
+            // Store the Visualization and Label for later access
+            lst.add(drawEqn);
+            lst.add(label);
 
+            // Navigate through the UI objects to get to the visPane
             BorderPane ui = (BorderPane) stage.getScene().getRoot();
             ScrollPane sp = (ScrollPane) ui.getCenter();
             VBox visPane = (VBox) sp.getContent();
+
+            // Empty the visPane, before adding in all the stored visualizations
             visPane.getChildren().clear();
-            visPane.getChildren().addAll(label, drawEqn);
+            for (int i = lst.size() - 1; i >= 0; i -= 1) {
+                 visPane.getChildren().add(lst.get(i));
+            }
             stage.setScene(stage.getScene());
             stage.show();
         });
