@@ -1,8 +1,11 @@
 package logic.equations.expression_tree;
 
 import gui.vis.AdditionVisualizer;
+import gui.vis.FractionVisualizer;
 import gui.vis.MultiplicationVisualizer;
 import gui.vis.Visualizer;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 public class MultiplicationOp extends BinaryOp {
@@ -16,6 +19,19 @@ public class MultiplicationOp extends BinaryOp {
     public MultiplicationOp(Expression left, Expression right, String id){
         super(left, "*", right, id);
         this.setType(ExpType.MULTIPLICATION);
+    }
+
+    /**
+     * Checks validity of an multiplication node
+     * - Rule: fraction are multiplication are not mixed together
+     * @return whether node is valid
+     */
+    @Override
+    public boolean isValid(){
+        if (left.hasType(ExpType.DIVISION) || right.hasType(ExpType.DIVISION)){
+            return false;
+        }
+        return left.isValid() && right.isValid();
     }
 
     /**

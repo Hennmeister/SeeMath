@@ -1,16 +1,20 @@
 package logic.equations;
 
+import logic.equations.expression_tree.ExpType;
 import logic.equations.expression_tree.Expression;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Equation {
-    private String mathBlockId;
-    private int problemId;
-    private int version;
-    private String equalityOperator;
-    private Expression leftTree;
-    private Expression rightTree;
+  
+    private final String mathBlockId;
+    private final int problemId;
+    private final int version;
+    private final String equalityOperator;
+    private final Expression leftTree;
+    private final Expression rightTree;
     private boolean isCorrect;
 
     /**
@@ -94,6 +98,25 @@ public class Equation {
      */
     public void setCorrectness(boolean correct) {
         isCorrect = correct;
+    }
+
+    /**
+     * Checks if equation is graph visualizable
+     * Rules:
+     * - equation has exactly 2 variables
+     * - left side is a single variable (e.g. y = __)
+     * - right side has a variable different than the one on the left side
+     * @return true if graph is visualizable and false otherwise
+     */
+    public boolean graphVisualizable(){
+        Set<String> leftVars = leftTree.distinctVariables();
+        Set<String> rightVars = rightTree.distinctVariables();
+        Set<String> vars = new HashSet<>(leftVars);
+        vars.addAll(rightVars);
+        // The implementation is explicit like this for scalability purposes
+        boolean leftConditions = leftTree.isLeaf() && (leftVars.size() == 1);
+        boolean variableConditions = vars.size() == 2 && !leftVars.equals(rightVars);
+        return  leftConditions && variableConditions;
     }
 
     @Override

@@ -1,12 +1,16 @@
 package gui;
 
+import gui.vis.AdditionVisualizer;
+import gui.vis.GraphVisualizer;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.WebController;
 import logic.equations.Equation;
@@ -27,16 +31,23 @@ public class VisualizationPresenter implements VisualizationCreator {
 
     /**
      * Creates an appropriate visualization for equation by calling the correct visualizer
-     * @param exp equation to be visualized
-     * @return the visualization of expression if valid or an error message
+     * @param left expression tree for left-hand side
+     * @param equality string representation of the equality operator
+     * @param right expression tree for right-hand side
+     * @return the visualization of expression if valid, or an error message
      */
-    public Pane makeVisualization(Expression exp){
-        if (exp.isValid()){
-            return exp.visualization();
-        }
+    public Pane makeVisualization(Expression left, String equality, Expression right){
         HBox layout = new HBox();
-        Label label = new Label("Unsupported visualization");
-        layout.getChildren().add(label);
+        layout.setSpacing(0);
+        layout.setAlignment(Pos.TOP_LEFT);
+        if (left.isValid() && right.isValid()) {
+            AdditionVisualizer vis = new AdditionVisualizer();
+            layout.getChildren().addAll(left.visualization(), vis.drawString(equality), right.visualization());
+        }
+        else{
+            Label label = new Label("Unsupported Visualization. Please edit your equation in Hypatia.");
+            layout.getChildren().add(label);
+        }
         return layout;
     }
 
@@ -49,25 +60,30 @@ public class VisualizationPresenter implements VisualizationCreator {
         // Runs the UI related logic on the javaFX thread
         Platform.runLater(() -> {
 
-            // TODO: For some reason my intelliJ does not compile Labels, so please test these out in our own machines
-            // And let me know if that's just a problem on my end
-
-            //Label label = new Label(eqn.toString());
-            //label.setFont(new Font("Arial", 24));
-
             // StackPane so we can stack new equations as they get visualized
             StackPane layout = new StackPane();
 
-            // TODO: Refactor equation so that equality operator is included in Expression Tree
-            // and equation now only holds a reference to the tree as a whole (no more left, right subtrees)
-            Pane drawEqn = makeVisualization(eqn.getTree());
+            // displays equation id
+            Label label = new Label("Problem ID: " + eqn.getProblemId());
+            label.setFont(new Font("Arial", 24));
+
+            Pane drawEqn;
+
+            if (eqn.graphVisualizable()){
+                GraphVisualizer vis = new GraphVisualizer();
+                // assuming graph is of the form y = ....
+                // so we visualize the right subtree
+                drawEqn = vis.drawExpression(eqn.getRightTree());
+            } else{
+                drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
+            }
 
             String base64Image = photoHintPresenter.getPhotoHint(drawEqn);
             if (!eqn.isCorrect()) {
                 serverController.sendVisualHint(eqn, base64Image);
             }
 
-            layout.getChildren().add(drawEqn);
+            layout.getChildren().addAll(label, drawEqn);
 
             Scene scene = new Scene(layout, 640, 480);
             stage.setScene(scene);
