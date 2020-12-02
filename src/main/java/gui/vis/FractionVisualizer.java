@@ -30,6 +30,7 @@ public class FractionVisualizer extends Visualizer{
     public Pane drawFraction(Double num, Double denom){
         HBox masterPane = new HBox();
         masterPane.setSpacing(10);
+        masterPane.setMaxSize(nodeSize, nodeSize);
 
         // Draw arcs with positive or negative color depending on num
         Color color;
