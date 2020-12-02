@@ -11,9 +11,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import logic.equations.expression_tree.AdditionOp;
-import logic.equations.expression_tree.Expression;
-import logic.equations.expression_tree.MultiplicationOp;
+import logic.equations.expression_tree.*;
 import logic.equations.expression_tree.Number;
 
 import javax.imageio.ImageIO;
@@ -43,31 +41,21 @@ public class MultiplicationVisDemo extends Application {
         Expression ex1 = new Number("-2", "1");
         Expression ex2 = new Number("-3", "1");
         Expression ex3 = new MultiplicationOp(ex1, ex2, "1");
-        Expression ex4 = new Number("-3", "1");
+        Expression ex4 = new Number("3", "1");
         Expression ex5 = new MultiplicationOp(ex3, ex4, "1");
         Expression ex6 = new MultiplicationOp(ex3, ex3, "1");
         Expression ex7 = new AdditionOp(ex3, ex3, "1");
+        Expression ex8 = new MultiplicationOp(ex7, ex5, "1");
+        Expression ex9 = new AdditionOp(ex1, ex2, "1");
 
         drawExpressionPane.getChildren().add(mV.drawExpression(ex3));
 
         BorderPane border = new BorderPane();
-        border.setCenter(mV.drawExpression(ex7));
+        border.setCenter(mV.drawExpression(ex9));
         //border.setCenter(drawExpressionPane);
         primaryStage.setScene(new Scene(border, 800, 800));
         primaryStage.show();
 
-        /*
-        //Code for testing the photoHintCreator
-        File file = new File("/Users/affansiddiqui/Desktop/image.png");
-        Pane pane = mV.drawExpression(ex7);
-        pane.setStyle("-fx-padding: 25");
-        WritableImage write = pane.snapshot(new SnapshotParameters(), null);
-        ByteArrayOutputStream s = new ByteArrayOutputStream();
-        ImageIO.write(SwingFXUtils.fromFXImage(write, null), "png", s);
-        byte [] arr = s.toByteArray();
-        String str = Base64.getEncoder().encodeToString(arr);
-        System.out.println(str);
-        */
 
     }
     public static void main(String[] args) {

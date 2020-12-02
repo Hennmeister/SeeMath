@@ -53,35 +53,36 @@ public class MultiplicationVisualizer extends Visualizer {
      */
     @Override
     public Pane drawExpression(Expression tree) {
-        if (tree.getType() != ExpType.MULTIPLICATION) { //if root is not multiplication, draw left, root right
+        if (tree.isLeaf() || tree.getType() == ExpType.MULTIPLICATION) {
+            return generateCompleteVisualization(tree);
+        }
+        else { //if root is not multiplication, draw left, root right
             HBox layout = new HBox();
             layout.setAlignment(Pos.BASELINE_CENTER);
             Pane leftVisualization = drawExpression(tree.getLeft());
             Pane rightVisualization = drawExpression(tree.getRight());
-            //Font original = getDrawFont();
-            //setDrawFont(new Font(50));
             Pane root = drawString(tree.getValue());
-            //setDrawFont(original);
             layout.setSpacing(50);
             layout.getChildren().addAll(leftVisualization, root, rightVisualization);
             return layout;
         }
-        else { //else return visualization of multiplication
-            return addLabels(tree);
-        }
     }
 
-    private Pane addLabels(Expression tree) {
-        Pane vis = mouseOver(tree); //get the visualization
+    private Pane generateCompleteVisualization(Expression tree) {
+        Pane vis = generateMouseOver(tree); //get the visualization
         GridPane border = new GridPane(); //create a GridPane to add the borders of the visualization
         //the string representation of the number that is being repeated
-        Pane left = drawString(tree.findLeftMostLeaf().getValue());
+        //Pane left = drawString(tree.findLeftMostLeaf().getValue());
+        Pane left;
         Pane top;
         if (tree.isLeaf()) { //if tree is leaf, then its equivalent to multiplying by 1
+            left = drawString(tree.getValue());
             top = drawString("* 1");
         }
         else { //otherwise, get string containing all the multiplication factors
-            top = getMultiplicationFactors(tree);
+            left = drawString(tree.getLeft().toString());
+            //top = getMultiplicationFactors(tree);
+            top = drawString(tree.getRight().toString());
         }
         //the following lines of code will set up the GridPane to hold the visualization and the borders
         //NOTE: indices .setConstraints are col, row
@@ -126,16 +127,34 @@ public class MultiplicationVisualizer extends Visualizer {
         }
     }
 
-    private Pane mouseOver(Expression tree) {
+    private Pane draw(Expression tree, boolean isPos) {
+        if (tree.isLeaf()){
+            return drawInt(Integer.parseInt(tree.getValue()), isPos);
+        }
+        // Set up a Pane to hold the visualization
+        HBox masterPane = new HBox();
+        masterPane.setSpacing(12);
+        masterPane.setAlignment(Pos.BASELINE_CENTER);
+        //draw result:
+        //draw left.evaluate(), repeat right.evaluate() # of times
+        for (int i = 1; i <= abs(tree.getRight().evaluate()); i++) {
+            masterPane.getChildren().add(drawInt(tree.getLeft().evaluate().intValue(), isPos));
+        }
+        return masterPane;
+    }
+
+    private Pane generateMouseOver(Expression tree) {
         // Set up a StackPane to handle mouse-over behaviour on top of the visualization
         StackPane stackPane = new StackPane();
         stackPane.setAlignment(Pos.CENTER);
         stackPane.setMaxSize(nodeSize, nodeSize);
         if (tree.evaluate() > 0){
-            stackPane.getChildren().add(drawRecursive(tree, true));
+            //stackPane.getChildren().add(drawRecursive(tree, true));
+            stackPane.getChildren().add(draw(tree, true));
         }
         else{
-            stackPane.getChildren().add(drawRecursive(tree, false));
+            //stackPane.getChildren().add(drawRecursive(tree, false));
+            stackPane.getChildren().add(draw(tree, false));
         }
         // Code for mouse-over behaviour:
         stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
