@@ -4,6 +4,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -30,7 +31,6 @@ public class FractionVisualizer extends Visualizer{
     public Pane drawFraction(Double num, Double denom){
         HBox masterPane = new HBox();
         masterPane.setSpacing(10);
-        masterPane.setMaxSize(nodeSize, nodeSize);
 
         // Draw arcs with positive or negative color depending on num
         Color color;
@@ -153,8 +153,8 @@ public class FractionVisualizer extends Visualizer{
 
         else {
             // Set up a Pane to hold the visualization
-            HBox masterPane = new HBox();
-            masterPane.setSpacing(0);
+            FlowPane masterPane = new FlowPane();
+            masterPane.setPrefWrapLength(900);
             masterPane.setAlignment(Pos.TOP_LEFT);
             //masterPane.setStyle("-fx-border-color: black"); // for debug
             masterPane.setMaxHeight(nodeSize);

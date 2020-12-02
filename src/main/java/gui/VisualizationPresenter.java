@@ -42,8 +42,9 @@ public class VisualizationPresenter implements VisualizationCreator {
      * @return the visualization of expression if valid, or an error message
      */
     public Pane makeVisualization(Expression left, String equality, Expression right){
-        HBox layout = new HBox();
-        layout.setSpacing(0);
+        FlowPane layout = new FlowPane();
+        layout.setPrefWrapLength(900);
+        layout.setVgap(10);
         layout.setAlignment(Pos.TOP_CENTER);
         if (left.isValid() && right.isValid()) {
             AdditionVisualizer vis = new AdditionVisualizer();

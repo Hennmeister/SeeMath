@@ -91,11 +91,10 @@ public class AdditionVisualizer extends Visualizer{
         else {
 
             // Set up a Pane to hold the visualization
-            HBox masterPane = new HBox();
-            masterPane.setSpacing(0);
+            FlowPane masterPane = new FlowPane();
             masterPane.setAlignment(Pos.TOP_LEFT);
-            //masterPane.setStyle("-fx-border-color: black"); // for debug
-            masterPane.setMaxHeight(nodeSize);
+            masterPane.setStyle("-fx-border-color: black"); // for debug
+            //masterPane.setMaxHeight(nodeSize);
 
             // Add the visualization of the left ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getLeft())){
