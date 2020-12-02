@@ -93,7 +93,7 @@ public abstract class Expression {
      * @return true if Expression contain {@code type} and false otherwise
      */
     public boolean hasType(ExpType type){
-        return this.getType() == type || left.hasType(type) || right.hasType(type);
+        return this.getType() == type || (!this.isLeaf() && (left.hasType(type) || right.hasType(type)));
     }
 
     /**
@@ -185,7 +185,7 @@ public abstract class Expression {
     }
 
     public String toString(){
-        return left.toString() + (value.charAt(0) == '-' ? "(" + value + ")" : value) + right.toString();
+        return left.toString() + (value.charAt(0) == '-' ? "(" + value + ")" : "DAB" + value) + right.toString();
     }
 
     @Override
