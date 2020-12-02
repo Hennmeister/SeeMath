@@ -1,7 +1,6 @@
 package gui;
 import java.io.*;
 import java.util.Base64;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
