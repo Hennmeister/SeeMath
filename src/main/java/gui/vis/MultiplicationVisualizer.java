@@ -33,7 +33,6 @@ public class MultiplicationVisualizer extends Visualizer {
 
         for (int i=0; i<abs(num); i++){
             Rectangle shape = new Rectangle(25, 25);
-            //Box shape = new Box(35, 25, 50);
             pane.getChildren().add(shape);
 
             if (isPos) {
@@ -78,11 +77,10 @@ public class MultiplicationVisualizer extends Visualizer {
         Pane top;
         if (tree.isLeaf()) { //if tree is leaf, then its equivalent to multiplying by 1
             left = drawString(tree.getValue());
-            top = drawString("* 1");
+            top = drawString("1");
         }
         else { //otherwise, get string containing all the multiplication factors
             left = drawString(tree.getLeft().toString());
-            //top = getMultiplicationFactors(tree);
             top = drawString(tree.getRight().toString());
         }
         //the following lines of code will set up the GridPane to hold the visualization and the borders
@@ -95,37 +93,6 @@ public class MultiplicationVisualizer extends Visualizer {
         //border.setGridLinesVisible(true); //for debugging
         border.getChildren().addAll(vis, left, top); //add everything to the GridPane
         return border;
-    }
-
-    private Pane getMultiplicationFactors(Expression tree) {
-        ArrayList<Double> factors = tree.getLeaves();
-        factors.remove(tree.findLeftMostLeaf().evaluate());
-        String result = "";
-        //double result = 1;
-        for (Double d: factors) {
-            result += "* " + d.intValue() + " ";
-            //result = result * d;
-        }
-        //return drawString("* " + (int) result);
-        return drawString(result);
-    }
-    private Pane drawRecursive(Expression tree, boolean isPos) {
-        if (tree.isLeaf()){
-            return drawInt(Integer.parseInt(tree.getValue()), isPos);
-        }
-        else {
-            // Set up a Pane to hold the visualization
-            HBox masterPane = new HBox();
-            masterPane.setSpacing(12);
-            masterPane.setAlignment(Pos.BASELINE_CENTER);
-            //draw result:
-            //repeat the vis for left subtree, right subtree amount of times
-            for(int i = 1; i <= abs(tree.getRight().evaluate()); i++) {
-                masterPane.getChildren().add(drawRecursive(tree.getLeft(), isPos));
-            }
-
-            return masterPane;
-        }
     }
 
     private Pane draw(Expression tree, boolean isPos) {
@@ -150,17 +117,14 @@ public class MultiplicationVisualizer extends Visualizer {
         stackPane.setAlignment(Pos.CENTER);
         stackPane.setMaxSize(nodeSize, nodeSize);
         if (tree.evaluate() > 0){
-            //stackPane.getChildren().add(drawRecursive(tree, true));
             stackPane.getChildren().add(draw(tree, true));
         }
         else{
-            //stackPane.getChildren().add(drawRecursive(tree, false));
             stackPane.getChildren().add(draw(tree, false));
         }
         // Code for mouse-over behaviour:
         stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
-            //stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
-            Pane strPane = drawString(tree.evaluate().toString());
+            Pane strPane = drawString(Integer.toString(tree.evaluate().intValue()));
             strPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
             stackPane.getChildren().add(strPane);
         });
