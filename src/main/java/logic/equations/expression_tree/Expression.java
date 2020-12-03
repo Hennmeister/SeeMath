@@ -185,7 +185,7 @@ public abstract class Expression {
     }
 
     public String toString(){
-        return left.toString() + (value.charAt(0) == '-' ? "(" + value + ")" : "DAB" + value) + right.toString();
+        return "(" + left.toString() + value + right.toString() + ")";
     }
 
     @Override

@@ -69,12 +69,13 @@ public class EquationFactory {
                 return parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0), !isNegative);
             }
 
-            Expression left = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0), isNegative);
+            Expression left = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(0)
+                    , operator.equals("Divide") || operator.equals("Multiply") ? false : isNegative);
             Expression right = parseJSONExprTree((JSONObject) ((JSONArray) subExpr.get("children")).get(1),
                     operator.equals("Minus") != isNegative);
             switch (operator) {
-                case "Plus":
                 case "Minus":
+                case "Plus":
                     return new AdditionOp(left, right, id);
                 case "Divide":
                     return new DivisionOp(left, right, id);
