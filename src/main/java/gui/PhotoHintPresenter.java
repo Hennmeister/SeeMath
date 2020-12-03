@@ -1,7 +1,7 @@
 package gui;
 import java.io.*;
 import java.util.Base64;
-//import javafx.embed.swing.SwingFXUtils;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
@@ -16,7 +16,7 @@ public class PhotoHintPresenter {
         writableImage = pane.snapshot(new SnapshotParameters(), null); //store the snapshot in writableImage
         try { //try-catch needed for IOException
             //convert writableImage into .png and store it in the ByteArrayOutputStream
-            //ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", s);
+            ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", s);
             s.close(); //close output stream
         } catch (IOException e) { //catch IOException
             e.printStackTrace();
