@@ -140,12 +140,29 @@ public abstract class Expression {
         return left == null && right == null;
     }
 
+    /**
+     * Find the leftmost leaf of the tree of which this node is the root
+     * @return the leftmost expression of the tree
+     */
     public Expression findLeftMostLeaf() {
         if (this.isLeaf()) {
             return this;
         }
         else {
             return left.findLeftMostLeaf();
+        }
+    }
+
+    /**
+     * Find the rightmost leaf of the tree of which this node is the root
+     * @return the rightmost expression of the tree
+     */
+    public Expression findRightMostLeaf() {
+        if (this.isLeaf()) {
+            return this;
+        }
+        else {
+            return right.findRightMostLeaf();
         }
     }
 

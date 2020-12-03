@@ -12,15 +12,21 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.WebController;
 import logic.equations.Equation;
 import logic.equations.expression_tree.Expression;
+
 
 public class VisualizationPresenter implements VisualizationCreator {
 
     private Stage stage;
+    private WebController serverController;
+    private PhotoHintPresenter photoHintPresenter;
 
-    public VisualizationPresenter(Stage stage) {
+    public VisualizationPresenter(Stage stage, WebController serverController) {
         this.stage = stage;
+        this.serverController = serverController;
+        this.photoHintPresenter = new PhotoHintPresenter();
     }
 
     /**
@@ -70,6 +76,11 @@ public class VisualizationPresenter implements VisualizationCreator {
                 drawEqn = vis.drawExpression(eqn.getRightTree());
             } else{
                 drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
+            }
+
+            String base64Image = photoHintPresenter.getPhotoHint(drawEqn);
+            if (!eqn.isCorrect()) {
+                serverController.sendVisualHint(eqn, base64Image);
             }
 
             layout.getChildren().addAll(label, drawEqn);

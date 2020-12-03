@@ -8,8 +8,10 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Equation {
+  
     private final String mathBlockId;
     private final int problemId;
+    private final int version;
     private final String equalityOperator;
     private final Expression leftTree;
     private final Expression rightTree;
@@ -19,15 +21,17 @@ public class Equation {
      * Contructs a new equation object
      * @param id The id of the math block
      * @param problemId The id of the problem in the Hypatia assignment
+     * @param version The version of the Hypatia doc
      * @param equalityOperator The equality operator (=, ≈, ≠) connecting the two expression trees
      * @param leftTree The left expression in the equation
      * @param rightTree The right expression in the equation
      * @param isCorrect Whether the equation is true or not
      */
-    public Equation (String id, int problemId, String equalityOperator,
+    public Equation (String id, int problemId, int version, String equalityOperator,
                      Expression leftTree, Expression rightTree, boolean isCorrect)  {
         this.mathBlockId = id;
         this.problemId = problemId;
+        this.version = version;
         this.leftTree = leftTree;
         this.rightTree = rightTree;
         this.isCorrect = isCorrect;
@@ -67,6 +71,11 @@ public class Equation {
     public int getProblemId() {
         return problemId;
     }
+
+    /**
+     * @return The version number of the Hypatia doc
+     */
+    public int getVersion(){ return version;}
 
     /**
      * @return Whether this equation is correct mathematically, so if the left side and right side are correct under
