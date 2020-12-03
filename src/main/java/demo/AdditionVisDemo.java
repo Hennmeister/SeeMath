@@ -1,12 +1,15 @@
 package demo;
 
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -20,6 +23,12 @@ import gui.vis.AdditionVisualizer;
 import logic.equations.expression_tree.*;
 import logic.equations.expression_tree.Expression;
 import logic.equations.expression_tree.Number;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
 
 public class AdditionVisDemo extends Application {
 
@@ -55,9 +64,20 @@ public class AdditionVisDemo extends Application {
 
         //primaryStage.setScene(new Scene(masterPane, 800, 800));
         //primaryStage.setScene(new Scene(drawExpressionPane, 1200, 800));
+
         primaryStage.setScene(new Scene(additionVisualizer.drawExpression(ex7), 800, 800));
         primaryStage.show();
 
+//        File file = new File("/Users/affansiddiqui/Desktop/image.png");
+//        //BufferedImage image;
+//
+//
+//
+//        AdditionVisualizer av = new AdditionVisualizer();
+//        Pane pane = av.drawExpression(ex3);
+//        WritableImage write = drawExpressionPane.snapshot(new SnapshotParameters(), null);
+//        RenderedImage renderedImage = SwingFXUtils.fromFXImage(write, null);
+//        ImageIO.write(renderedImage, "png", file);
 
     }
 
