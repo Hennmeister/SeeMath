@@ -37,6 +37,6 @@ public class Number extends Expression {
     }
 
     public String toString(){
-        return String.valueOf(value);
+        return value.charAt(0) == '-' ? "(" + value + ")" : value;
     }
 }

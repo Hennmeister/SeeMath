@@ -1,30 +1,37 @@
 package logic.equations;
 
+import logic.equations.expression_tree.ExpType;
 import logic.equations.expression_tree.Expression;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Equation {
-    private String mathBlockId;
-    private int problemId;
-    private String equalityOperator;
-    private Expression leftTree;
-    private Expression rightTree;
+  
+    private final String mathBlockId;
+    private final int problemId;
+    private final int version;
+    private final String equalityOperator;
+    private final Expression leftTree;
+    private final Expression rightTree;
     private boolean isCorrect;
 
     /**
      * Contructs a new equation object
      * @param id The id of the math block
      * @param problemId The id of the problem in the Hypatia assignment
+     * @param version The version of the Hypatia doc
      * @param equalityOperator The equality operator (=, ≈, ≠) connecting the two expression trees
      * @param leftTree The left expression in the equation
      * @param rightTree The right expression in the equation
      * @param isCorrect Whether the equation is true or not
      */
-    public Equation (String id, int problemId, String equalityOperator,
+    public Equation (String id, int problemId, int version, String equalityOperator,
                      Expression leftTree, Expression rightTree, boolean isCorrect)  {
         this.mathBlockId = id;
         this.problemId = problemId;
+        this.version = version;
         this.leftTree = leftTree;
         this.rightTree = rightTree;
         this.isCorrect = isCorrect;
@@ -66,6 +73,11 @@ public class Equation {
     }
 
     /**
+     * @return The version number of the Hypatia doc
+     */
+    public int getVersion(){ return version;}
+
+    /**
      * @return Whether this equation is correct mathematically, so if the left side and right side are correct under
      * the given operator found at the root.
      */
@@ -89,12 +101,22 @@ public class Equation {
     }
 
     /**
-     * Checks if equation has a variable i.e. is an algebraic expression
-     * @return true if equation is algebraic and false otherwise
+     * Checks if equation is graph visualizable
+     * Rules:
+     * - equation has exactly 2 variables
+     * - left side is a single variable (e.g. y = __)
+     * - right side has a variable different than the one on the left side
+     * @return true if graph is visualizable and false otherwise
      */
-    public boolean isAlgebraic(){
-        // We might want to restrict to only one or two variables depending on the graph visualizer implementation
-        return leftTree.distinctVariables() >= 1 || rightTree.distinctVariables() >= 1;
+    public boolean graphVisualizable(){
+        Set<String> leftVars = leftTree.distinctVariables();
+        Set<String> rightVars = rightTree.distinctVariables();
+        Set<String> vars = new HashSet<>(leftVars);
+        vars.addAll(rightVars);
+        // The implementation is explicit like this for scalability purposes
+        boolean leftConditions = leftTree.isLeaf() && (leftVars.size() == 1);
+        boolean variableConditions = vars.size() == 2 && !leftVars.equals(rightVars);
+        return  leftConditions && variableConditions;
     }
 
     @Override

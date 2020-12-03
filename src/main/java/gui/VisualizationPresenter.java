@@ -18,6 +18,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.WebController;
 import logic.equations.Equation;
 import logic.equations.expression_tree.Expression;
 
@@ -28,10 +29,14 @@ public class VisualizationPresenter implements VisualizationCreator {
 
     private Stage stage;
     private ArrayList<Node> visList;
+    private WebController serverController;
+    private PhotoHintPresenter photoHintPresenter;
 
-    public VisualizationPresenter(Stage stage) {
+    public VisualizationPresenter(Stage stage, WebController serverController) {
         this.stage = stage;
         this. visList = new ArrayList<Node>();
+        this.serverController = serverController;
+        this.photoHintPresenter = new PhotoHintPresenter();
     }
 
     /**
@@ -51,7 +56,7 @@ public class VisualizationPresenter implements VisualizationCreator {
             layout.getChildren().addAll(left.visualization(), vis.drawString(equality), right.visualization());
         }
         else{
-            Label label = new Label("unsupported visualization");
+            Label label = new Label("Unsupported Visualization. Please edit your equation in Hypatia.");
             layout.getChildren().add(label);
         }
         return layout;
@@ -72,10 +77,11 @@ public class VisualizationPresenter implements VisualizationCreator {
 
             Pane drawEqn;
 
-            if (eqn.isAlgebraic()){
+            if (eqn.graphVisualizable()){
                 GraphVisualizer vis = new GraphVisualizer();
-                //drawEqn = vis.drawExpression(eqn.getLeftTree(), eqn.getRightTree());
-                drawEqn = new Pane(); //place holder for ^^
+                // assuming graph is of the form y = ....
+                // so we visualize the right subtree
+                drawEqn = vis.drawExpression(eqn.getRightTree());
             } else{
                 drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
             }
@@ -93,6 +99,11 @@ public class VisualizationPresenter implements VisualizationCreator {
             }
             visList.add(drawEqn);
             visList.add(label);
+
+            String base64Image = photoHintPresenter.getPhotoHint(drawEqn);
+            if (!eqn.isCorrect()) {
+                serverController.sendVisualHint(eqn, base64Image);
+            }
 
             // Navigate through the UI objects to get to the visPane
             BorderPane ui = (BorderPane) stage.getScene().getRoot();

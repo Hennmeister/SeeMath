@@ -27,7 +27,10 @@ public class DivisionOp extends BinaryOp {
      */
     @Override
     public boolean isValid(){
-        return left.getType() != ExpType.MULTIPLICATION && right.getType() != ExpType.MULTIPLICATION;
+        if (left.hasType(ExpType.MULTIPLICATION) || right.hasType(ExpType.MULTIPLICATION)){
+            return false;
+        }
+        return left.isValid() && right.isValid();
     }
 
     /**

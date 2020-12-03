@@ -21,15 +21,14 @@ import java.io.FileNotFoundException;
 public class App extends Application {
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
-        VisualizationPresenter visPresenter = new VisualizationPresenter(stage);
+    public void start(Stage stage) throws FileNotFoundException{
+        WebController server = new WebController();
+        VisualizationPresenter visPresenter = new VisualizationPresenter(stage, server);
         EquationManager eqnManager = new EquationManager(visPresenter);
         WindowPresenter windowPresenter = new WindowPresenter();
 
-
         // Start WebSocket Server
         try {
-            WebController server = new WebController();
             server.startServer(eqnManager); } catch (InterruptedException e) {
             e.printStackTrace();
         }
