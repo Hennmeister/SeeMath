@@ -1,5 +1,9 @@
 package logic.equations.expression_tree;
 
+import gui.vis.AdditionVisualizer;
+import gui.vis.Visualizer;
+import javafx.scene.layout.Pane;
+
 public class Number extends Expression {
 
     /**
@@ -16,8 +20,20 @@ public class Number extends Expression {
      * Evaluates the number
      * @return double representation of the number
      */
+    @Override
     public Double evaluate(){
         return Double.parseDouble(value);
+    }
+
+    /**
+     * Creates proper visualization for this operator
+     * @return the visualization as a Pane
+     */
+    @Override
+    public Pane visualization() {
+        // default visualizer
+        Visualizer vis = new AdditionVisualizer();
+        return vis.drawExpression(this);
     }
 
     public String toString(){

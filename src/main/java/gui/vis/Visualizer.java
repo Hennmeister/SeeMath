@@ -30,8 +30,6 @@ public abstract class Visualizer {
 
     public abstract Pane drawExpression(Expression tree);
 
-    //public abstract Pane drawInt(int num);
-
     public Pane drawString(String str){
         Text text = new Text();
         text.setFont(drawFont);

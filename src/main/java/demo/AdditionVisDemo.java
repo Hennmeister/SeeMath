@@ -55,15 +55,17 @@ public class AdditionVisDemo extends Application {
         Expression ex1 = new Number("2", "1");
         Expression ex2 = new Number("19", "1");
         Expression ex3 = new AdditionOp(ex1, ex2, "1");
-        Expression ex4 = new MultiplicationOp(ex1, ex2, "1");
-        Expression ex5 = new AdditionOp(ex4, ex2, "1");
+        Expression ex4 = new Number("8", "1");
+        Expression ex5 = new Number("6", "1");
+        Expression ex6 = new DivisionOp(ex4, ex5, "1");
+        Expression ex8 = new MultiplicationOp(ex4, ex5, "1");
+        Expression ex7 = new AdditionOp(ex3, ex8, "1");
 
-
-        drawExpressionPane.getChildren().add(additionVisualizer.drawExpression(ex3));
 
         //primaryStage.setScene(new Scene(masterPane, 800, 800));
         //primaryStage.setScene(new Scene(drawExpressionPane, 1200, 800));
-        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(ex5), 800, 800));
+
+        primaryStage.setScene(new Scene(additionVisualizer.drawExpression(ex7), 800, 800));
         primaryStage.show();
 
 //        File file = new File("/Users/affansiddiqui/Desktop/image.png");

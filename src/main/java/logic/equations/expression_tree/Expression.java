@@ -1,7 +1,11 @@
 package logic.equations.expression_tree;
 
+import javafx.scene.layout.Pane;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class Expression {
 
@@ -40,16 +44,28 @@ public abstract class Expression {
      * @return whether tree is valid (recursively)
      */
     public boolean isValid(){
-        if(right == null && left == null){
+        if (right == null && left == null){
             return true;
-        } else if(right != null && left != null) {
+        } else if (right != null && left != null) {
+            // is an operator
             return right.isValid() && left.isValid();
         }
         // else expression is unbalanced i.e x + _
         return false;
     }
 
+
+    /**
+     * Evaluates the this binary operator node based on its sub-expressions (e.g 4+3)
+     * @return the resulting number of the operation
+     */
     public abstract Double evaluate();
+
+    /**
+     * Creates proper visualization for this operator
+     * @return the visualization as a Pane
+     */
+    public abstract Pane visualization();
 
     /**
      * Gets all the leaves from the tree
@@ -57,7 +73,7 @@ public abstract class Expression {
      */
     public ArrayList<Double> getLeaves(){
         ArrayList<Double> leaves = new ArrayList<>();
-        if (value == null){
+        if (value == null) {
             return leaves;
         }
         else if (this.isLeaf()) {
@@ -69,6 +85,42 @@ public abstract class Expression {
             leaves.addAll(right.getLeaves());
             return leaves;
         }
+    }
+
+    /**
+     * Checks if tree contains a node of type {@code type}
+     * @param type expression type to check for
+     * @return true if Expression contain {@code type} and false otherwise
+     */
+    public boolean hasType(ExpType type){
+        return this.getType() == type || left.hasType(type) || right.hasType(type);
+    }
+
+    /**
+     * Finds all distinct variables in expression tree
+     * @return a set containing the string value of all variables in the expression
+     */
+    public Set<String> distinctVariables(){
+        Set<String> var = new HashSet<>();
+        return findDistinctVar(var);
+    }
+
+    /**
+     * Helper method for finding distinctVariables()
+     * @param var a set containing variables in expression
+     * @return the set containing all variables in expression (recursively)
+     */
+    private Set<String> findDistinctVar(Set<String> var){
+        if (right == null && left == null){
+            if (this.getType() == ExpType.VARIABLE) {
+                var.add(this.getValue());
+            }
+        } else {
+            Set<String> copy = new HashSet<>(var);
+            var.addAll(left.findDistinctVar(copy));
+            var.addAll(right.findDistinctVar(copy));
+        }
+        return var;
     }
 
     /**

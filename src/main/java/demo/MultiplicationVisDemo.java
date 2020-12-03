@@ -4,7 +4,7 @@ import gui.PhotoHintPresenter;
 import gui.vis.AdditionVisualizer;
 import gui.vis.MultiplicationVisualizer;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
+//import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -55,7 +55,6 @@ public class MultiplicationVisDemo extends Application {
         //border.setCenter(drawExpressionPane);
         primaryStage.setScene(new Scene(border, 800, 800));
         primaryStage.show();
-
 
     }
     public static void main(String[] args) {

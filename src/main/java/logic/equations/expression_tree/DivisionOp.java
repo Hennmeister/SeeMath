@@ -1,5 +1,12 @@
 package logic.equations.expression_tree;
 
+import gui.vis.AdditionVisualizer;
+import gui.vis.FractionVisualizer;
+import gui.vis.Visualizer;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+
 public class DivisionOp extends BinaryOp {
 
     /**
@@ -14,11 +21,35 @@ public class DivisionOp extends BinaryOp {
     }
 
     /**
+     * Checks validity of an fraction node
+     * - Rule: fraction are multiplication are not mixed together
+     * @return whether node is valid
+     */
+    @Override
+    public boolean isValid(){
+        if (left.hasType(ExpType.MULTIPLICATION) || right.hasType(ExpType.MULTIPLICATION)){
+            return false;
+        }
+        return left.isValid() && right.isValid();
+    }
+
+    /**
      * Evaluates the this division node based on its sub-expressions (e.g 4/3)
      * @return the resulting number of the operation
      */
+    @Override
     public Double evaluate() {
         return left.evaluate() / right.evaluate();
+    }
+
+    /**
+     * Creates proper visualization for this operator
+     * @return the visualization as a Pane
+     */
+    @Override
+    public Pane visualization() {
+        Visualizer vis = new FractionVisualizer();
+        return vis.drawExpression(this);
     }
 
 }
