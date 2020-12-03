@@ -2,6 +2,7 @@ package gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -10,6 +11,7 @@ import javafx.stage.StageStyle;
 import logic.WebController;
 import logic.equations.EquationManager;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -38,18 +40,20 @@ public class App extends Application {
         iconView.setFitHeight(35);
 
         // BorderPane is the root pane for the App
-        BorderPane borderPane = windowPresenter.createWindow(stage, iconView);
+        BorderPane borderPane = windowPresenter.createWindow(stage);
 
         // visPane is the main blank space in the app, where the content (i.e. visualizations) should go
-        AnchorPane visPane = (AnchorPane) borderPane.getCenter();
-
+        ScrollPane sp = (ScrollPane) borderPane.getCenter();
+        VBox visPane = (VBox) sp.getContent();
+        visPane.getChildren().addAll(landing.getLandingPage(stage));
 
         Scene scene = new Scene(borderPane);
 
         stage.getIcons().add(iconImage);
 
         stage.setTitle("SeeMath");
-        stage.initStyle(StageStyle.UNDECORATED);
+
+        //stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();
     }

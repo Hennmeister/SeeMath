@@ -37,12 +37,13 @@ public class MultiplicationVisualizer extends Visualizer {
             pane.getChildren().add(shape);
 
             if (isPos) {
-                shape.setFill(javafx.scene.paint.Color.GREEN);
+                shape.setFill(positiveColor);
             }
             else {
-                shape.setFill(javafx.scene.paint.Color.RED);
+                shape.setFill(negativeColor);
             }
         }
+        pane.setEffect(getDropShadow());
         return pane;
     };
     /**
@@ -158,8 +159,10 @@ public class MultiplicationVisualizer extends Visualizer {
         }
         // Code for mouse-over behaviour:
         stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
-            stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
-            stackPane.getChildren().add(drawString(tree.evaluate().toString()));
+            //stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+            Pane strPane = drawString(tree.evaluate().toString());
+            strPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+            stackPane.getChildren().add(strPane);
         });
         stackPane.setOnMouseExited((EventHandler<Event>) e -> {
             stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
