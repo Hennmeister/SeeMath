@@ -2,6 +2,7 @@ package gui.vis;
 
 import javafx.geometry.Pos;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -42,6 +43,15 @@ public abstract class Visualizer {
         dropShadow.setOffsetY(3.0);
         dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
         return dropShadow;
+    }
+
+    public InnerShadow getInnerShadow(){
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setRadius(5.0);
+        innerShadow.setOffsetX(5.0);
+        innerShadow.setOffsetY(5.0);
+        innerShadow.setColor(Color.color(0.0, 0.0, 0.0, 0.4));
+        return innerShadow;
     }
 
     public abstract Pane drawExpression(Expression tree);

@@ -86,6 +86,11 @@ public class VisualizationPresenter implements VisualizationCreator {
                 drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
             }
 
+            StackPane correctPane = new StackPane();
+            correctPane.getChildren().add(drawEqn);
+
+
+
             // Store the Visualization and Label for later access, add a Line between equations for visual clarity
             if (visList.size() > 0){
                 Line line = new Line(0, 0, 500, 0);
@@ -102,6 +107,7 @@ public class VisualizationPresenter implements VisualizationCreator {
 
             String base64Image = photoHintPresenter.getPhotoHint(drawEqn);
             if (!eqn.isCorrect()) {
+                // Sent hint to Hypatia
                 serverController.sendVisualHint(eqn, base64Image);
             }
 

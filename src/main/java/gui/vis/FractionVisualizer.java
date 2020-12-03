@@ -17,6 +17,7 @@ import logic.equations.expression_tree.Expression;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.concurrent.Flow;
 
 public class FractionVisualizer extends Visualizer{
 
@@ -29,8 +30,9 @@ public class FractionVisualizer extends Visualizer{
      */
 
     public Pane drawFraction(Double num, Double denom){
-        HBox masterPane = new HBox();
-        masterPane.setSpacing(10);
+        FlowPane masterPane = new FlowPane();
+        masterPane.setHgap(10);
+        masterPane.setAlignment(Pos.CENTER);
 
         // Draw arcs with positive or negative color depending on num
         Color color;
@@ -130,6 +132,7 @@ public class FractionVisualizer extends Visualizer{
 
             Pane fractionPane = drawFraction(adjustedNum, denominator);
             StackPane stackPane = new StackPane();
+            stackPane.setAlignment(Pos.CENTER);
             stackPane.getChildren().add(fractionPane);
 
             //Set Mouse-over Behaviour
@@ -155,7 +158,7 @@ public class FractionVisualizer extends Visualizer{
             // Set up a Pane to hold the visualization
             FlowPane masterPane = new FlowPane();
             masterPane.setPrefWrapLength(900);
-            masterPane.setAlignment(Pos.TOP_LEFT);
+            masterPane.setAlignment(Pos.CENTER);
             //masterPane.setStyle("-fx-border-color: black"); // for debug
             masterPane.setMaxHeight(nodeSize);
 
