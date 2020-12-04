@@ -4,6 +4,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -33,10 +35,12 @@ public class FractionVisualizer extends Visualizer{
         FlowPane masterPane = new FlowPane();
         masterPane.setHgap(10);
         masterPane.setAlignment(Pos.CENTER);
+        //masterPane.setStyle("-fx-border-color: black"); // for debug
 
         // Draw arcs with positive or negative color depending on num
         Color color;
         Color accentColor;
+        Effect shadow = getDropShadow();
         if (num > 0){
             color = positiveColor;
             accentColor = positiveAccentColor;
@@ -46,6 +50,10 @@ public class FractionVisualizer extends Visualizer{
         }
 
         double absNum = Math.abs(num);
+
+        // circleCount keeps track of many many circles are in the vis so dimensions of the pane
+        // can be set appropriately
+        int circleCount = 0;
 
         double arcLength = 360/denom;
         //Draw full circles for each whole number contained within the fraction
@@ -67,8 +75,9 @@ public class FractionVisualizer extends Visualizer{
                 pane.getChildren().add(arc);
                 startAngle += arcLength;
             }
-            pane.setEffect(getDropShadow());
+            pane.setEffect(shadow);
             masterPane.getChildren().add(pane);
+            circleCount += 1;
             absNum = absNum - denom;
         }
         //Draw the remainder of the fraction
@@ -93,7 +102,9 @@ public class FractionVisualizer extends Visualizer{
             pane.getChildren().add(arc);
             startAngle += arcLength;
         }
-        pane.setEffect(getDropShadow());
+        circleCount += 1;
+        masterPane.setMaxSize(110*circleCount, 110*circleCount);
+        pane.setEffect(shadow);
         masterPane.getChildren().add(pane);
         return masterPane;
     };

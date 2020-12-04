@@ -7,6 +7,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.equations.expression_tree.Expression;
 
@@ -47,9 +48,9 @@ public abstract class Visualizer {
 
     public InnerShadow getInnerShadow(){
         InnerShadow innerShadow = new InnerShadow();
-        innerShadow.setRadius(5.0);
-        innerShadow.setOffsetX(5.0);
-        innerShadow.setOffsetY(5.0);
+        innerShadow.setRadius(3.0);
+        innerShadow.setOffsetX(3.0);
+        innerShadow.setOffsetY(3.0);
         innerShadow.setColor(Color.color(0.0, 0.0, 0.0, 0.4));
         return innerShadow;
     }
@@ -58,7 +59,7 @@ public abstract class Visualizer {
 
     public Pane drawString(String str){
         Text text = new Text();
-        text.setFont(drawFont);
+        text.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         //text.setFill(Color.WHITE);
         text.setText(str);
         FlowPane pane = new FlowPane();

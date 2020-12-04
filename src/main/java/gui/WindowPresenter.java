@@ -61,7 +61,7 @@ public class WindowPresenter {
                 "-fx-spacing: 0; " +
                 "-fx-background-color: " + colour1 + "; " +
                 "-fx-font-family: Goudy Old Style; " +
-                "-fx-font-style: italic; " +
+                //"-fx-font-style: italic; " +
                 "-fx-font-size: 15pt; " +
                 "-fx-color: white"
         );

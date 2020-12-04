@@ -73,7 +73,7 @@ public class VisualizationPresenter implements VisualizationCreator {
 
             // displays equation id
             Label label = new Label("Equation: " + eqn.toStringLabel() + " - ID: " + eqn.getProblemId());
-            label.setFont(new Font("Arial", 24));
+            label.setFont(new Font("Verdana", 24));
 
             Pane drawEqn;
 
