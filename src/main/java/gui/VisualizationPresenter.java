@@ -41,22 +41,22 @@ public class VisualizationPresenter implements VisualizationCreator {
 
     /**
      * Creates an appropriate visualization for equation by calling the correct visualizer
-     * @param left expression tree for left-hand side
-     * @param equality string representation of the equality operator
-     * @param right expression tree for right-hand side
+     * @param eqn The equation to visualize
      * @return the visualization of expression if valid, or an error message
      */
-    public Pane makeVisualization(Expression left, String equality, Expression right){
+    public Pane makeVisualization(Equation eqn){
         FlowPane layout = new FlowPane();
         layout.setPrefWrapLength(900);
         layout.setVgap(10);
         layout.setAlignment(Pos.TOP_CENTER);
-        if (left.isValid() && right.isValid()) {
+        if (eqn.getLeftTree().isValid() && eqn.getRightTree().isValid()) {
             AdditionVisualizer vis = new AdditionVisualizer();
-            layout.getChildren().addAll(left.visualization(), vis.drawString(equality), right.visualization());
+            layout.getChildren().addAll(eqn.getLeftTree().visualization(), vis.drawString(eqn.getEqualityOperator()),
+                    eqn.getRightTree().visualization());
+            sendHint(layout, eqn);
         }
         else{
-            Label label = new Label("Unsupported Visualization. Please edit your equation in Hypatia.");
+            Label label = new Label("Unsupported Visualization.");
             layout.getChildren().add(label);
         }
         return layout;
@@ -72,7 +72,7 @@ public class VisualizationPresenter implements VisualizationCreator {
         Platform.runLater(() -> {
 
             // displays equation id
-            Label label = new Label("Equation: " + eqn.toStringLabel() + " - ID: " + eqn.getProblemId());
+            Label label = new Label("Equation: " + eqn.toStringLabel() + ", ID: " + eqn.getProblemId());
             label.setFont(new Font("Arial", 24));
 
             Pane drawEqn;
@@ -82,8 +82,9 @@ public class VisualizationPresenter implements VisualizationCreator {
                 // assuming graph is of the form y = ....
                 // so we visualize the right subtree
                 drawEqn = vis.drawExpression(eqn.getRightTree());
+                sendHint(drawEqn, eqn);
             } else{
-                drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
+                drawEqn = makeVisualization(eqn);
             }
 
             // Store the Visualization and Label for later access, add a Line between equations for visual clarity
@@ -100,11 +101,6 @@ public class VisualizationPresenter implements VisualizationCreator {
             visList.add(drawEqn);
             visList.add(label);
 
-            String base64Image = photoHintPresenter.getPhotoHint(drawEqn);
-            if (!eqn.isCorrect()) {
-                serverController.sendVisualHint(eqn, base64Image);
-            }
-
             // Navigate through the UI objects to get to the visPane
             BorderPane ui = (BorderPane) stage.getScene().getRoot();
             ScrollPane sp = (ScrollPane) ui.getCenter();
@@ -118,5 +114,12 @@ public class VisualizationPresenter implements VisualizationCreator {
             stage.setScene(stage.getScene());
             stage.show();
         });
+    }
+
+    private void sendHint(Pane vis, Equation eqn) {
+        String base64Image = photoHintPresenter.getPhotoHint(vis);
+        if (!eqn.isCorrect()) {
+            serverController.sendVisualHint(eqn, base64Image);
+        }
     }
 }

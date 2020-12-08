@@ -30,7 +30,6 @@ public class EquationManager {
             }
         }
         equationList.add(e);
-        presenter.updateVisualization(e);
     }
 
     /**
@@ -42,6 +41,7 @@ public class EquationManager {
         for (Equation eqn : equationList){
             if(eqn.containsExpression(id)) {
                 eqn.setCorrectness(isCorrect);
+                presenter.updateVisualization(eqn);
                 return;
             }
         }
