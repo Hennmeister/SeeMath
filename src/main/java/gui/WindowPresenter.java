@@ -15,9 +15,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class WindowPresenter {
+    private Stage stage;
+    private SaveGateway saveGateway;
 
-    public BorderPane createWindow(Stage stage) {
-
+    public BorderPane createWindow(Stage stage, SaveGateway saveGateway) {
+        this.stage = stage;
+        this.saveGateway = saveGateway;
         // Change application colour scheme here
         String colour2 = "#24496d";
         String colour1 = "#4FC3F7";
@@ -141,8 +144,10 @@ public class WindowPresenter {
 
         MenuItem saveImage = new MenuItem("save image");
         saveImage.setOnAction((EventHandler<ActionEvent>) event -> {
-            // Placeholder action:
-            System.out.println("Save Image action.");
+            BorderPane masterPane = (BorderPane) stage.getScene().getRoot();
+            ScrollPane sp = (ScrollPane) masterPane.getCenter();
+            VBox visPane = (VBox) sp.getContent();
+            saveGateway.saveVisualization(visPane);
         });
 
         fileMenu.getItems().addAll(saveImage);
