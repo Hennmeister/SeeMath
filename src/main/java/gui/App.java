@@ -40,7 +40,7 @@ public class App extends Application {
         iconView.setFitHeight(35);
 
         // BorderPane is the root pane for the App
-        BorderPane borderPane = windowPresenter.createWindow(stage);
+        BorderPane borderPane = windowPresenter.createWindow(stage, new ImageSaver());
 
         // visPane is the main blank space in the app, where the content (i.e. visualizations) should go
         ScrollPane sp = (ScrollPane) borderPane.getCenter();
