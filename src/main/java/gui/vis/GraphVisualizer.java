@@ -21,10 +21,8 @@ public class GraphVisualizer extends Visualizer{
         Pane topPane = new Pane();
         topPane.setPrefHeight(0);
         // topPane.setStyle("-fx-background-color: rgb(255,255,255);");
-        //68,72,83
         topPane.getChildren();
         String equationString = tree.toString();
-//        String equationString = "x^2*3-3";
         equationString = equationString.replaceAll("\\s+", ""); //remove whitespace
         equationString = equationString.replace("(",""); //remove opening parentheses
         equationString = equationString.replace(")",""); //remove closing parentheses
@@ -39,16 +37,18 @@ public class GraphVisualizer extends Visualizer{
         double y;
         ArrayList<Double> xIntercepts = new ArrayList<>();
         ArrayList<Double> rounded = new ArrayList<>();
+        yIntercept = evaluate(terms, 0);
         while(x < 10){
             y = evaluate(terms, x);
-            if(((y < 0.01 && y > -0.01)||(y < 0.05 && y > -0.05)) && !rounded.contains((double) Math.round(x))){
-                xIntercepts.add(x);
+            if(((y < 0.1 && y > -0.1))&& !rounded.contains((double) Math.round(x))){
+                if(Math.round(x) != yIntercept) {
+                    xIntercepts.add(x);
+                }
                 rounded.add((double) Math.round(x));
             }
             values.add(y);
             x += 0.01;
         }
-        yIntercept = evaluate(terms, 0);
 
         // Create Axes
 
