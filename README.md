@@ -18,7 +18,7 @@ installed:
 
 ### Prerequisites
 
- * [Hypatia's Desktop Math Editor](https://hypatiasys.com/downloads/lates)
+ * [Hypatia's Desktop Math Editor](https://hypatiasys.com/downloads/latest)
  * [Maven](https://maven.apache.org/)
 
 ### Installing
