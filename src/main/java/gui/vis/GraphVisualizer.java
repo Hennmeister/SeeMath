@@ -20,7 +20,7 @@ public class GraphVisualizer extends Visualizer{
         BorderPane bp = new BorderPane();
         Pane topPane = new Pane();
         topPane.setPrefHeight(0);
-        topPane.setStyle("-fx-background-color: rgb(255,255,255);");
+        // topPane.setStyle("-fx-background-color: rgb(255,255,255);");
         //68,72,83
         topPane.getChildren();
         String equationString = tree.toString();
@@ -83,7 +83,7 @@ public class GraphVisualizer extends Visualizer{
         // Place Plot in new Stack Pane
         StackPane layout = new StackPane();
         layout.setPadding(new Insets(20));
-        layout.setStyle("-fx-background-color: rgb(255,255,255);");
+        // layout.setStyle("-fx-background-color: rgb(255,255,255);");
         topPane.getChildren().add(yInterceptPoint);
         layout.getChildren().addAll(plot);
         bp.setCenter(layout);
