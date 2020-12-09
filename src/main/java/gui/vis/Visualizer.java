@@ -15,7 +15,7 @@ public abstract class Visualizer {
 
     Font drawFont = new Font(30);
     int nodeSize = 100;
-    Color positiveColor = Color.web("4fc3f7");
+    Color positiveColor = Color.web("6EC2F2");
     Color positiveAccentColor = Color.web("31718f");
     Color negativeColor = Color.web("f74f6e");
     Color negativeAccentColor = Color.web("ad3648");
