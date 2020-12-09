@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
@@ -22,6 +24,8 @@ import logic.WebController;
 import logic.equations.Equation;
 import logic.equations.expression_tree.Expression;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -34,7 +38,7 @@ public class VisualizationPresenter implements VisualizationCreator {
 
     public VisualizationPresenter(Stage stage, WebController serverController) {
         this.stage = stage;
-        this. visList = new ArrayList<Node>();
+        this.visList = new ArrayList<Node>();
         this.serverController = serverController;
         this.photoHintPresenter = new PhotoHintPresenter();
     }
@@ -86,10 +90,24 @@ public class VisualizationPresenter implements VisualizationCreator {
                 drawEqn = makeVisualization(eqn.getLeftTree(), eqn.getEqualityOperator(), eqn.getRightTree());
             }
 
-            StackPane correctPane = new StackPane();
-            correctPane.getChildren().add(drawEqn);
-
-
+            // Visualize whether of not the equation is correct
+            HBox correctPane = new HBox();
+            correctPane.setAlignment(Pos.CENTER);
+            correctPane.setSpacing(10);
+            correctPane.getChildren().add(label);
+            if (eqn.isCorrect()){
+                try {
+                    correctPane.getChildren().add(getCorrect());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    correctPane.getChildren().add(getIncorrect());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
 
             // Store the Visualization and Label for later access, add a Line between equations for visual clarity
             if (visList.size() > 0){
@@ -103,7 +121,7 @@ public class VisualizationPresenter implements VisualizationCreator {
                 visList.add(line);
             }
             visList.add(drawEqn);
-            visList.add(label);
+            visList.add(correctPane);
 
             String base64Image = photoHintPresenter.getPhotoHint(drawEqn);
             if (!eqn.isCorrect()) {
@@ -124,5 +142,21 @@ public class VisualizationPresenter implements VisualizationCreator {
             stage.setScene(stage.getScene());
             stage.show();
         });
+    }
+
+    private ImageView getCorrect() throws FileNotFoundException {
+        Image correctImg = new Image(new FileInputStream("correct.png"));
+        ImageView correctView = new ImageView(correctImg);
+        correctView.setFitHeight(35);
+        correctView.setPreserveRatio(true);
+        return correctView;
+    }
+
+    private ImageView getIncorrect() throws FileNotFoundException {
+        Image incorrectImg = new Image(new FileInputStream("incorrect.png"));
+        ImageView incorrectView = new ImageView(incorrectImg);
+        incorrectView.setFitHeight(35);
+        incorrectView.setPreserveRatio(true);
+        return incorrectView;
     }
 }
