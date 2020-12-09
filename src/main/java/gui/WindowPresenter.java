@@ -20,7 +20,7 @@ public class WindowPresenter {
 
         // Change application colour scheme here
         String colour2 = "#24496d";
-        String colour1 = "#4FC3F7";
+        String colour1 = "#6EC2F2";
 
         // borderPane is the root for the visualization scene
         BorderPane borderPane = new BorderPane();
