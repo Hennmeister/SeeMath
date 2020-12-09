@@ -1,6 +1,8 @@
 package gui.vis;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Box;
+import javafx.scene.text.Font;
 import logic.equations.expression_tree.Expression;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -15,6 +17,7 @@ import javafx.scene.shape.Circle;
 import logic.equations.expression_tree.Expression;
 import java.util.ArrayList;
 import static java.lang.Math.abs;
+import logic.equations.expression_tree.ExpType;
 
 public class MultiplicationVisualizer extends Visualizer {
     /**
@@ -33,12 +36,13 @@ public class MultiplicationVisualizer extends Visualizer {
             pane.getChildren().add(shape);
 
             if (isPos) {
-                shape.setFill(javafx.scene.paint.Color.GREEN);
+                shape.setFill(positiveColor);
             }
             else {
-                shape.setFill(javafx.scene.paint.Color.RED);
+                shape.setFill(negativeColor);
             }
         }
+        pane.setEffect(getDropShadow());
         return pane;
     };
     /**
@@ -49,75 +53,80 @@ public class MultiplicationVisualizer extends Visualizer {
      */
     @Override
     public Pane drawExpression(Expression tree) {
-        Pane vis = mouseOver(tree); //get the visualization
+        if (tree.isLeaf() || tree.getType() == ExpType.MULTIPLICATION) {
+            return generateCompleteVisualization(tree);
+        }
+        else { //if root is not multiplication, draw left, root right
+            HBox layout = new HBox();
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            Pane leftVisualization = drawExpression(tree.getLeft());
+            Pane rightVisualization = drawExpression(tree.getRight());
+            Pane root = drawString(tree.getValue());
+            layout.setSpacing(50);
+            layout.getChildren().addAll(leftVisualization, root, rightVisualization);
+            return layout;
+        }
+    }
+
+    private Pane generateCompleteVisualization(Expression tree) {
+        Pane vis = generateMouseOver(tree); //get the visualization
         GridPane border = new GridPane(); //create a GridPane to add the borders of the visualization
         //the string representation of the number that is being repeated
-        Pane left = drawString(tree.findLeftMostLeaf().getValue());
+        //Pane left = drawString(tree.findLeftMostLeaf().getValue());
+        Pane left;
         Pane top;
         if (tree.isLeaf()) { //if tree is leaf, then its equivalent to multiplying by 1
-            top = drawString("* 1");
+            left = drawString(tree.getValue());
+            top = drawString("1");
         }
         else { //otherwise, get string containing all the multiplication factors
-            top = getMultiplicationFactors(tree);
+            left = drawString(tree.getLeft().toString());
+            top = drawString(tree.getRight().toString());
         }
         //the following lines of code will set up the GridPane to hold the visualization and the borders
-        //NOTE: indexes .setConstraints are col, row
+        //NOTE: indices .setConstraints are col, row
         GridPane.setConstraints(vis, 1, 1); //put visualization in centre
         GridPane.setConstraints(left, 0, 1); //put left in the cell to the left of vis
         GridPane.setConstraints(top, 1, 0); //put top in the cell right above vis
         GridPane.setFillHeight(left, false); //this is for formatting
         GridPane.setHalignment(top, HPos.CENTER); //this is for formatting
+        //border.setGridLinesVisible(true); //for debugging
         border.getChildren().addAll(vis, left, top); //add everything to the GridPane
         return border;
-        }
-
-    private Pane getMultiplicationFactors(Expression tree) {
-        Expression left = tree.findLeftMostLeaf();
-        ArrayList<Double> factors = tree.getLeaves();
-        factors.remove(left.evaluate());
-        String result = "";
-        //double result = 1;
-        for (Double d: factors) {
-            result += "* " + d.intValue() + " ";
-            //result = result * d;
-        }
-        //return drawString("* " + (int) result);
-        return drawString(result);
     }
-    private Pane drawRecursive(Expression tree, boolean isPos) {
+
+    private Pane draw(Expression tree, boolean isPos) {
         if (tree.isLeaf()){
             return drawInt(Integer.parseInt(tree.getValue()), isPos);
         }
-        else {
-            // Set up a Pane to hold the visualization
-            HBox masterPane = new HBox();
-            masterPane.setSpacing(12);
-            masterPane.setAlignment(Pos.BASELINE_CENTER);
-            //draw result:
-            //repeat the vis for left subtree, right subtree amount of times
-            for(int i = 1; i <= abs(tree.getRight().evaluate()); i++) {
-                masterPane.getChildren().add(drawRecursive(tree.getLeft(), isPos));
-            }
-
-            return masterPane;
+        // Set up a Pane to hold the visualization
+        HBox masterPane = new HBox();
+        masterPane.setSpacing(12);
+        masterPane.setAlignment(Pos.BASELINE_CENTER);
+        //draw result:
+        //draw left.evaluate(), repeat right.evaluate() # of times
+        for (int i = 1; i <= abs(tree.getRight().evaluate()); i++) {
+            masterPane.getChildren().add(drawInt(tree.getLeft().evaluate().intValue(), isPos));
         }
+        return masterPane;
     }
 
-    private Pane mouseOver(Expression tree) {
+    private Pane generateMouseOver(Expression tree) {
         // Set up a StackPane to handle mouse-over behaviour on top of the visualization
         StackPane stackPane = new StackPane();
         stackPane.setAlignment(Pos.CENTER);
         stackPane.setMaxSize(nodeSize, nodeSize);
         if (tree.evaluate() > 0){
-            stackPane.getChildren().add(drawRecursive(tree, true));
+            stackPane.getChildren().add(draw(tree, true));
         }
         else{
-            stackPane.getChildren().add(drawRecursive(tree, false));
+            stackPane.getChildren().add(draw(tree, false));
         }
         // Code for mouse-over behaviour:
         stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
-            stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
-            stackPane.getChildren().add(drawString(tree.evaluate().toString()));
+            Pane strPane = drawString(Integer.toString(tree.evaluate().intValue()));
+            strPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+            stackPane.getChildren().add(strPane);
         });
         stackPane.setOnMouseExited((EventHandler<Event>) e -> {
             stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");

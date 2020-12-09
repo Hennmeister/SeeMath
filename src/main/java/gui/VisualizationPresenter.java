@@ -1,36 +1,64 @@
 package gui;
 
+import gui.vis.AdditionVisualizer;
+import gui.vis.GraphVisualizer;
+import gui.vis.Visualizer;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.*;
 
-import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.WebController;
 import logic.equations.Equation;
 import logic.equations.expression_tree.Expression;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class VisualizationPresenter implements VisualizationCreator {
 
     private Stage stage;
+    private ArrayList<Node> visList;
+    private WebController serverController;
+    private PhotoHintPresenter photoHintPresenter;
 
-    public VisualizationPresenter(Stage stage) {
+    public VisualizationPresenter(Stage stage, WebController serverController) {
         this.stage = stage;
+        this. visList = new ArrayList<Node>();
+        this.serverController = serverController;
+        this.photoHintPresenter = new PhotoHintPresenter();
     }
 
     /**
      * Creates an appropriate visualization for equation by calling the correct visualizer
-     * @param exp equation to be visualized
-     * @return the visualization of expression if valid or an error message
+     * @param eqn The equation to visualize
+     * @return the visualization of expression if valid, or an error message
      */
-    public Pane makeVisualization(Expression exp){
-        if (exp.isValid()){
-            return exp.visualization();
+    public Pane makeVisualization(Equation eqn){
+        FlowPane layout = new FlowPane();
+        layout.setPrefWrapLength(900);
+        layout.setVgap(10);
+        layout.setAlignment(Pos.TOP_CENTER);
+        if (eqn.getLeftTree().isValid() && eqn.getRightTree().isValid()) {
+            AdditionVisualizer vis = new AdditionVisualizer();
+            layout.getChildren().addAll(eqn.getLeftTree().visualization(), vis.drawString(eqn.getEqualityOperator()),
+                    eqn.getRightTree().visualization());
+            sendHint(layout, eqn);
         }
-        HBox layout = new HBox();
-        Label label = new Label("Unsupported visualization");
-        layout.getChildren().add(label);
+        else{
+            Label label = new Label("Unsupported Visualization.");
+            layout.getChildren().add(label);
+        }
         return layout;
     }
 
@@ -43,24 +71,55 @@ public class VisualizationPresenter implements VisualizationCreator {
         // Runs the UI related logic on the javaFX thread
         Platform.runLater(() -> {
 
-            // TODO: For some reason my intelliJ does not compile Labels, so please test these out in our own machines
-            // And let me know if that's just a problem on my end
+            // displays equation id
+            Label label = new Label("Equation: " + eqn.toStringLabel() + ", ID: " + eqn.getProblemId());
+            label.setFont(new Font("Arial", 24));
 
-            //Label label = new Label(eqn.toString());
-            //label.setFont(new Font("Arial", 24));
+            Pane drawEqn;
 
-            // StackPane so we can stack new equations as they get visualized
-            StackPane layout = new StackPane();
+            if (eqn.graphVisualizable()){
+                GraphVisualizer vis = new GraphVisualizer();
+                // assuming graph is of the form y = ....
+                // so we visualize the right subtree
+                drawEqn = vis.drawExpression(eqn.getRightTree());
+                sendHint(drawEqn, eqn);
+            } else{
+                drawEqn = makeVisualization(eqn);
+            }
 
-            // TODO: Refactor equation so that equality operator is included in Expression Tree
-            // and equation now only holds a reference to the tree as a whole (no more left, right subtrees)
-            Pane drawEqn = makeVisualization(eqn.getTree());
+            // Store the Visualization and Label for later access, add a Line between equations for visual clarity
+            if (visList.size() > 0){
+                Line line = new Line(0, 0, 500, 0);
+                DropShadow dropShadow = new DropShadow();
+                dropShadow.setRadius(3.0);
+                dropShadow.setOffsetX(3.0);
+                dropShadow.setOffsetY(3.0);
+                dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
+                line.setEffect(dropShadow);
+                visList.add(line);
+            }
+            visList.add(drawEqn);
+            visList.add(label);
 
-            layout.getChildren().add(drawEqn);
+            // Navigate through the UI objects to get to the visPane
+            BorderPane ui = (BorderPane) stage.getScene().getRoot();
+            ScrollPane sp = (ScrollPane) ui.getCenter();
+            VBox visPane = (VBox) sp.getContent();
 
-            Scene scene = new Scene(layout, 640, 480);
-            stage.setScene(scene);
+            // Empty the visPane, before adding in all the stored visualizations
+            visPane.getChildren().clear();
+            for (int i = visList.size() - 1; i >= 0; i -= 1) {
+                 visPane.getChildren().add(visList.get(i));
+            }
+            stage.setScene(stage.getScene());
             stage.show();
         });
+    }
+
+    private void sendHint(Pane vis, Equation eqn) {
+        String base64Image = photoHintPresenter.getPhotoHint(vis);
+        if (!eqn.isCorrect()) {
+            serverController.sendVisualHint(eqn, base64Image);
+        }
     }
 }

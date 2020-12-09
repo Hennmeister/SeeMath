@@ -3,7 +3,9 @@ package logic.equations.expression_tree;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class Expression {
 
@@ -39,36 +41,19 @@ public abstract class Expression {
 
     /**
      * Checks validity of expression tree
-     * Rules:
-     *  - first node is an equality operator
-     *  - all operations are of the same type
      * @return whether tree is valid (recursively)
      */
     public boolean isValid(){
-        // can be extended to approximately equals, not equals, etc
-        if (this instanceof EqualityOp){
-            ExpType type = left.getType();
-            return left.sameType(type) && right.sameType(type);
-        }
-        return false;
-    }
-
-    /**
-     * Checks if expression has uniform type of operators
-     * @param type type of the expression
-     * @return true if all tree operators match {@code type} and false otherwise
-     */
-    public boolean sameType(ExpType type){
-        if (right == null && left == null) {
-            // is a leaf: Number or Variable
-            return this instanceof Number;
+        if (right == null && left == null){
+            return true;
         } else if (right != null && left != null) {
             // is an operator
-            return right.sameType(type) && left.sameType(type);
+            return right.isValid() && left.isValid();
         }
         // else expression is unbalanced i.e x + _
         return false;
     }
+
 
     /**
      * Evaluates the this binary operator node based on its sub-expressions (e.g 4+3)
@@ -103,6 +88,42 @@ public abstract class Expression {
     }
 
     /**
+     * Checks if tree contains a node of type {@code type}
+     * @param type expression type to check for
+     * @return true if Expression contain {@code type} and false otherwise
+     */
+    public boolean hasType(ExpType type){
+        return this.getType() == type || (!this.isLeaf() && (left.hasType(type) || right.hasType(type)));
+    }
+
+    /**
+     * Finds all distinct variables in expression tree
+     * @return a set containing the string value of all variables in the expression
+     */
+    public Set<String> distinctVariables(){
+        Set<String> var = new HashSet<>();
+        return findDistinctVar(var);
+    }
+
+    /**
+     * Helper method for finding distinctVariables()
+     * @param var a set containing variables in expression
+     * @return the set containing all variables in expression (recursively)
+     */
+    private Set<String> findDistinctVar(Set<String> var){
+        if (right == null && left == null){
+            if (this.getType() == ExpType.VARIABLE) {
+                var.add(this.getValue());
+            }
+        } else {
+            Set<String> copy = new HashSet<>(var);
+            var.addAll(left.findDistinctVar(copy));
+            var.addAll(right.findDistinctVar(copy));
+        }
+        return var;
+    }
+
+    /**
      * Check if this expression or its children contain the given id
      * @param id The id of the math node assigned by Hypatia
      * @return true if this expression tree contains the given id; False otherwise
@@ -119,12 +140,29 @@ public abstract class Expression {
         return left == null && right == null;
     }
 
+    /**
+     * Find the leftmost leaf of the tree of which this node is the root
+     * @return the leftmost expression of the tree
+     */
     public Expression findLeftMostLeaf() {
         if (this.isLeaf()) {
             return this;
         }
         else {
             return left.findLeftMostLeaf();
+        }
+    }
+
+    /**
+     * Find the rightmost leaf of the tree of which this node is the root
+     * @return the rightmost expression of the tree
+     */
+    public Expression findRightMostLeaf() {
+        if (this.isLeaf()) {
+            return this;
+        }
+        else {
+            return right.findRightMostLeaf();
         }
     }
 
@@ -164,7 +202,7 @@ public abstract class Expression {
     }
 
     public String toString(){
-        return left.toString() + (value.charAt(0) == '-' ? "(" + value + ")" : value) + right.toString();
+        return "(" + left.toString() + value + right.toString() + ")";
     }
 
     @Override

@@ -7,5 +7,4 @@ public enum ExpType {
     MULTIPLICATION,
     DIVISION,
     EXPONENT,
-    EQUALITY
 }

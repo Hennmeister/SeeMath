@@ -2,6 +2,8 @@ package logic.equations.expression_tree;
 
 import gui.vis.AdditionVisualizer;
 import gui.vis.Visualizer;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 public class AdditionOp extends BinaryOp {
@@ -32,7 +34,12 @@ public class AdditionOp extends BinaryOp {
      */
     @Override
     public Pane visualization() {
+        //TODO: this will be replaced with the correct addition visualizer
+        HBox layout = new HBox();
+        layout.setSpacing(0);
+        layout.setAlignment(Pos.TOP_LEFT);
         Visualizer vis = new AdditionVisualizer();
-        return vis.drawExpression(this);
+        layout.getChildren().addAll(left.visualization(), vis.drawString(this.getValue()), right.visualization());
+        return layout;
     }
 }

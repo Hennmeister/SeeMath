@@ -30,7 +30,6 @@ public class EquationManager {
             }
         }
         equationList.add(e);
-        presenter.updateVisualization(e);
     }
 
     /**
@@ -38,10 +37,11 @@ public class EquationManager {
      * @param id The id of the incorrect expression node
      * @param isCorrect Whether this equation is logically correct
      */
-    public void updateEquationCorrectness(String id, boolean isCorrect){
+    public void updateEquationCheckMathResults(String id, boolean isCorrect){
         for (Equation eqn : equationList){
             if(eqn.containsExpression(id)) {
                 eqn.setCorrectness(isCorrect);
+                presenter.updateVisualization(eqn);
                 return;
             }
         }

@@ -34,6 +34,6 @@ public class Variable extends Number {
     }
 
     public String toString(){
-        return value;
+        return value.charAt(0) == '-' ? "(" + value + ")" : value;
     }
 }

@@ -3,6 +3,7 @@ package gui;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,12 +15,15 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class WindowPresenter {
+    private Stage stage;
+    private SaveGateway saveGateway;
 
-    public BorderPane createWindow(Stage stage, ImageView icon) throws FileNotFoundException {
-
+    public BorderPane createWindow(Stage stage, SaveGateway saveGateway) {
+        this.stage = stage;
+        this.saveGateway = saveGateway;
         // Change application colour scheme here
         String colour2 = "#24496d";
-        String colour1 = "#caebfa";
+        String colour1 = "#4FC3F7";
 
         // borderPane is the root for the visualization scene
         BorderPane borderPane = new BorderPane();
@@ -30,6 +34,7 @@ public class WindowPresenter {
                 "-fx-spacing: 0; " +
                 "-fx-text-fill: white");
 
+        /**
         // Formatting the right-aligned Buttons for window behaviour:
         Button closeButton = createCloseButton(stage);
         Button maximizeButton = createMaximizeButton(stage);
@@ -51,6 +56,7 @@ public class WindowPresenter {
                 button.setStyle("-fx-background-color: " + colour1 + "; " + "-fx-background-radius: 0");
             });
         }
+         **/
 
         // Left-aligned drop-down menus:
         MenuBar menuBar = new MenuBar();
@@ -65,7 +71,7 @@ public class WindowPresenter {
 
         Menu fileMenu = createFileMenu();
         Menu editMenu = createEditMenu();
-        Menu helpMenu = createHelpMenu();
+        Menu helpMenu = createHelpMenu(stage);
 
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 
@@ -73,14 +79,22 @@ public class WindowPresenter {
         HBox buffer = new HBox();
         HBox.setHgrow(buffer, Priority.ALWAYS);
 
-        toolBar.getItems().addAll(icon, menuBar, buffer, minimizeButton, maximizeButton, closeButton);
+        toolBar.getItems().addAll(menuBar, buffer);
 
         // The AnchorPane holds the visualization within the blank space in the center of the application
-        AnchorPane visPane = new AnchorPane();
+        VBox visPane = new VBox();
         visPane.setPrefSize(900, 500);
+        //visPane.setMinHeight(500);
+        //visPane.setMinWidth(900);
+        //visPane.setMinSize(900, 500);
+        visPane.setAlignment(Pos.CENTER);
+        visPane.setSpacing(20);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(visPane);
 
         borderPane.setTop(toolBar);
-        borderPane.setCenter(visPane);
+        borderPane.setCenter(scrollPane);
 
         return borderPane;
     }
@@ -130,8 +144,10 @@ public class WindowPresenter {
 
         MenuItem saveImage = new MenuItem("save image");
         saveImage.setOnAction((EventHandler<ActionEvent>) event -> {
-            // Placeholder action:
-            System.out.println("Save Image action.");
+            BorderPane masterPane = (BorderPane) stage.getScene().getRoot();
+            ScrollPane sp = (ScrollPane) masterPane.getCenter();
+            VBox visPane = (VBox) sp.getContent();
+            saveGateway.saveVisualization(visPane);
         });
 
         fileMenu.getItems().addAll(saveImage);
@@ -151,12 +167,20 @@ public class WindowPresenter {
         return editMenu;
     }
 
-    private Menu createHelpMenu(){
+    private Menu createHelpMenu(Stage stage){
         Menu helpMenu = new Menu("help");
-
+        LandingPage landing = new LandingPage();
         MenuItem aboutSeeMath = new MenuItem("about SeeMath");
         aboutSeeMath.setOnAction((EventHandler<ActionEvent>) e -> {
-            // Placeholder action:
+            try {
+                BorderPane pane = (BorderPane) stage.getScene().getRoot();
+                ScrollPane sp = (ScrollPane) pane.getCenter();
+                VBox visPane = (VBox) sp.getContent();
+                visPane.getChildren().clear();
+                visPane.getChildren().addAll(landing.getAboutPage(stage));
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
             System.out.println("About SeeMath action.");
         });
 

@@ -18,6 +18,15 @@ public class ExponentOp extends BinaryOp {
     }
 
     /**
+     * The exponent operator does not have a specific visualization.
+     * Therefore, it should never be visualized outside of the graphs
+     * @return false since exponents are non-visualizable
+     */
+    public boolean isValid(){
+        return false;
+    }
+
+    /**
      * Evaluates the this exponential node based on its sub-expressions (e.g 4^3)
      * @return the resulting number of the operation
      */

@@ -32,22 +32,26 @@ public class AdditionVisualizer extends Visualizer{
             Rectangle node;
 
             // Construct a rectangle of the appropriate size, given <num>
-            if (num <= 9){
+            /*
+            if (num <= 30){
                 node = new Rectangle(25, 25);
-            } else if (num <= 36) {
+            } else if (num <= 60) {
                 node = new Rectangle(10, 10);
             } else {
                 node = new Rectangle(5, 5);
-            }
+            }*/
+
+            node = new Rectangle(25, 25);
 
             // If <num> is 0 or positive color the node green, otherwise color it red
             if (num >= 0){
-                node.setFill(javafx.scene.paint.Color.GREEN);
+                node.setFill(positiveColor);
             } else {
-                node.setFill(javafx.scene.paint.Color.RED);
+                node.setFill(negativeColor);
             }
             pane.getChildren().add(node);
         }
+        pane.setEffect(getDropShadow());
         //pane.setStyle("-fx-border-color: black"); // for debug
         // Set up a StackPane to handle mouse-over behaviour on top of the visualization
         StackPane stackPane = new StackPane();
@@ -57,8 +61,10 @@ public class AdditionVisualizer extends Visualizer{
 
         // Code for mouse-over behaviour:
         stackPane.setOnMouseEntered((EventHandler<Event>) event -> {
-            stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
-            stackPane.getChildren().add(drawString(Integer.toString(num)));
+            //stackPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+            Pane strPane = drawString(Integer.toString(num));
+            strPane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+            stackPane.getChildren().add(strPane);
         });
         stackPane.setOnMouseExited((EventHandler<Event>) e -> {
             stackPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
@@ -85,15 +91,14 @@ public class AdditionVisualizer extends Visualizer{
         else {
 
             // Set up a Pane to hold the visualization
-            HBox masterPane = new HBox();
-            masterPane.setSpacing(0);
+            FlowPane masterPane = new FlowPane();
             masterPane.setAlignment(Pos.TOP_LEFT);
-            //masterPane.setStyle("-fx-border-color: black"); // for debug
-            masterPane.setMaxHeight(nodeSize);
+            masterPane.setStyle("-fx-border-color: black"); // for debug
+            //masterPane.setMaxHeight(nodeSize);
 
             // Add the visualization of the left ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getLeft())){
-                Pane leftPane = drawExpression(tree.getLeft());
+                Pane leftPane = tree.getLeft().visualization();
                 masterPane.getChildren().add(leftPane);
             }
 
@@ -102,7 +107,7 @@ public class AdditionVisualizer extends Visualizer{
 
             // Add the visualization of the right ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getRight())){
-                Pane rightPane = drawExpression(tree.getRight());
+                Pane rightPane = tree.getRight().visualization();
                 masterPane.getChildren().add(rightPane);
             }
 
