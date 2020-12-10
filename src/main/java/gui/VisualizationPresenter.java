@@ -89,7 +89,6 @@ public class VisualizationPresenter implements VisualizationCreator {
                 sendHint(drawEqn, eqn);
             } else{
                 drawEqn = makeVisualization(eqn);
-                sendHint(drawEqn, eqn);
             }
 
             // Visualize whether of not the equation is correct
@@ -154,8 +153,9 @@ public class VisualizationPresenter implements VisualizationCreator {
         incorrectView.setFitHeight(35);
         incorrectView.setPreserveRatio(true);
         return incorrectView;
+    }
 
-    private void sendHint(Pane vis, Equation eqn) {
+    private void sendHint(Pane vis, Equation eqn){
         String base64Image = photoHintPresenter.getPhotoHint(vis);
         if (!eqn.isCorrect()) {
             serverController.sendVisualHint(eqn, base64Image);
