@@ -22,25 +22,21 @@ public class LandingPage {
     public Pane getLandingPage(Stage stage) throws FileNotFoundException {
 
         VBox layout = new VBox();
-        Label label = new Label("SeeMath Hypatia App");
+        layout.setStyle("-fx-background-color: #6EC2F2");
+        layout.setPrefSize(900, 500);
+        Label label = new Label("a Hypatia companion app");
         label.setFont(new Font("Century Gothic", 24));
 
-        Button about = new Button("About");
-        about.setOnAction(e -> {
-            try {
-                BorderPane pane = (BorderPane) stage.getScene().getRoot();
-                ScrollPane sp = (ScrollPane) pane.getCenter();
-                VBox visPane = (VBox) sp.getContent();
-                visPane.getChildren().clear();
-                visPane.getChildren().addAll(getAboutPage(stage));
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
-            }
-        });
+        VBox buffer = new VBox();
+        VBox.setVgrow(buffer, Priority.ALWAYS);
 
-        layout.setSpacing(50);
-        layout.setAlignment(Pos.BASELINE_CENTER);
-        layout.getChildren().addAll(label, getLogo(), about);
+        Text instructional = new Text("Edit an equation in Hypatia's CheckMath Evaluate to begin.");
+        instructional.setStyle("-fx-font-style: italic");
+        instructional.setFont(new Font("Century Gothic", 12));
+
+        layout.setSpacing(10);
+        layout.setAlignment(Pos.CENTER);
+        layout.getChildren().addAll(getLogo(), label, instructional);
         return layout;
     }
 
@@ -71,6 +67,15 @@ public class LandingPage {
         layout.setSpacing(50);
         layout.setAlignment(Pos.CENTER);
 
+//        Button home = new Button("Home");
+//        home.setOnAction(e -> {
+//            try {
+//                stage.setScene(getLandingPage(stage));
+//            } catch (FileNotFoundException fileNotFoundException) {
+//                fileNotFoundException.printStackTrace();
+//            }
+//        });
+
         Label aboutLabel = new Label("About SeeMath");
         aboutLabel.setFont(new Font("Century Gothic", 24));
 
@@ -84,7 +89,7 @@ public class LandingPage {
         Text hypothesisInfo = new Text("The visualization of mathematical problems gives students " +
                 "different perspectives to help them solve the problems. \n");
         Label licences = new Label("Licenses:\n");
-        Text licensesInfo = new Text("MIT License \n");
+        Text licensesInfo = new Text("MIT License + Hypatia (JavaFX?) \n");
         Label developers = new Label("Developers:\n");
         Text teamName = new Text("Team Orestes \n");
         Text developersInfo = new Text(" Henning Lindig \n Jacob Sahlmueller \n " +
@@ -94,7 +99,21 @@ public class LandingPage {
 
         flow.setLineSpacing(2.0);
 
-        layout.getChildren().addAll(aboutLabel, getLogo(), flow);
+        Button home = new Button("Home");
+        home.setOnAction(e -> {
+            try {
+                BorderPane pane = (BorderPane) stage.getScene().getRoot();
+                ScrollPane sp = (ScrollPane) pane.getCenter();
+                VBox visPane = (VBox) sp.getContent();
+                visPane.getChildren().clear();
+                visPane.getChildren().addAll(getLandingPage(stage));
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
+        });
+
+        layout.getChildren().addAll(aboutLabel, getLogo(), home, flow);
+        //return new Scene(layout, 600, 750);
         return layout;
 
     }

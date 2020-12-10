@@ -4,6 +4,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -17,6 +19,7 @@ import logic.equations.expression_tree.Expression;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.concurrent.Flow;
 
 public class FractionVisualizer extends Visualizer{
 
@@ -29,12 +32,15 @@ public class FractionVisualizer extends Visualizer{
      */
 
     public Pane drawFraction(Double num, Double denom){
-        HBox masterPane = new HBox();
-        masterPane.setSpacing(10);
+        FlowPane masterPane = new FlowPane();
+        masterPane.setHgap(10);
+        masterPane.setAlignment(Pos.CENTER);
+        //masterPane.setStyle("-fx-border-color: black"); // for debug
 
         // Draw arcs with positive or negative color depending on num
         Color color;
         Color accentColor;
+        Effect shadow = getDropShadow();
         if (num > 0){
             color = positiveColor;
             accentColor = positiveAccentColor;
@@ -44,6 +50,10 @@ public class FractionVisualizer extends Visualizer{
         }
 
         double absNum = Math.abs(num);
+
+        // circleCount keeps track of many many circles are in the vis so dimensions of the pane
+        // can be set appropriately
+        int circleCount = 0;
 
         double arcLength = 360/denom;
         //Draw full circles for each whole number contained within the fraction
@@ -65,8 +75,9 @@ public class FractionVisualizer extends Visualizer{
                 pane.getChildren().add(arc);
                 startAngle += arcLength;
             }
-            pane.setEffect(getDropShadow());
+            pane.setEffect(shadow);
             masterPane.getChildren().add(pane);
+            circleCount += 1;
             absNum = absNum - denom;
         }
         //Draw the remainder of the fraction
@@ -91,7 +102,9 @@ public class FractionVisualizer extends Visualizer{
             pane.getChildren().add(arc);
             startAngle += arcLength;
         }
-        pane.setEffect(getDropShadow());
+        circleCount += 1;
+        masterPane.setMaxSize(110*circleCount, 110*circleCount);
+        pane.setEffect(shadow);
         masterPane.getChildren().add(pane);
         return masterPane;
     };
@@ -130,6 +143,7 @@ public class FractionVisualizer extends Visualizer{
 
             Pane fractionPane = drawFraction(adjustedNum, denominator);
             StackPane stackPane = new StackPane();
+            stackPane.setAlignment(Pos.CENTER);
             stackPane.getChildren().add(fractionPane);
 
             //Set Mouse-over Behaviour
@@ -155,7 +169,7 @@ public class FractionVisualizer extends Visualizer{
             // Set up a Pane to hold the visualization
             FlowPane masterPane = new FlowPane();
             masterPane.setPrefWrapLength(900);
-            masterPane.setAlignment(Pos.TOP_LEFT);
+            masterPane.setAlignment(Pos.CENTER);
             //masterPane.setStyle("-fx-border-color: black"); // for debug
             masterPane.setMaxHeight(nodeSize);
 

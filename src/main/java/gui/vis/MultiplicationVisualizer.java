@@ -47,7 +47,13 @@ public class MultiplicationVisualizer extends Visualizer {
                 shape.setFill(negativeColor);
             }
         }
-        pane.setEffect(getDropShadow());
+
+        if (isPos){
+            pane.setEffect(getDropShadow());
+        } else {
+            pane.setEffect(getInnerShadow());
+        }
+
         return pane;
     };
     /**
