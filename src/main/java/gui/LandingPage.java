@@ -71,15 +71,6 @@ public class LandingPage {
         layout.setSpacing(50);
         layout.setAlignment(Pos.CENTER);
 
-//        Button home = new Button("Home");
-//        home.setOnAction(e -> {
-//            try {
-//                stage.setScene(getLandingPage(stage));
-//            } catch (FileNotFoundException fileNotFoundException) {
-//                fileNotFoundException.printStackTrace();
-//            }
-//        });
-
         Label aboutLabel = new Label("About SeeMath");
         aboutLabel.setFont(new Font("Century Gothic", 24));
 
@@ -93,7 +84,7 @@ public class LandingPage {
         Text hypothesisInfo = new Text("The visualization of mathematical problems gives students " +
                 "different perspectives to help them solve the problems. \n");
         Label licences = new Label("Licenses:\n");
-        Text licensesInfo = new Text("MIT License + Hypatia (JavaFX?) \n");
+        Text licensesInfo = new Text("MIT License \n");
         Label developers = new Label("Developers:\n");
         Text teamName = new Text("Team Orestes \n");
         Text developersInfo = new Text(" Henning Lindig \n Jacob Sahlmueller \n " +
@@ -104,7 +95,6 @@ public class LandingPage {
         flow.setLineSpacing(2.0);
 
         layout.getChildren().addAll(aboutLabel, getLogo(), flow);
-        //return new Scene(layout, 600, 750);
         return layout;
 
     }

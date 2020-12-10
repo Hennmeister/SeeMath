@@ -1,29 +1,34 @@
 package gui.vis;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Box;
-import javafx.scene.text.Font;
 import logic.equations.expression_tree.Expression;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Circle;
-import logic.equations.expression_tree.Expression;
-import java.util.ArrayList;
 import static java.lang.Math.abs;
 import logic.equations.expression_tree.ExpType;
 
+/**
+ * This class is responsible for generating intuitive visualizations for an Expression. These visualizations include a
+ * base layer which consists of a rectangle with a length and width which correspond to the values of the left and right
+ * subtrees of the Expression, respectively. This rectangle is made of several smaller squares to illustrate the
+ * repeated addition nature of multiplication. There is a hover-over functionality that is added on top of the base
+ * visualization which will print the value of the Expression on top of the rectangle when a user hovers over the shape
+ * with their mouse. The visualization also includes labels on the top and to the left of the rectangle which contain
+ * the value of the length and width of the rectangle being drawn.
+ */
+
 public class MultiplicationVisualizer extends Visualizer {
     /**
-     * Creates a FlowPane containing {@code num} copies of {@code shape}.
-     * @param num The amount of things.
-     * @return A FlowPane containing the things.
+     * Creates a VBox containing {@code num} copies of Rectangle Nodes.
+     * The colour of the nodes is dependent on {@code isPos}.
+     *
+     * @param num The number of rectangles to draw.
+     * @param isPos Indicates which colour rectangles should be drawn.
+     * @return A VBox containing the Rectangles.
      */
 
     public Pane drawInt(int num, boolean isPos){
@@ -46,17 +51,18 @@ public class MultiplicationVisualizer extends Visualizer {
         return pane;
     };
     /**
-     * Given an ExpressionTree, create a nested HBox structure visualizing every node within the ExpressionTree.
-     * Assumes that all interior nodes will be strings representing operators and all leaves will be integers.
-     * @param tree The root ExpressionTree to be visualized.
-     * @return A FlowPane containing a visualization of {@code tree}.
+     * Given an Expression {@code tree}, creates a nested pane structure which contains the complete visualization
+     * representation of {@code tree}. This pane structure includes the hover-over functionality along with the labels
+     * representing the parameters of the multiplication on the top and left of the shape.
+     * @param tree The Expression to be visualized.
+     * @return A Pane containing a visualization of {@code tree}.
      */
     @Override
     public Pane drawExpression(Expression tree) {
         if (tree.isLeaf() || tree.getType() == ExpType.MULTIPLICATION) {
             return generateCompleteVisualization(tree);
         }
-        else { //if root is not multiplication, draw left, root right
+        else { //if root is not multiplication, draw left, root, right
             HBox layout = new HBox();
             layout.setAlignment(Pos.BASELINE_CENTER);
             Pane leftVisualization = drawExpression(tree.getLeft());
@@ -67,6 +73,16 @@ public class MultiplicationVisualizer extends Visualizer {
             return layout;
         }
     }
+
+    /**
+     * This private helper method is responsible for retrieving the pane that stores the base visualization with the
+     * mouse hover-over functionality and applying the labels to the top and left of the shape to complete the
+     * visualization of Expression {@code tree}.
+     *
+     * @param tree The Expression to be visualized.
+     * @return A GridPane that has the base visualization with mouse hover-over in the center and multiplication
+     * parameter labels on the top and left of the shape.
+     */
 
     private Pane generateCompleteVisualization(Expression tree) {
         Pane vis = generateMouseOver(tree); //get the visualization
@@ -95,6 +111,16 @@ public class MultiplicationVisualizer extends Visualizer {
         return border;
     }
 
+    /**
+     * This private method is responsible for generating the base visualization of the Expression {@code tree}.
+     * This method will determine how many rectangles need to be drawn and generate a tree.left.evaluate() by
+     * tree.right.evaluate() rectangle to represent the visualization of the Expression {@code tree}.
+     *
+     * @param tree The Expression to be visualized.
+     * @param isPos Indicates which colour rectangles should be drawn.
+     * @return A Pane that stores the base visualization rectangle of tree.
+     */
+
     private Pane draw(Expression tree, boolean isPos) {
         if (tree.isLeaf()){
             return drawInt(Integer.parseInt(tree.getValue()), isPos);
@@ -110,6 +136,15 @@ public class MultiplicationVisualizer extends Visualizer {
         }
         return masterPane;
     }
+
+    /**
+     * This private helper method is responsible for retrieving the pane that stores the base visualization and
+     * adding the mouse hover-over functionality which will print the value of the expression on top of the visualization
+     * when the user hovers over with their mouse.
+     * @param tree The Expression to be visualized
+     * @return A StackPane that has the base visualization of the Expression {@code tree} and the mouse hover-over
+     * functionality.
+     */
 
     private Pane generateMouseOver(Expression tree) {
         // Set up a StackPane to handle mouse-over behaviour on top of the visualization

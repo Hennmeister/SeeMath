@@ -10,7 +10,7 @@ import org.json.JSONObject;
 public class EquationFactory {
 
     /**
-     * Construct a equation object from equation data in JSON format
+     * Construct an equation object from equation data in JSON format
      * @param JSON_expr_data equation data in JSON format
      * @throws InvalidEquationException
      */
