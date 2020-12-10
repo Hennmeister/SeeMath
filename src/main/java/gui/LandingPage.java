@@ -17,7 +17,20 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+/**
+ * This class is responsible for generating the landing page and about page for the SeeMath Hypatia Companion
+ * Application.
+ */
+
 public class LandingPage {
+
+    /**
+     * Generates a landing page for SeeMath containing the project logo, and a quick instruction informing users how to
+     * begin using the application.
+     * @param stage The primary stage of the JavaFX app.
+     * @return A VBox pane that stores the various nodes of the landing page.
+     * @throws FileNotFoundException
+     */
 
     public Pane getLandingPage(Stage stage) throws FileNotFoundException {
 
@@ -41,6 +54,12 @@ public class LandingPage {
     }
 
 
+    /**
+     * Retrieves the SeeMath Logo via an input stream and creates an ImageView node to store it in.
+     * @return An Imageview node containing the SeeMath logo.
+     * @throws FileNotFoundException
+     */
+
     private ImageView getLogo() throws FileNotFoundException {
         //Import SeeMath Logo
         Image logo = new Image(new FileInputStream("SeeMath Logo 2.png"));
@@ -61,6 +80,14 @@ public class LandingPage {
 
         return imageView;
     }
+
+    /**
+     * Generates the about page for the SeeMath application. This page contains information about the development team,
+     * development licenses, the purpose of the application and version number.
+     * @param stage The PrimaryStage of the JavaFx app.
+     * @return A VBox pane that contains the various nodes for the about page.
+     * @throws FileNotFoundException
+     */
 
     public Pane getAboutPage(Stage stage) throws FileNotFoundException {
         VBox layout = new VBox();
