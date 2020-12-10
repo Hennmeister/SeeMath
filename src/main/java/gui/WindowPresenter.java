@@ -23,7 +23,7 @@ public class WindowPresenter {
         this.saveGateway = saveGateway;
         // Change application colour scheme here
         String colour2 = "#24496d";
-        String colour1 = "#4FC3F7";
+        String colour1 = "#6EC2F2";
 
         // borderPane is the root for the visualization scene
         BorderPane borderPane = new BorderPane();
@@ -64,7 +64,7 @@ public class WindowPresenter {
                 "-fx-spacing: 0; " +
                 "-fx-background-color: " + colour1 + "; " +
                 "-fx-font-family: Goudy Old Style; " +
-                "-fx-font-style: italic; " +
+                //"-fx-font-style: italic; " +
                 "-fx-font-size: 15pt; " +
                 "-fx-color: white"
         );

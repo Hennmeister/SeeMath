@@ -51,7 +51,12 @@ public class AdditionVisualizer extends Visualizer{
             }
             pane.getChildren().add(node);
         }
-        pane.setEffect(getDropShadow());
+        if (num >= 0){
+            pane.setEffect(getDropShadow());
+        } else {
+            pane.setEffect(getInnerShadow());
+        }
+
         //pane.setStyle("-fx-border-color: black"); // for debug
         // Set up a StackPane to handle mouse-over behaviour on top of the visualization
         StackPane stackPane = new StackPane();
@@ -92,9 +97,9 @@ public class AdditionVisualizer extends Visualizer{
 
             // Set up a Pane to hold the visualization
             FlowPane masterPane = new FlowPane();
-            masterPane.setAlignment(Pos.TOP_LEFT);
-            masterPane.setStyle("-fx-border-color: black"); // for debug
-            //masterPane.setMaxHeight(nodeSize);
+            masterPane.setAlignment(Pos.CENTER);
+            //masterPane.setStyle("-fx-border-color: black"); // for debug
+            masterPane.setMaxHeight(nodeSize);
 
             // Add the visualization of the left ExpressionTree to the masterPane
             if (!Objects.isNull(tree.getLeft())){
