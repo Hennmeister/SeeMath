@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import java.util.Base64;
 
 public class WebController {
-    private SocketIOServer serverInstance;
     private SocketIOClient client;
 
     /**
@@ -27,31 +26,32 @@ public class WebController {
         config.setMaxFramePayloadLength(1024 * 1024);
         config.setMaxHttpContentLength(1024 * 1024);
 
-        serverInstance = new SocketIOServer(config);
-        serverInstance.addConnectListener((client) -> {
+        SocketIOServer server = new SocketIOServer(config);
+        server.addConnectListener((client) -> {
             this.client = client;
         });
 
         EquationFactory eqnFactory = new EquationFactory();
 
-        serverInstance.addEventListener("result", String.class, (client, data, ackRequest) -> {
+        server.addEventListener("result", String.class, (client, data, ackRequest) -> {
             // System.out.println("Result:" + data);
             JSONObject JSONValueData = new JSONObject(data).getJSONObject("value");
             // Parse id and tell equation manager to update equation
-            String fullId = JSONValueData.getString("id");
-            String id = fullId.substring(0, fullId.indexOf('$'));
-
-            // Check if equation is incorrect and update correctness accordingly
-            eqnManager.updateEquationCheckMathResults(id, !JSONValueData.getString("type").equals("math-error"));
+            if(JSONValueData.has("id")) {
+                String fullId = JSONValueData.getString("id");
+                String id = fullId.substring(0, fullId.indexOf('$'));
+                // Check if equation is incorrect and update correctness accordingly
+                eqnManager.updateEquationCheckMathResults(id, !JSONValueData.getString("type").equals("math-error"));
+            }
         });
 
-        serverInstance.addEventListener("expressions", String.class, (client, data, ackRequest) -> {
-            // System.out.println("Expression" + data);
+        server.addEventListener("expressions", String.class, (client, data, ackRequest) -> {
+        //    System.out.println("Expression" + data);
             Equation eqn = eqnFactory.getEquation(data);
             eqnManager.add(eqn);
         });
 
-        serverInstance.start();
+        server.start();
     }
 
     public void sendVisualHint(Equation eqn, String base64Img) {
@@ -61,7 +61,7 @@ public class WebController {
         packet.put("id", eqn.getLeftTree().findLeftMostLeaf().getId() + "$" + eqn.getRightTree().findRightMostLeaf().getId());
         packet.put("color", "#FFFF0037");
         packet.put("type", "math-custom");
-        packet.put("hint", "&<img src=\"data:image/png;base64, " + base64Img + "\" alt=\"Red dot\" />");
+        packet.put("hint", "&<img style='max-width: 550px; max-height: 700px; padding: 2px; border: 1px solid black' src=\"data:image/png;base64, " + base64Img + "\" alt=\"Red dot\" />");
         client.sendEvent("add_box", packet.toString());
     }
 }

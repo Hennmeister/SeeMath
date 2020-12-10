@@ -1,23 +1,14 @@
 package demo;
 
-import gui.PhotoHintPresenter;
-import gui.vis.AdditionVisualizer;
 import gui.vis.MultiplicationVisualizer;
 import javafx.application.Application;
-//import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import logic.equations.expression_tree.*;
 import logic.equations.expression_tree.Number;
 
-import javax.imageio.ImageIO;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.util.Base64;
 
 public class MultiplicationVisDemo extends Application {
     @Override
