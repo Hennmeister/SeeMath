@@ -61,7 +61,7 @@ public class WebController {
         packet.put("id", eqn.getLeftTree().findLeftMostLeaf().getId() + "$" + eqn.getRightTree().findRightMostLeaf().getId());
         packet.put("color", "#FFFF0037");
         packet.put("type", "math-custom");
-        packet.put("hint", "&<img style='padding: 2px; border: 1px solid black' src=\"data:image/png;base64, " + base64Img + "\" alt=\"Red dot\" />");
+        packet.put("hint", "&<img style='max-width: 550px; max-height: 700px; padding: 2px; border: 1px solid black' src=\"data:image/png;base64, " + base64Img + "\" alt=\"Red dot\" />");
         client.sendEvent("add_box", packet.toString());
     }
 }
