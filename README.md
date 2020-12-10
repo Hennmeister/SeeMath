@@ -49,7 +49,7 @@ This should pop up SeeMath's landing page and our app is ready to go.
 
 From this point on, SeeMath will automatically generate visualizations to the equations you type in Hypatia. As an
 example, say we want to visualize why
-<img src="https://render.githubusercontent.com/render/math?math=\frac{2}{5} + \frac{1}{2} = \frac{9}{10}">.
+<img src="https://render.githubusercontent.com/render/math?math=\frac{2}{5}"> + <img src="https://render.githubusercontent.com/render/math?math=\frac{1}{2} = \frac{9}{10}">.
 
 To do so, we just type that equation in Hypatia and wait until Hypatia's CheckMath validates the expression:
 
@@ -82,7 +82,7 @@ You may also save and access any visualization you like by go under File -> Expo
 * **Tales Scopinho** - [talicopanda](https://github.com/talicopanda)
 * **Henning Lindig** - [Hennmeister](https://github.com/Hennmeister)
 * **Jacob Sahlmueller** - [jacob-sahl](https://github.com/jacob-sahl)
-* **Affan Siddiqui** - [affansidd](https://github.com/affansidd)
+* **Affanullah Siddiqui** - [affansidd](https://github.com/affansidd)
 * **Piyush Sharma** - [piyush-sharma](https://github.com/piyush-sharma)
 
 
