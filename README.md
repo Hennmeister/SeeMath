@@ -82,7 +82,7 @@ You may also save and access any visualization you like by go under File -> Expo
 * **Tales Scopinho** - [talicopanda](https://github.com/talicopanda)
 * **Henning Lindig** - [Hennmeister](https://github.com/Hennmeister)
 * **Jacob Sahlmueller** - [jacob-sahl](https://github.com/jacob-sahl)
-* **Affan Siddiqui** - [affansidd](https://github.com/affansidd)
+* **Affanullah Siddiqui** - [affansidd](https://github.com/affansidd)
 * **Piyush Sharma** - [piyush-sharma](https://github.com/piyush-sharma)
 
 
