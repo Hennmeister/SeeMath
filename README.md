@@ -3,6 +3,8 @@
 SeeMath is a companion application to [Hypatia's](https://hypatiasys.com/) math editor software for mathematical
 visualizations.
 
+Watch this [video](https://youtu.be/mEn8E5QmVtA?t=155) (4 min) for a demo walkthrough of the project.
+
 As a team, we believe that the visualization of mathematical problems gives students different perspectives to help them
 solve these problems. With this app, we aim to improve the learning process of younger grade students that are getting
 introduced to the basic mathematical concepts like addition, multiplication, division as well as function graphing.
@@ -50,8 +52,6 @@ This should pop up SeeMath's landing page and our app is ready to go.
 From this point on, SeeMath will automatically generate visualizations to the equations you type in Hypatia. As an
 example, say we want to visualize why
 <img src="https://render.githubusercontent.com/render/math?math=\frac{2}{5}"> + <img src="https://render.githubusercontent.com/render/math?math=\frac{1}{2} = \frac{9}{10}">.
-
-Watch this [video](https://youtu.be/mEn8E5QmVtA?t=155) (4 min) for a demo walkthrough of the project.
 
 To do so, we just type that equation in Hypatia and wait until Hypatia's CheckMath validates the expression:
 
