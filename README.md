@@ -3,7 +3,7 @@
 SeeMath is a companion application to [Hypatia's](https://hypatiasys.com/) math editor software for mathematical
 visualizations.
 
-Watch this [video](https://youtu.be/mEn8E5QmVtA?t=155) (4 min) for a demo walkthrough of the project.
+***Watch this [video](https://youtu.be/mEn8E5QmVtA?t=155) (4 min) for a demo walkthrough of the project.***
 
 As a team, we believe that the visualization of mathematical problems gives students different perspectives to help them
 solve these problems. With this app, we aim to improve the learning process of younger grade students that are getting
