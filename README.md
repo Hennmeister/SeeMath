@@ -51,6 +51,8 @@ From this point on, SeeMath will automatically generate visualizations to the eq
 example, say we want to visualize why
 <img src="https://render.githubusercontent.com/render/math?math=\frac{2}{5}"> + <img src="https://render.githubusercontent.com/render/math?math=\frac{1}{2} = \frac{9}{10}">.
 
+Watch this [video](https://youtu.be/mEn8E5QmVtA?t=155) (4 min) for a demo walkthrough of the project.
+
 To do so, we just type that equation in Hypatia and wait until Hypatia's CheckMath validates the expression:
 
 (Hypatia Editor with CheckMath Circled)
